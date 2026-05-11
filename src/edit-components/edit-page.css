@@ -1,0 +1,30 @@
+input[type="text"] {
+    background-color: white;
+    width: 200px;
+}
+
+.image-input {
+    background-color: white;
+    color: black;
+    width: 100px;
+    height: 30px;
+    text-align: center;
+}
+
+.image-input:hover {
+    cursor: pointer;
+}
+
+.edit-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+}
