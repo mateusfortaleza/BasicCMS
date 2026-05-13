@@ -30,11 +30,5 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
     "typescript": "^5"
-  },
-  "pnpm": {
-    "overrides": {
-      "@esbuild-kit/core-utils": "npm:tsx@latest",
-      "@esbuild-kit/esm-loader": "npm:tsx@latest"
-    }
   }
 }
