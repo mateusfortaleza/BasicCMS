@@ -1,14 +1,8 @@
 allowBuilds:
   esbuild: true
-<<<<<<< HEAD
   msw: set this to true or false
   sharp: false
   unrs-resolver: false
-=======
-  msw: true
-  sharp: true
-  unrs-resolver: true
->>>>>>> 3b76336 (Updated dependency list and updated styling)
 ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
