@@ -24,7 +24,7 @@ export default function editPage({title}: {title: string}) {
     }
 
     function validateTitleInput() {
-        
+
     }
 
     return (
