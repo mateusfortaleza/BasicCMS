@@ -13,11 +13,10 @@ import Link from "next/link";
 
 export default async function editHomePage() {
   const heroCards = await getAllHeroCards();
-  
   return (
     <>
-      <div className="flex justify-center items-center">
-        <Table className="w-2xl">
+      <div className="mx-auto w-full max-w-225">
+        <Table>
           <TableCaption>A list of the front page cards.</TableCaption>
           <TableHeader>
             <TableRow>
@@ -34,7 +33,6 @@ export default async function editHomePage() {
                 <TableCell>{item.image_path}</TableCell>
                 <TableCell>{item.color}</TableCell>
                 <TableCell>{item.link}</TableCell>
-
               </TableRow>
             </TableBody>
           ))}
