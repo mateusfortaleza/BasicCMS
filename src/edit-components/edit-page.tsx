@@ -23,6 +23,10 @@ export default function editPage({title}: {title: string}) {
         setLinkInput(event.target.value)
     }
 
+    function validateTitleInput() {
+        
+    }
+
     return (
         <>
             <FieldSet className="w-2xl flex justify-center">
