@@ -38,5 +38,5 @@ export async function verifyAndUpdateHeroCard(heroCardId: number, formData: Form
 
     await updateHeroCard(heroCardId, savedImagePath, title_text, color, link)
     revalidatePath("/herocard/edit/");
-    redirect("/herocard/edit")
+    redirect("/herocard/")
 }
