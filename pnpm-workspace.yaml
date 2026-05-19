@@ -4,3 +4,6 @@ allowBuilds:
   sharp: true
   unrs-resolver: true
 ignoredBuiltDependencies: []
+minimumReleaseAgeExclude:
+  - tsx@4.22.3
+  - '@vercel/blob@2.4.0'

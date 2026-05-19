@@ -7,13 +7,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getAllHeroCards } from "../../dal/HeroCardDAO";
+import { getAllHeroCards } from "../../../dal/HeroCardDAO";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {RiPencilLine} from "@remixicon/react"
 
 
-export default async function editHomePage({ pageId }: { pageId: string }) {
+export default async function editHomePage() {
   const heroCards = await getAllHeroCards();
   return (
     <>
@@ -31,11 +31,11 @@ export default async function editHomePage({ pageId }: { pageId: string }) {
           {heroCards.map((item, index) => (
             <TableBody key={`table-${index}`}>
               <TableRow>
-                <TableCell className="font-medium"><Link href={`herocard/${pageId}/edit`}>{item.title_text}</Link></TableCell>
+                <TableCell className="font-medium">{item.title_text}</TableCell>
                 <TableCell>{item.image_path}</TableCell>
                 <TableCell>{item.color}</TableCell>
                 <TableCell>{item.link}</TableCell>
-                <Button><RiPencilLine/></Button>
+                <TableCell><Button><Link href={`/herocard/edit/${item.id}`} ><RiPencilLine/></Link></Button></TableCell>
               </TableRow>
             </TableBody>
           ))}
