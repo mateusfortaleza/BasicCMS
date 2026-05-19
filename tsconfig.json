@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "src/app/herocard/edit/page.tsx"  ],
+, "src/app/herocard/page.tsx"  ],
   "exclude": ["node_modules"]
 }

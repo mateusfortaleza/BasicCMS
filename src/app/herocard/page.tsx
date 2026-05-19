@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getAllHeroCards } from "../../../dal/HeroCardDAO";
+import { getAllHeroCards } from "../../dal/HeroCardDAO";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {RiPencilLine} from "@remixicon/react"
