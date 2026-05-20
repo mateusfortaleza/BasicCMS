@@ -31,7 +31,7 @@ export default function editPage({title, heroCard}: {title: string, heroCard: an
                 <FieldGroup>
                     <Field>
                         <FieldLabel htmlFor="title-input">Title:</FieldLabel>
-                        <Input name="title_text" id="title-input" onChange={onTitleChange} defaultValue={titleInput} />
+                        <Input name="title_text" id="title-input" onChange={onTitleChange} value={titleInput} required />
                     </Field>
                     <Field>
                         <FieldLabel>Image:</FieldLabel>
