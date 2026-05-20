@@ -16,7 +16,7 @@ export default function Loading() {
           <col className="w-[1085px]" />
           <col className="w-[151px]" />
           <col className="w-[141px]" />
-          <col className="w-[68px]" />
+          <col className="w-32" />
         </colgroup>
         <TableHeader>
           <TableRow>
@@ -24,6 +24,7 @@ export default function Loading() {
             <TableHead>Image Path</TableHead>
             <TableHead>Color of the card</TableHead>
             <TableHead className="text-right">Link to the article</TableHead>
+            <TableHead className="w-32 text-center" />
           </TableRow>
         </TableHeader>
         {Array.from({ length: 4 }).map((_, index) => (
@@ -41,8 +42,10 @@ export default function Loading() {
               <TableCell>
                 <div className="ml-auto h-4 w-48 animate-pulse rounded bg-muted" />
               </TableCell>
-              <TableCell>
-                <div className="mx-auto h-9 w-9 animate-pulse rounded-full bg-muted" />
+              <TableCell className="w-32">
+                <div className="flex justify-center">
+                  <div className="h-9 w-9 animate-pulse rounded-full bg-muted" />
+                </div>
               </TableCell>
             </TableRow>
           </TableBody>

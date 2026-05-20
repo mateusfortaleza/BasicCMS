@@ -26,6 +26,7 @@ export default async function editHomePage() {
               <TableHead>Image Path</TableHead>
               <TableHead>Color of the card</TableHead>
               <TableHead className="text-right">Link to the article</TableHead>
+              <TableHead className="w-32 text-center" />
             </TableRow>
           </TableHeader>
           {heroCards.map((item, index) => (
@@ -35,7 +36,15 @@ export default async function editHomePage() {
                 <TableCell>{item.image_path}</TableCell>
                 <TableCell>{item.color}</TableCell>
                 <TableCell>{item.link}</TableCell>
-                <TableCell className="text-center"><Link href={`/herocard/edit/${item.id}`} ><Button><RiPencilLine/></Button></Link></TableCell>
+                <TableCell className="w-32">
+                  <div className="flex justify-center">
+                    <Button asChild size="icon">
+                      <Link href={`/herocard/edit/${item.id}`} aria-label={`Edit ${item.title_text}`}>
+                        <RiPencilLine />
+                      </Link>
+                    </Button>
+                  </div>
+                </TableCell>
               </TableRow>
             </TableBody>
           ))}
