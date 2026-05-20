@@ -17,7 +17,7 @@ export default async function editHomePage() {
   const heroCards = await getAllHeroCards();
   return (
     <>
-      <div className="mx-auto w-full max-w-225">
+      <div className="w-full">
         <Table>
           <TableCaption>A list of the front page cards.</TableCaption>
           <TableHeader>
@@ -35,7 +35,7 @@ export default async function editHomePage() {
                 <TableCell>{item.image_path}</TableCell>
                 <TableCell>{item.color}</TableCell>
                 <TableCell>{item.link}</TableCell>
-                <TableCell><Button><Link href={`/herocard/edit/${item.id}`} ><RiPencilLine/></Link></Button></TableCell>
+                <TableCell className="text-center"><Link href={`/herocard/edit/${item.id}`} ><Button><RiPencilLine/></Button></Link></TableCell>
               </TableRow>
             </TableBody>
           ))}
