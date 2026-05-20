@@ -6,6 +6,11 @@ import { FieldSet, Field, FieldLabel, FieldGroup, FieldLegend } from "@/componen
 import {Input} from "@/components/ui/input"
 import { RiArrowLeftCircleFill } from "@remixicon/react";
 import Link from "next/link";
+// import Uppy from "@uppy/core";
+// import Dashboard from "@uppy/dashboard";
+// import ThumbnailGenerator from "@uppy/thumbnail-generator";
+// import "@uppy/core/dist/style.min.css";
+// import "@uppy/dashboard/dist/style.min.css";
 
 
 export default function editPage({title, heroCard}: {title: string, heroCard: any}) {
@@ -14,6 +19,15 @@ export default function editPage({title, heroCard}: {title: string, heroCard: an
     const [linkInput, setLinkInput] = useState(heroCard.link)
     const editHeroCardWithId = verifyAndUpdateHeroCard.bind(null, heroCard.id);
 
+    // const [uppy] = useState(() =>
+    //     new Uppy({
+    //         restrictions: {
+    //             maxNumberOfFiles: 1,
+    //             allowedFileTypes: ["image/png", "image/jpeg", "image/webp", "image/gif"],
+    //         },
+    //     }).use(ThumbnailGenerator, { thumbnailWidth: 200 })
+    // );
+    
     function onTitleChange(event: ChangeEvent<HTMLInputElement>) {
         setTitleInput(event.target.value);
     }
@@ -38,8 +52,14 @@ export default function editPage({title, heroCard}: {title: string, heroCard: an
                     </Field>
                     <Field>
                         <FieldLabel>Image:</FieldLabel>
-                        <input type="hidden" name="image_path" value={heroCard.image_path} />
-                        <Input type="file" name="image_file" id="image-input" className="image-input" accept="image/png,image/jpeg,image/webp,image/gif" />
+                        {/* <input type="hidden" name="image_path" value={heroCard.image_path} /> */}
+                        {/* <Input type="file" name="image_file" id="image-input" className="image-input" accept="image/png,image/jpeg,image/webp,image/gif" /> */}
+                        {/* <Dashboard
+                            uppy={uppy}
+                            height={300}
+                            hideUploadButton
+                            proudlyDisplayPoweredByUppy={false}
+                        /> */}
                     </Field>
                     <Field>
                         <FieldLabel>Color:</FieldLabel>
@@ -47,7 +67,7 @@ export default function editPage({title, heroCard}: {title: string, heroCard: an
                     </Field>
                     <Field>
                         <FieldLabel>Link:</FieldLabel>
-                        <input type="text" name="link" id="link-input" onChange={onLinkChange} />
+                        <input type="text" name="link" id="link-input" onChange={onLinkChange} value={linkInput} />
                     </Field>
                 </FieldGroup>
                 <ShadButton>Submit</ShadButton>

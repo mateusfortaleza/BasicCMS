@@ -1,4 +1,4 @@
-import { pgTable, integer, varchar } from "drizzle-orm/pg-core"
+import { pgTable, integer, varchar, boolean } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
 
@@ -9,4 +9,6 @@ export const heroCard = pgTable("hero_card", {
 	overlayColor: varchar("overlay_color", { length: 7 }).notNull(),
 	title: varchar({ length: 100 }).notNull(),
 	link: varchar({ length: 255 }).notNull(),
+	isDeleted: boolean().notNull().default(false),
 });
+

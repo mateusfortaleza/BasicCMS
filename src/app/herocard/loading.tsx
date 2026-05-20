@@ -12,10 +12,10 @@ export default function Loading() {
     <div className="w-full">
       <Table>
         <colgroup>
-          <col className="w-[171px]" />
-          <col className="w-[1085px]" />
-          <col className="w-[151px]" />
-          <col className="w-[141px]" />
+          <col className="w-42.75" />
+          <col className="w-271.25" />
+          <col className="w-37.75" />
+          <col className="w-35.25" />
           <col className="w-32" />
         </colgroup>
         <TableHeader>

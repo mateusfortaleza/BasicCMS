@@ -26,6 +26,9 @@ importers:
       '@uppy/react':
         specifier: ^5.2.0
         version: 5.2.0(@uppy/core@5.2.0)(@uppy/dashboard@5.1.1(@uppy/core@5.2.0))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      '@uppy/thumbnail-generator':
+        specifier: ^5.1.0
+        version: 5.1.0(@uppy/core@5.2.0)
       '@vercel/blob':
         specifier: ^2.4.0
         version: 2.4.0
