@@ -4,6 +4,8 @@ import { ChangeEvent, useState } from "react";
 import { Button as ShadButton } from "@/components/ui/button"
 import { FieldSet, Field, FieldLabel, FieldGroup, FieldLegend } from "@/components/ui/field"
 import {Input} from "@/components/ui/input"
+import { RiArrowLeftCircleFill } from "@remixicon/react";
+import Link from "next/link";
 
 
 export default function editPage({title, heroCard}: {title: string, heroCard: any}) {
@@ -24,8 +26,9 @@ export default function editPage({title, heroCard}: {title: string, heroCard: an
 
     return (
         <>      
+        <Link href="/herocard"><ShadButton className=""><RiArrowLeftCircleFill  />Back</ShadButton></Link>
         <form action={editHeroCardWithId}>
-        <FieldGroup className="w-full h-screen m-auto flex justify-center items-center">
+        <FieldGroup className="w-full m-auto flex justify-center items-center">
             <FieldSet className="w-2xl flex justify-center">
                 <FieldLegend>{title}</FieldLegend>
                 <FieldGroup>
