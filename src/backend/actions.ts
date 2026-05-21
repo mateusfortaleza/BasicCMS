@@ -7,7 +7,7 @@ import { redirect } from "next/navigation"
 
 const FormSchema = z.object({
     id: z.number(),
-    image_path: z.string().trim(),
+    image_path: z.string().trim().optional(),
     image_file: z.instanceof(File).optional(),
     title_text: z.string().trim(),
     color: z.string().trim(),
@@ -19,8 +19,8 @@ const CreateHeroCardSchema = FormSchema.omit({id: true, image_path: true})
 export async function verifyAndUpdateHeroCard(heroCardId: number, formData: FormData) {
     const {image_path, image_file, title_text, color, link} = EditHeroCardSchema.parse({
         title_text: formData.get("title_text"),
-        image_path: formData.get("image_path"),
-        image_file: formData.get("image_file"),
+        image_path: (formData.get("image_path") as string) || undefined,
+        image_file: formData.get("image_file") ?? undefined, 
         color: formData.get("color"),
         link: formData.get("link")
     })
@@ -36,7 +36,7 @@ export async function verifyAndUpdateHeroCard(heroCardId: number, formData: Form
         savedImagePath = blob.url;
     }
 
-    await updateHeroCard(heroCardId, savedImagePath, title_text, color, link)
+    await updateHeroCard(heroCardId, savedImagePath ?? "", title_text, color, link)
     revalidatePath("/herocard/edit/");
     redirect("/herocard/")
 }
