@@ -38,12 +38,6 @@ export default function CreatePage({title}: {title: string}) {
         })
     }
 
-    useEffect(() => {
-        return () => {
-            uppy.destroy();
-        }
-    }, [uppy])
-
     return (
         <>      
         <Link href="/herocard"><ShadButton className=""><RiArrowLeftCircleFill  />Back</ShadButton></Link>
@@ -67,7 +61,7 @@ export default function CreatePage({title}: {title: string}) {
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="color-input">Color:</FieldLabel>
-                        <Input type="color" name="color" id="color-input" defaultValue="#ffffff"/>
+                        <Input type="color" name="color" id="color-input" defaultValue="#ffffff" disabled={pending ? true : false}/>
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="link-input">Link:</FieldLabel>
