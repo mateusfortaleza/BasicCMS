@@ -10,8 +10,11 @@ import {
 import { getAllHeroCards } from "../../dal/HeroCardDAO";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import {RiPencilLine} from "@remixicon/react"
-
+import {
+  RiAddLargeLine,
+  RiDeleteBinLine,
+  RiPencilLine,
+} from "@remixicon/react";
 
 export default async function editHomePage() {
   const heroCards = await getAllHeroCards();
@@ -19,7 +22,6 @@ export default async function editHomePage() {
     <>
       <div className="w-full">
         <Table>
-          <TableCaption>A list of the front page cards.</TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead className="w-25">Title</TableHead>
@@ -33,14 +35,33 @@ export default async function editHomePage() {
             <TableBody key={`table-${index}`}>
               <TableRow>
                 <TableCell className="font-medium">{item.title_text}</TableCell>
-                <TableCell>{item.image_path}</TableCell>
+                <TableCell className="max-w-32">{item.image_path}</TableCell>
                 <TableCell>{item.color}</TableCell>
                 <TableCell>{item.link}</TableCell>
                 <TableCell className="w-32">
                   <div className="flex justify-center">
                     <Button asChild size="icon">
-                      <Link href={`/herocard/edit/${item.id}`} aria-label={`Edit ${item.title_text}`}>
+                      <Link
+                        href={`/herocard/edit/${item.id}`}
+                        aria-label={`Edit ${item.title_text}`}
+                      >
                         <RiPencilLine />
+                      </Link>
+                    </Button>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex justify-center">
+                    <Button
+                      asChild
+                      size="icon"
+                      className="bg-red-500 hover:bg-red-800"
+                    >
+                      <Link
+                        href={`/herocard/edit/${item.id}`}
+                        aria-label={`Edit ${item.title_text}`}
+                      >
+                        <RiDeleteBinLine />
                       </Link>
                     </Button>
                   </div>
@@ -49,6 +70,10 @@ export default async function editHomePage() {
             </TableBody>
           ))}
         </Table>
+        <Button className="fixed ml-352 mt-10">
+          <RiAddLargeLine color="rgba(255,255,255,1)" />
+          Create New Hero Card
+        </Button>
       </div>
     </>
   );

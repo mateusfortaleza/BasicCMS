@@ -1,14 +1,10 @@
-import { pgTable, integer, varchar, boolean } from "drizzle-orm/pg-core"
-import { sql } from "drizzle-orm"
-
-
+import { pgTable, integer, varchar, boolean, text } from "drizzle-orm/pg-core"
 
 export const heroCard = pgTable("hero_card", {
 	id: integer().primaryKey().generatedAlwaysAsIdentity({ name: "hero_card_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 2147483647, cache: 1 }),
-	backgroundImage: varchar("background_image", { length: 200 }).notNull(),
+	backgroundImage: text("background_image").notNull(),
 	overlayColor: varchar("overlay_color", { length: 7 }).notNull(),
-	title: varchar({ length: 100 }).notNull(),
-	link: varchar({ length: 255 }).notNull(),
-	isDeleted: boolean().notNull().default(false),
+	title: varchar("title", { length: 100 }).notNull(),
+	link: varchar("link", { length: 255 }).notNull(),
+	isDeleted: boolean("is_deleted").notNull().default(false),
 });
-

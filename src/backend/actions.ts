@@ -1,6 +1,6 @@
 'use server'
 import { put } from "@vercel/blob"
-import {z} from "zod"
+import { z } from "zod"
 import { updateHeroCard, insertHeroCard } from "../dal/HeroCardDAO"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
