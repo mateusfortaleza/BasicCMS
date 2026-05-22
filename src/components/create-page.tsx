@@ -1,6 +1,6 @@
 "use client"
 import { verifyAndCreateHeroCard } from "@/backend/actions";
-import { useEffect, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { Button as ShadButton } from "@/components/ui/button"
 import { FieldSet, Field, FieldLabel, FieldGroup, FieldLegend } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
@@ -11,23 +11,24 @@ import Dashboard from "@uppy/react/dashboard";
 import "@uppy/core/css/style.min.css";
 import "@uppy/dashboard/css/style.min.css";
 
+const uppyRestrictions = {
+    maxNumberOfFiles: 1,
+    allowedFileTypes: ["image/png", "image/jpeg", "image/webp", "image/gif"],
+    maxFileSize: 10_000_000,
+}
+
 export default function CreatePage({title}: {title: string}) {
     const [pending, startTransition] = useTransition();
-    const [uppy] = useState(() =>
-        new Uppy({
-            restrictions: {
-                maxNumberOfFiles: 1,
-                allowedFileTypes: ["image/png", "image/jpeg", "image/webp", "image/gif"],
-                maxFileSize: 10_000_000,
-            },
-        })
-    );
+    const [uppy] = useState(() => new Uppy({restrictions: uppyRestrictions}));
 
     function onSubmit(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault();
 
         const formData = new FormData(event.currentTarget);
         const uppyFile = uppy.getFiles()[0];
+        if (!uppyFile?.data) {
+            return;
+        }
         if (uppyFile?.data instanceof File) {
             formData.set("image_file", uppyFile.data)
         }
@@ -40,7 +41,7 @@ export default function CreatePage({title}: {title: string}) {
 
     return (
         <>      
-        <Link href="/herocard"><ShadButton className=""><RiArrowLeftCircleFill  />Back</ShadButton></Link>
+        <Link href="/herocard"><ShadButton><RiArrowLeftCircleFill />Back</ShadButton></Link>
         <form onSubmit={onSubmit}>
         <FieldGroup className="w-full m-auto flex justify-center items-center">
             <FieldSet className="w-2xl flex justify-center">
@@ -61,7 +62,7 @@ export default function CreatePage({title}: {title: string}) {
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="color-input">Color:</FieldLabel>
-                        <Input type="color" name="color" id="color-input" defaultValue="#ffffff" disabled={pending ? true : false}/>
+                        <Input type="color" name="color" id="color-input" defaultValue="#ffffff" disabled={pending}/>
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="link-input">Link:</FieldLabel>

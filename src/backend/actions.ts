@@ -7,8 +7,8 @@ import { redirect } from "next/navigation"
 
 const FormSchema = z.object({
     id: z.number(),
-    image_path: z.string().trim().optional(),
-    image_file: z.instanceof(File).optional(),
+    image_path: z.string().trim(),
+    image_file: z.instanceof(File),
     title_text: z.string().trim(),
     color: z.string().trim(),
     link: z.string().trim(),
@@ -16,6 +16,7 @@ const FormSchema = z.object({
 
 const EditHeroCardSchema = FormSchema.omit({id: true})
 const CreateHeroCardSchema = FormSchema.omit({id: true, image_path: true})
+
 export async function verifyAndUpdateHeroCard(heroCardId: number, formData: FormData) {
     const {image_path, image_file, title_text, color, link} = EditHeroCardSchema.parse({
         title_text: formData.get("title_text"),
@@ -49,18 +50,12 @@ export async function verifyAndCreateHeroCard(formData: FormData) {
         link: formData.get("link")
     })
 
-    if (!image_file) {
-        throw new Error("No image file. Please insert one")
-    }
-
-    let savedImagePath = "";
-
     const blob = await put(`hero-cards/${crypto.randomUUID()}-${image_file.name}`, image_file, {
         access: "public",
         addRandomSuffix: true
     })
 
     await insertHeroCard(blob.url, title_text, color, link)
-    revalidatePath("/herocard/create/");
+    revalidatePath("/herocard");
     redirect("/herocard")
 }
