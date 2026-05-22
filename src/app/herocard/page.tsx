@@ -71,9 +71,8 @@ export default async function editHomePage() {
           ))}
         </Table>
         <Link href="/herocard/create">
-          <Button className="fixed ml-352 mt-10" type="button">
-            <RiAddLargeLine color="rgba(255,255,255,1)" />
-            Create New Hero Card
+          <Button className="sticky" type="button" size="icon">
+            <RiAddLargeLine color="rgba(0,255,100,1)" />
           </Button>
         </Link>
       </div>

@@ -1,10 +1,11 @@
 "use client"
-import { verifyAndCreateHeroCard } from "@/backend/actions";
+import { verifyAndCreateHeroCard } from "@/lib/actions";
 import { useState, useTransition } from "react";
 import { Button as ShadButton } from "@/components/ui/button"
 import { FieldSet, Field, FieldLabel, FieldGroup, FieldLegend } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { RiArrowLeftCircleFill } from "@remixicon/react";
+import { Spinner } from "@/components/ui/spinner"
 import Link from "next/link";
 import Uppy from "@uppy/core";
 import Dashboard from "@uppy/react/dashboard";
@@ -49,7 +50,7 @@ export default function CreatePage({title}: {title: string}) {
                 <FieldGroup>
                     <Field>
                         <FieldLabel htmlFor="title-input">Title:</FieldLabel>
-                        <Input name="title_text" id="title-input" required />
+                        <Input name="title_text" id="title-input" required disabled={pending} />
                     </Field>
                     <Field>
                         <FieldLabel>Image:</FieldLabel>
@@ -58,18 +59,20 @@ export default function CreatePage({title}: {title: string}) {
                             height={300}
                             hideUploadButton
                             proudlyDisplayPoweredByUppy={false}
+                            singleFileFullScreen
+                            disabled={pending}
                         />
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="color-input">Color:</FieldLabel>
-                        <Input type="color" name="color" id="color-input" defaultValue="#ffffff" disabled={pending}/>
+                        <Input type="color" name="color" id="color-input" defaultValue="#ffffff" disabled={pending} required />
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="link-input">Link:</FieldLabel>
-                        <Input type="text" name="link" id="link-input" />
+                        <Input type="text" name="link" id="link-input" required/>
                     </Field>
                 </FieldGroup>
-                <ShadButton type="submit" disabled={pending}>{pending ? "Submitting..." : "Submit"}</ShadButton>
+                <ShadButton type="submit" disabled={pending}>{pending ? <><Spinner data-icon="inline-start" />Submitting...</> : "Submit"}</ShadButton>
             </FieldSet>
         </FieldGroup>
         </form>
