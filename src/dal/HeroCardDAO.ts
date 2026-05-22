@@ -25,7 +25,7 @@ export async function getHeroCardById(id: number) {
   return result[0];
 }
 
-export async function insertion(image_path: string, title_text: string, color: string, link: string) {
+export async function insertHeroCard(image_path: string, title_text: string, color: string, link: string) {
   return await getDb()?.insert(heroCard).values({backgroundImage: image_path, overlayColor: color, title: title_text, link: link})
 }
 

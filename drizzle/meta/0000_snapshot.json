@@ -1,6 +1,6 @@
 {
-  "id": "00000000-0000-0000-0000-000000000000",
-  "prevId": "",
+  "id": "d245fe5d-c37e-4bbf-b201-da9beb658b4c",
+  "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -16,18 +16,18 @@
           "identity": {
             "type": "always",
             "name": "hero_card_id_seq",
+            "schema": "public",
             "increment": "1",
+            "startWith": "1",
             "minValue": "1",
             "maxValue": "2147483647",
-            "startWith": "1",
             "cache": "1",
-            "cycle": false,
-            "schema": "public"
+            "cycle": false
           }
         },
         "background_image": {
           "name": "background_image",
-          "type": "varchar(200)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
@@ -48,14 +48,21 @@
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true
+        },
+        "is_deleted": {
+          "name": "is_deleted",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
         }
       },
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraints": {},
       "policies": {},
+      "checkConstraints": {},
       "isRLSEnabled": false
     }
   },
@@ -66,11 +73,8 @@
   "policies": {},
   "views": {},
   "_meta": {
+    "columns": {},
     "schemas": {},
-    "tables": {},
-    "columns": {}
-  },
-  "internal": {
     "tables": {}
   }
 }

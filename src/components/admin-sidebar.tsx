@@ -5,7 +5,7 @@ import {
   RiImageLine,
   RiSettings3Line,
 } from "@remixicon/react";
-
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
@@ -30,12 +30,12 @@ const navItems = [
 export function AdminSidebar() {
   return (
     <aside className="border-sidebar-border bg-sidebar text-sidebar-foreground flex shrink-0 flex-col border-b md:min-h-screen md:w-64 md:border-r md:border-b-0">
-      <div className="flex h-14 items-center px-4">
+      <div className="flex h-20 items-center px-4">
         <Link href="/" className="flex items-center gap-2 font-heading text-sm font-semibold">
-          <span className="bg-sidebar-primary text-sidebar-primary-foreground flex size-8 items-center justify-center rounded-md">
+          {/* <span className="bg-sidebar-primary text-sidebar-primary-foreground flex size-8 items-center justify-center rounded-md">
             CMS
-          </span>
-          <span>Basic CMS</span>
+          </span> */}
+          <Image src="/logo.png" width={170} height={80} alt="BasicCMS Logo" />
         </Link>
       </div>
 
