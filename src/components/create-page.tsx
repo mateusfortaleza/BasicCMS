@@ -18,6 +18,16 @@ const uppyRestrictions = {
     maxFileSize: 10_000_000,
 }
 
+/**
+ * Render a hero-card creation form and handle its submission.
+ *
+ * The form collects title, color, link, and an image (via Uppy). On submit it packages form fields
+ * into FormData, attaches the selected image under the `image_file` key when present, clears the
+ * Uppy selection, and triggers `verifyAndCreateHeroCard` inside a React transition.
+ *
+ * @param title - Text displayed as the form legend
+ * @returns The JSX element for the hero-card creation page
+ */
 export default function CreatePage({title}: {title: string}) {
     const [pending, startTransition] = useTransition();
     const [uppy] = useState(() => new Uppy({restrictions: uppyRestrictions}));

@@ -7,6 +7,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+/**
+ * Render a table-shaped loading skeleton for the hero cards list.
+ *
+ * Renders a full-width table with five columns, header labels, and four body rows of animated
+ * placeholder elements that mimic title, image path, color, link, and an action icon.
+ *
+ * @returns A JSX element containing the table-shaped loading/skeleton UI
+ */
 export default function Loading() {
   return (
     <div className="w-full">

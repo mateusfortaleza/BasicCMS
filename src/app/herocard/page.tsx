@@ -16,6 +16,13 @@ import {
   RiPencilLine,
 } from "@remixicon/react";
 
+/**
+ * Render the hero cards management UI: a table of hero cards with edit and delete actions and a create button.
+ *
+ * Fetches all hero cards and renders a table showing each card's title, image path (truncated to 100 characters with an ellipsis when longer), color, and link, with icon buttons to edit or delete each card and a sticky button to create a new card.
+ *
+ * @returns A JSX element containing the edit/home management interface for hero cards.
+ */
 export default async function editHomePage() {
   const heroCards = await getAllHeroCards();
   return (

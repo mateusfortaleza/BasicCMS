@@ -1,3 +1,10 @@
+/**
+ * Renders a static skeleton loading UI for the hero card edit route.
+ *
+ * Displays a set of animated placeholder bars and blocks (using utility classes such as `animate-pulse`, `bg-muted`, and layout utilities) to indicate loading state while the edit page content is being fetched.
+ *
+ * @returns A JSX element containing the skeleton placeholders for the loading state
+ */
 export default function Loading() {
   return (
     <>

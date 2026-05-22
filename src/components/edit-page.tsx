@@ -12,6 +12,16 @@ import "@uppy/core/css/style.min.css";
 import "@uppy/dashboard/css/style.min.css";
 
 
+/**
+ * Render an edit form for a hero card including title, image uploader, color, and link inputs.
+ *
+ * The form is pre-populated from `heroCard`, binds a server action using `heroCard.id` as its `action`,
+ * and initializes an Uppy dashboard that will preload the existing `heroCard.image_path` when present.
+ *
+ * @param title - Heading shown in the form legend
+ * @param heroCard - The hero card being edited; expected shape includes `id`, `title_text`, `color`, `link`, and `image_path`
+ * @returns The JSX element for the edit page containing the controlled inputs and Uppy Dashboard
+ */
 export default function editPage({title, heroCard}: {title: string, heroCard: any}) {
     const [titleInput, setTitleInput] = useState(heroCard.title_text);
     const [colorInput, setColorInput] = useState(heroCard.color);

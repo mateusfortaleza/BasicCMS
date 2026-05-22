@@ -27,6 +27,14 @@ const navItems = [
   },
 ];
 
+/**
+ * Renders the admin sidebar with a logo header, primary navigation links, and a bottom "View Site" link.
+ *
+ * The sidebar is styled for responsive layouts: it displays a fixed logo area at the top, maps navigation items
+ * into navigable buttons, and shows a full-width "View Site" control at the bottom on medium and larger screens.
+ *
+ * @returns A JSX element representing the admin sidebar.
+ */
 export function AdminSidebar() {
   return (
     <aside className="border-sidebar-border bg-sidebar text-sidebar-foreground flex shrink-0 flex-col border-b md:min-h-screen md:w-64 md:border-r md:border-b-0">
