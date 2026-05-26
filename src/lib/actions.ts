@@ -1,7 +1,7 @@
 'use server'
 import { put } from "@vercel/blob"
 import { z } from "zod"
-import { updateHeroCard, insertHeroCard } from "../dal/HeroCardDAO"
+import { updateHeroCard, insertHeroCard, deleteHeroCard } from "../dal/HeroCardDAO"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 
@@ -59,4 +59,9 @@ export async function verifyAndCreateHeroCard(formData: FormData) {
     await insertHeroCard(blob.url, title_text, color, link)
     revalidatePath("/herocard");
     redirect("/herocard")
+}
+
+export async function deletionHeroCard(id: number) {
+    await deleteHeroCard(id);
+    revalidatePath("/herocard");
 }

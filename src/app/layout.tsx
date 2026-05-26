@@ -3,19 +3,27 @@ import { Geist, Geist_Mono, Inter, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { AdminSidebar } from "@/components/admin-sidebar";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
-const dmSansHeading = DM_Sans({subsets:['latin'],variable:'--font-heading'});
+const dmSansHeading = DM_Sans({subsets:['latin'],variable:'--font-heading',preload: false});
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
+const inter = Inter({subsets:['latin'],variable:'--font-sans',preload: false});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  preload: false
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  preload: false
 });
 
 export const metadata: Metadata = {
@@ -34,10 +42,17 @@ export default function RootLayout({
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable, dmSansHeading.variable)}
     >
       <body className="min-h-full">
-        <div className="flex min-h-screen flex-col md:flex-row">
-          <AdminSidebar />
-          <main className="min-w-0 flex-1 p-4 md:p-6">{children}</main>
-        </div>
+        <TooltipProvider>
+          <SidebarProvider>
+            <AdminSidebar />
+            <SidebarInset>
+              <header className="flex h-12 shrink-0 items-center border-b px-4 md:px-6">
+                <SidebarTrigger />
+              </header>
+              <div className="min-w-0 flex-1 p-4 md:p-6">{children}</div>
+            </SidebarInset>
+          </SidebarProvider>
+        </TooltipProvider>
       </body>
     </html>
   );

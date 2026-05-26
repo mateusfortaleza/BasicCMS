@@ -32,3 +32,7 @@ export async function insertHeroCard(image_path: string, title_text: string, col
 export async function updateHeroCard(id: number, image_path: string, title_text: string, color: string, link: string) {
   return await getDb()?.update(heroCard).set({backgroundImage: image_path, overlayColor: color, title: title_text, link: link}).where(eq(heroCard.id, id));
 }
+
+export async function deleteHeroCard(id: number) {
+  return await getDb()?.update(heroCard).set({isDeleted: true}).where(eq(heroCard.id, id))
+}
