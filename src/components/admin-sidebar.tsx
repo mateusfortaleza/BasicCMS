@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   RiDashboardLine,
@@ -6,8 +8,19 @@ import {
   RiSettings3Line,
 } from "@remixicon/react";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarRail,
+  SidebarSeparator,
+} from "@/components/ui/sidebar";
 
 const navItems = [
   {
@@ -29,47 +42,64 @@ const navItems = [
 
 export function AdminSidebar() {
   return (
-    <aside className="border-sidebar-border bg-sidebar text-sidebar-foreground flex shrink-0 flex-col border-b md:min-h-screen md:w-64 md:border-r md:border-b-0">
-      <div className="flex h-20 items-center px-4">
-        <Link href="/" className="flex items-center gap-2 font-heading text-sm font-semibold">
-          {/* <span className="bg-sidebar-primary text-sidebar-primary-foreground flex size-8 items-center justify-center rounded-md">
-            CMS
-          </span> */}
-          <Image src="/logo.png" width={170} height={80} alt="BasicCMS Logo" />
-        </Link>
-      </div>
-
-      <Separator />
-
-      <nav className="flex gap-1 overflow-x-auto p-2 md:flex-col md:overflow-visible">
-        {navItems.map((item) => {
-          const Icon = item.icon;
-
-          return (
-            <Button
-              key={item.href}
-              asChild
-              variant="ghost"
-              className="h-10 justify-start gap-2 rounded-md px-3"
-            >
-              <Link href={item.href}>
-                <Icon className="size-4" />
-                <span>{item.label}</span>
+    <Sidebar collapsible="icon">
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild size="lg">
+              <Link href="/">
+                <Image
+                  src="/logo.png"
+                  width={170}
+                  height={80}
+                  alt="BasicCMS Logo"
+                  className="h-10 w-auto group-data-[collapsible=icon]:hidden"
+                  loading="eager"
+                />
               </Link>
-            </Button>
-          );
-        })}
-      </nav>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
 
-      <div className="mt-auto hidden p-2 md:block">
-        <Separator className="mb-2" />
-        <Button asChild variant="ghost" className="h-10 w-full justify-start gap-2 rounded-md px-3">
-          <Link href="/">
-            <RiHomeLine className="size-4" />
-            <span>View Site</span>
-          </Link>
-        </Button>
-      </div>
-    </aside>
+      {/* <SidebarSeparator /> */}
+
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {navItems.map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <SidebarMenuItem key={item.href}>
+                    <SidebarMenuButton asChild>
+                      <Link href={item.href}>
+                        <Icon />
+                        <span>{item.label}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <Link href="/">
+                <RiHomeLine />
+                <span>View Site</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
+      <SidebarRail />
+    </Sidebar>
   );
 }
