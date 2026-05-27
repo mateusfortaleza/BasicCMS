@@ -69,6 +69,7 @@ export default function HeroCardTable({ heroCards }: { heroCards: HeroCard[] }) 
           <TableHead>Color of the card</TableHead>
           <TableHead className="text-left">Link to the article</TableHead>
           <TableHead className="w-32 text-center" />
+          <TableHead className="w-32 text-center" />
         </TableRow>
       </TableHeader>
       <TableBody>

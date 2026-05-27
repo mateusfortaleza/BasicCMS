@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from "react";
 import {
   Table,
@@ -7,14 +9,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { RiArrowDownSFill, RiArrowUpSFill, RiPencilLine } from "@remixicon/react";
+import Image from "next/image"
+import Link from "next/link";
+import DeleteButton from "./delete-button";
+import { Button } from "./ui/button";
 
 type SortState = "none" | "asc" | "desc";
 
-export default function HeroCardTable() {
+export default function MenuTable({menuItems}: {menuItems: any[]}) {
   const [sortState, setSortState] = useState<SortState>("none");
 
-  const sortedHeroCards = 
-      [...heroCards].sort((a, b) =>
+  const sortedMenuItems = 
+      [...menuItems].sort((a, b) =>
         sortState === "desc" ? b.id - a.id : a.id - b.id,
       )
 
@@ -37,7 +44,7 @@ export default function HeroCardTable() {
       <TableHeader>
         <TableRow>
           <TableHead>
-            <button
+             <button
               type="button"
               className="inline-flex items-center gap-1 font-medium"
               onClick={toggleIdSort}
@@ -49,27 +56,32 @@ export default function HeroCardTable() {
               {sortState === "asc" && (
                 <RiArrowUpSFill aria-hidden="true" size={18} />
               )}
-            </button>
+            </button> 
           </TableHead>
-          <TableHead className="w-25">Title</TableHead>
-          <TableHead>Image Path</TableHead>
-          <TableHead>Color of the card</TableHead>
-          <TableHead className="text-left">Link to the article</TableHead>
-          <TableHead className="w-32 text-center" />
+          <TableHead>Icon</TableHead>
+          <TableHead>Text</TableHead>
+          <TableHead className="text-left">Link</TableHead>
+          <TableHead></TableHead>
+          <TableHead></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {sortedHeroCards.map((item) => (
+        {sortedMenuItems.map((item) => (
           <TableRow key={`table-${item.id}`}>
             <TableCell>{item.id}</TableCell>
-            <TableCell className="font-medium">{item.title_text}</TableCell>
             <TableCell>
-              {item.image_path.length > 100
-                ? item.image_path.slice(0, 100) + "..."
-                : item.image_path}
+              <Image 
+                src={item.icon}
+                width={16}
+                height={16}
+                alt={item.icon}
+              />
+              {/* {.length > 100
+                ? item.icon.slice(0, 100) + "..."
+                : item.icon} */}
             </TableCell>
-            <TableCell>{item.color}</TableCell>
-            <TableCell className="text-left">{item.link}</TableCell>
+             <TableCell className="text-left">{item.menuText}</TableCell>
+             <TableCell className="text-left">{item.menuLink}</TableCell>
             <TableCell className="w-32">
               <div className="flex justify-center">
                 <Button asChild size="icon">
@@ -87,7 +99,7 @@ export default function HeroCardTable() {
                 <DeleteButton HeroCardId={item.id} />
               </div>
             </TableCell>
-          </TableRow>
+          </TableRow> 
         ))}
       </TableBody>
     </Table>

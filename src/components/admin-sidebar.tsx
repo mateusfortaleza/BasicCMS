@@ -36,7 +36,7 @@ const navItems = [
   },
   {
     label: "Menu",
-    href: "/herocard/menu                                                    ",
+    href: "/menu",
     icon: RiMenu2Fill,
   },
   {
