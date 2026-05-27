@@ -11,7 +11,6 @@ import Dashboard from "@uppy/react/dashboard";
 import "@uppy/core/css/style.min.css";
 import "@uppy/dashboard/css/style.min.css";
 
-
 export default function editPage({title, heroCard}: {title: string, heroCard: any}) {
     const [titleInput, setTitleInput] = useState(heroCard.title_text);
     const [colorInput, setColorInput] = useState(heroCard.color);
