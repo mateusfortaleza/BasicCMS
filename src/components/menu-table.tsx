@@ -12,7 +12,6 @@ import {
 import { RiArrowDownSFill, RiArrowUpSFill, RiPencilLine } from "@remixicon/react";
 import Image from "next/image"
 import Link from "next/link";
-import DeleteButton from "./delete-button";
 import { Button } from "./ui/button";
 
 type SortState = "none" | "asc" | "desc";
@@ -86,7 +85,7 @@ export default function MenuTable({menuItems}: {menuItems: any[]}) {
               <div className="flex justify-center">
                 <Button asChild size="icon">
                   <Link
-                    href={`/herocard/edit/${item.id}`}
+                    href={`/menu/edit/${item.id}`}
                     aria-label={`Edit ${item.title_text}`}
                   >
                     <RiPencilLine />
@@ -94,11 +93,7 @@ export default function MenuTable({menuItems}: {menuItems: any[]}) {
                 </Button>
               </div>
             </TableCell>
-            <TableCell>
-              <div className="flex justify-center">
-                <DeleteButton HeroCardId={item.id} />
-              </div>
-            </TableCell>
+            <TableCell />
           </TableRow> 
         ))}
       </TableBody>

@@ -13,7 +13,3 @@ export function getDb() {
   db ??= drizzle(databaseUrl);
   return db;
 }
-
-export async function getTableData(tableName: PgTable<TableConfig>) {
-  return await getDb()?.select().from(tableName);
-}

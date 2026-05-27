@@ -1,9 +1,11 @@
-import { getDb, getTableData } from "./BaseDAO";
+import { getDb } from "./BaseDAO";
 import { menu } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 export async function getAllMenuItems() {
-    return await getTableData(menu);
+    return await getDb()?.select().from(menu)
 }
 
-console.log(await getAllMenuItems());
+export async function insertMenuItems(icon: string, menuText: string, menuLink: string) {
+    return await getDb()?.insert(menu).values({icon: icon, menuText: menuText, menuLink: menuLink});
+}

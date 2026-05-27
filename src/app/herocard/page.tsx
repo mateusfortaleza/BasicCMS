@@ -1,6 +1,6 @@
-import { getAllHeroCards } from "../../dal/HeroCardDAO";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { getAllHeroCards } from "../../dal/HeroCardDAO";
 import { RiAddLargeFill } from "@remixicon/react";
 import HeroCardTable from "@/components/herocard-table";
 

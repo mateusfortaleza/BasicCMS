@@ -2,9 +2,13 @@
 import { put } from "@vercel/blob"
 import { z } from "zod"
 import { updateHeroCard, insertHeroCard, deleteHeroCard } from "../dal/HeroCardDAO"
+
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
+import { insertMenuItems } from "@/dal/MenuDAO"
 
+
+// Hero Card Actions
 const HeroCardFieldsSchema = z.object({
     title_text: z.string().trim(),
     color: z.string().trim(),
@@ -66,4 +70,25 @@ export async function verifyAndCreateHeroCard(formData: FormData) {
 export async function deletionHeroCard(id: number) {
     await deleteHeroCard(id);
     revalidatePath("/herocard");
+}
+
+
+// Menu Items Actions
+
+const MenuItemsSchema = z.object({
+    icon: z.string().trim(),
+    menuLink: z.string().trim(),
+    menuText: z.string().trim(),
+})
+
+export async function verifyAndInsertMenuItem(formData: FormData) {
+    const {icon, menuLink, menuText} = MenuItemsSchema.parse({
+        icon: formData.get("icon"),
+        menuLink: formData.get("link-input"),
+        menuText: formData.get("text-input")
+    })
+
+    await insertMenuItems(icon, menuText, menuLink);
+    revalidatePath("/menu");
+    redirect("/menu");
 }

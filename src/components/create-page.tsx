@@ -69,7 +69,7 @@ export default function CreatePage({title}: {title: string}) {
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="link-input">Link:</FieldLabel>
-                        <Input type="text" name="link" id="link-input" required/>
+                        <Input type="text" name="link" id="link-input" disabled={pending} required/>
                     </Field>
                 </FieldGroup>
                 <ShadButton type="submit" disabled={pending}>{pending ? <><Spinner data-icon="inline-start" />Submitting...</> : "Submit"}</ShadButton>
