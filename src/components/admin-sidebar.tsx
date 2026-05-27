@@ -5,6 +5,7 @@ import {
   RiDashboardLine,
   RiHomeLine,
   RiImageLine,
+  RiMenu2Fill,
   RiSettings3Line,
 } from "@remixicon/react";
 import Image from "next/image";
@@ -34,6 +35,11 @@ const navItems = [
     icon: RiImageLine,
   },
   {
+    label: "Menu",
+    href: "/herocard/menu                                                    ",
+    icon: RiMenu2Fill,
+  },
+  {
     label: "Settings",
     href: "/settings",
     icon: RiSettings3Line,
@@ -61,9 +67,6 @@ export function AdminSidebar() {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-
-      {/* <SidebarSeparator /> */}
-
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>

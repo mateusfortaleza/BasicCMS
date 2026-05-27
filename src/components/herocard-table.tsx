@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { RiArrowDownSFill, RiArrowUpSFill, RiPencilLine } from "@remixicon/react";
 import DeleteButton from "@/components/delete-button";
@@ -27,12 +27,8 @@ type SortState = "none" | "asc" | "desc";
 export default function HeroCardTable({ heroCards }: { heroCards: HeroCard[] }) {
   const [sortState, setSortState] = useState<SortState>("none");
 
-  const sortedHeroCards = useMemo(
-    () =>
-      [...heroCards].sort((a, b) =>
-        sortState === "desc" ? b.id - a.id : a.id - b.id,
-      ),
-    [heroCards, sortState],
+  const sortedHeroCards = [...heroCards].sort((a, b) =>
+    sortState === "desc" ? b.id - a.id : a.id - b.id,
   );
 
   function toggleIdSort() {

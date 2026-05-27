@@ -1,19 +1,6 @@
-import 'dotenv/config';
-import { heroCard } from '@/db/schema';
-import { eq } from 'drizzle-orm';
-import { drizzle } from 'drizzle-orm/neon-http';
-
-export const databaseUrl = process.env.DATABASE_URL!;
-let db: ReturnType<typeof drizzle> | null = null;
-
-function getDb() {
-  if (!databaseUrl) {
-    throw new Error("DATABASE_URL is not set. Add it to .env before querying hero cards.");
-  }
-
-  db ??= drizzle(databaseUrl);
-  return db;
-}
+import { getDb } from "./BaseDAO";
+import { heroCard } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 export async function getAllHeroCards() {
   const resultOfQuery = await getDb()?.select({id: heroCard.id, image_path: heroCard.backgroundImage, title_text: heroCard.title, color: heroCard.overlayColor, link: heroCard.link}).from(heroCard);
