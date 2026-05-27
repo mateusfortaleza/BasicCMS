@@ -9,6 +9,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Analytics } from "@vercel/analytics/next"
 
 const dmSansHeading = DM_Sans({subsets:['latin'],variable:'--font-heading',preload: false});
 
@@ -37,6 +38,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <>
+    <Analytics />
     <html
       lang="en"
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable, dmSansHeading.variable)}
@@ -55,5 +58,6 @@ export default function RootLayout({
         </TooltipProvider>
       </body>
     </html>
+    </>
   );
 }

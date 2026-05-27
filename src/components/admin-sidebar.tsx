@@ -53,7 +53,7 @@ export function AdminSidebar() {
                   width={170}
                   height={80}
                   alt="BasicCMS Logo"
-                  className="h-10 w-auto group-data-[collapsible=icon]:hidden"
+                  className="h-15 ml-8 w-auto group-data-[collapsible=icon]:hidden"
                   loading="eager"
                 />
               </Link>

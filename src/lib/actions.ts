@@ -5,17 +5,19 @@ import { updateHeroCard, insertHeroCard, deleteHeroCard } from "../dal/HeroCardD
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 
-const FormSchema = z.object({
-    id: z.number(),
-    image_path: z.string(),
-    image_file: z.instanceof(File),
+const HeroCardFieldsSchema = z.object({
     title_text: z.string().trim(),
     color: z.string().trim(),
     link: z.string().trim(),
 })
 
-const EditHeroCardSchema = FormSchema.omit({id: true})
-const CreateHeroCardSchema = FormSchema.omit({id: true, image_path: true})
+const EditHeroCardSchema = HeroCardFieldsSchema.extend({
+    image_path: z.string(),
+    image_file: z.instanceof(File).nullable(),
+})
+const CreateHeroCardSchema = HeroCardFieldsSchema.extend({
+    image_file: z.instanceof(File),
+})
 
 export async function verifyAndUpdateHeroCard(heroCardId: number, formData: FormData) {
     const {image_path, image_file, title_text, color, link} = EditHeroCardSchema.parse({
