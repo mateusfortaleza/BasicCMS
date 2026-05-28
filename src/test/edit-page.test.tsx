@@ -53,7 +53,7 @@ vi.mock("@/components/ui/button", () => ({
   Button: ({ children, ...props }: any) => <button {...props}>{children}</button>,
 }));
 
-import EditPage from "../components/edit-page";
+import EditPage from "../components/herocard-components/edit-herocard";
 
 const sampleHeroCard = {
   id: 1,

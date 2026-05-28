@@ -92,3 +92,13 @@ export async function verifyAndInsertMenuItem(formData: FormData) {
     revalidatePath("/menu");
     redirect("/menu");
 }
+
+export async function verifyAndUpdateMenuItem(menuItemId: number, formData: FormData) {
+    const {icon, menuLink, menuText} = MenuItemsSchema.parse({
+        icon: formData.get("icon"),
+        menuLink: formData.get("link-input"),
+        menuText: formData.get("text-input")
+    })
+
+    
+}

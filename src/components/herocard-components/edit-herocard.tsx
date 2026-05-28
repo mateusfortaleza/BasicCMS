@@ -1,6 +1,7 @@
 "use client"
+
 import { verifyAndUpdateHeroCard } from "@/lib/actions";
-import { ChangeEvent, use, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Button as ShadButton } from "@/components/ui/button"
 import { FieldSet, Field, FieldLabel, FieldGroup, FieldLegend } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
@@ -11,7 +12,7 @@ import Dashboard from "@uppy/react/dashboard";
 import "@uppy/core/css/style.min.css";
 import "@uppy/dashboard/css/style.min.css";
 
-export default function editPage({title, heroCard}: {title: string, heroCard: any}) {
+export default function editHeroCardPage({title, heroCard}: {title: string, heroCard: any}) {
     const [titleInput, setTitleInput] = useState(heroCard.title_text);
     const [colorInput, setColorInput] = useState(heroCard.color);
     const [linkInput, setLinkInput] = useState(heroCard.link)
@@ -60,7 +61,7 @@ export default function editPage({title, heroCard}: {title: string, heroCard: an
                 <FieldGroup>
                     <Field>
                         <FieldLabel htmlFor="title-input">Title:</FieldLabel>
-                        <Input name="title_text" id="title-input" onChange={onTitleChange} value={titleInput} required />
+                        <Input name="title_text" id="title-input" onChange={onTitleChange} value={titleInput} />
                     </Field>
                     <Field>
                         <FieldLabel>Image:</FieldLabel>
@@ -82,7 +83,7 @@ export default function editPage({title, heroCard}: {title: string, heroCard: an
                         <Input type="text" name="link" id="link-input" onChange={onLinkChange} value={linkInput} />
                     </Field>
                 </FieldGroup>
-                <ShadButton>Submit</ShadButton>
+                <ShadButton type="submit">Submit</ShadButton>
             </FieldSet>
         </FieldGroup>
         </form>

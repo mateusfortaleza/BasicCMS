@@ -64,7 +64,7 @@ vi.mock("@/components/ui/spinner", () => ({
   Spinner: () => <span data-testid="spinner">Loading</span>,
 }));
 
-import CreatePage from "../components/create-page";
+import CreatePage from "../components/herocard-components/create-herocard";
 import { verifyAndCreateHeroCard } from "@/lib/actions";
 
 const mockVerifyAndCreateHeroCard = vi.mocked(verifyAndCreateHeroCard);

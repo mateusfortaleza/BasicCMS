@@ -35,7 +35,7 @@ vi.mock("@remixicon/react", () => ({
 }));
 
 import { getAllHeroCards } from "../dal/HeroCardDAO";
-import editHomePage from "../app/herocard/page";
+import editHomePage from "../app/herocard/(herocard-list)/page";
 
 const mockGetAllHeroCards = vi.mocked(getAllHeroCards);
 

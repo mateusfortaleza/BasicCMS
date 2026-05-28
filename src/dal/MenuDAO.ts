@@ -9,3 +9,7 @@ export async function getAllMenuItems() {
 export async function insertMenuItems(icon: string, menuText: string, menuLink: string) {
     return await getDb()?.insert(menu).values({icon: icon, menuText: menuText, menuLink: menuLink});
 }
+
+export async function updateMenuItems(id: number, icon: string, menuText: string, menuLink: string) {
+    return await getDb()?.update(menu).set({icon: icon, menuText: menuText, menuLink: menuLink}).where(eq(menu.id, id))
+}

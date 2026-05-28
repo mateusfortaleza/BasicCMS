@@ -1,4 +1,4 @@
-import EditPage from "../../../../components/edit-page";
+import EditPage from "../../../../components/herocard-components/edit-herocard";
 import { getHeroCardById } from "@/dal/HeroCardDAO";
 
 export default async function HeroCardEditPage(props: {

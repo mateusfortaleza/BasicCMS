@@ -4,10 +4,10 @@ import { RiArrowLeftCircleFill } from "@remixicon/react"
 import Dashboard from "@uppy/dashboard"
 import Link from "next/link"
 import { title } from "process"
-import { FieldGroup, FieldSet, FieldLegend, Field, FieldLabel } from "./ui/field"
-import { Input } from "./ui/input"
-import { Spinner } from "./ui/spinner"
-import { Button as ShadButton } from "./ui/button"
+import { FieldGroup, FieldSet, FieldLegend, Field, FieldLabel } from "../ui/field"
+import { Input } from "../ui/input"
+import { Spinner } from "../ui/spinner"
+import { Button as ShadButton } from "../ui/button"
 import { useTransition } from "react"
 import { verifyAndInsertMenuItem } from "@/lib/actions"
 
@@ -42,15 +42,15 @@ export default function CreateMenu({title}: {title: string}) {
                             disabled={pending}
                         /> */}
                         <FieldLabel htmlFor="icon-input">Icon:</FieldLabel>
-                        <Input name="icon" id="icon-input" required disabled={pending} />
+                        <Input name="icon" id="icon-input" disabled={pending} />
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="text-input">Text:</FieldLabel>
-                        <Input type="text" name="text-input" id="text-input" disabled={pending} required />
+                        <Input type="text" name="text-input" id="text-input" disabled={pending} />
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="link-input">Link:</FieldLabel>
-                        <Input type="text" name="link-input" id="link-input" disabled={pending} required/>
+                        <Input type="text" name="link-input" id="link-input" disabled={pending} />
                     </Field>
                 </FieldGroup>
                 <ShadButton type="submit" disabled={pending}>{pending ? <><Spinner data-icon="inline-start" />Submitting...</> : "Submit"}</ShadButton>
