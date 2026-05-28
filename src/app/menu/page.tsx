@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { getAllMenuItems } from "@/dal/MenuDAO";
+import { getAllMenuItems } from "@/dal/MenuDTO";
 import { RiAddLargeFill } from "@remixicon/react";
 import MenuTable from "@/components/menu-components/menu-table";
 

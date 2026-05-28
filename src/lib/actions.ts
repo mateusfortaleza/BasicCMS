@@ -1,11 +1,11 @@
 'use server'
 import { put } from "@vercel/blob"
 import { z } from "zod"
-import { updateHeroCard, insertHeroCard, deleteHeroCard } from "../dal/HeroCardDAO"
+import { updateHeroCard, insertHeroCard, deleteHeroCard } from "../dal/HeroCardDTO"
 
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
-import { insertMenuItems } from "@/dal/MenuDAO"
+import { insertMenuItems } from "@/dal/MenuDTO"
 
 
 // Hero Card Actions

@@ -12,15 +12,18 @@ import {
 import { Input } from "../ui/input";
 import { Spinner } from "../ui/spinner";
 import { Button as ShadButton } from "../ui/button";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 
-export default function MenuForm({
-  formAction,
+export default function EditMenu({
   title,
+  menuItems
 }: {
-  formAction: FormData;
-  title: string;
+  title: string,
+  menuItems: any,
 }) {
+  const [icon, setIcon] = useState(menuItems.icon);
+  const [text, setText] = useState("");
+  const [link, setLink] = useState("");
   const [pending, startTransition] = useTransition();
 
   return (
@@ -38,7 +41,7 @@ export default function MenuForm({
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="icon-input">Icon:</FieldLabel>
-                <Input name="icon" id="icon-input" disabled={pending} />
+                <Input name="icon" id="icon-input" disabled={pending} defaultValue={icon} />
               </Field>
               <Field>
                 <FieldLabel htmlFor="text-input">Text:</FieldLabel>
@@ -47,6 +50,7 @@ export default function MenuForm({
                   name="text-input"
                   id="text-input"
                   disabled={pending}
+                  defaultValue={text}
                 />
               </Field>
               <Field>
@@ -56,6 +60,7 @@ export default function MenuForm({
                   name="link-input"
                   id="link-input"
                   disabled={pending}
+                  defaultValue={link}
                 />
               </Field>
             </FieldGroup>

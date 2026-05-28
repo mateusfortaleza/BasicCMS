@@ -1,4 +1,4 @@
-import { getDb } from "./BaseDAO";
+import { getDb } from "./BaseDTO";
 import { heroCard } from "@/db/schema";
 import { eq } from "drizzle-orm";
 

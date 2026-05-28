@@ -34,7 +34,7 @@ vi.mock("@remixicon/react", () => ({
   RiPencilLine: () => <svg data-testid="icon-pencil" />,
 }));
 
-import { getAllHeroCards } from "../dal/HeroCardDAO";
+import { getAllHeroCards } from "../dal/HeroCardDTO";
 import editHomePage from "../app/herocard/(herocard-list)/page";
 
 const mockGetAllHeroCards = vi.mocked(getAllHeroCards);

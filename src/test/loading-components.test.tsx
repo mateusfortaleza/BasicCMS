@@ -12,7 +12,7 @@ vi.mock("@/components/ui/table", () => ({
 }));
 
 import HeroCardLoading from "../app/herocard/(herocard-list)/loading";
-import EditPageLoading from "../app/herocard/edit/[id]/loading";
+import EditPageLoading from "../app/herocard/edit/[id]/(herocard-edit)/loading";
 
 describe("HeroCardLoading (herocard/loading.tsx)", () => {
   it("renders without crashing", () => {
