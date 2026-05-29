@@ -1,9 +1,7 @@
 "use client"
 
 import { RiArrowLeftCircleFill } from "@remixicon/react"
-import Dashboard from "@uppy/dashboard"
 import Link from "next/link"
-import { title } from "process"
 import { FieldGroup, FieldSet, FieldLegend, Field, FieldLabel } from "../ui/field"
 import { Input } from "../ui/input"
 import { Spinner } from "../ui/spinner"
@@ -26,21 +24,13 @@ export default function CreateMenu({title}: {title: string}) {
 
     return (
         <>
-        <Link href="/menu"><ShadButton><RiArrowLeftCircleFill />Back</ShadButton></Link>
+        <ShadButton><Link href="/menu"><RiArrowLeftCircleFill />Back</Link></ShadButton>
         <form onSubmit={onSubmit}>
         <FieldGroup className="w-full m-auto flex justify-center items-center">
             <FieldSet className="w-2xl flex justify-center">
                 <FieldLegend>{title}</FieldLegend>
                 <FieldGroup>
                     <Field>
-                        {/* <Dashboard
-                            uppy={uppy}
-                            height={300}
-                            hideUploadButton
-                            proudlyDisplayPoweredByUppy={false}
-                            singleFileFullScreen
-                            disabled={pending}
-                        /> */}
                         <FieldLabel htmlFor="icon-input">Icon:</FieldLabel>
                         <Input name="icon" id="icon-input" disabled={pending} />
                     </Field>

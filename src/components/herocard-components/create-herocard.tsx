@@ -50,7 +50,7 @@ export default function CreatePage({title}: {title: string}) {
                 <FieldGroup>
                     <Field>
                         <FieldLabel htmlFor="title-input">Title:</FieldLabel>
-                        <Input name="title_text" id="title-input" disabled={pending} />
+                        <Input name="title_text" id="title-input" required disabled={pending} />
                     </Field>
                     <Field>
                         <FieldLabel>Image:</FieldLabel>
@@ -65,11 +65,11 @@ export default function CreatePage({title}: {title: string}) {
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="color-input">Color:</FieldLabel>
-                        <Input type="color" name="color" id="color-input" defaultValue="#ffffff" disabled={pending}  />
+                        <Input type="color" name="color" id="color-input" required defaultValue="#ffffff" disabled={pending}  />
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="link-input">Link:</FieldLabel>
-                        <Input type="text" name="link" id="link-input" disabled={pending} />
+                        <Input type="text" name="link" id="link-input" required disabled={pending} />
                     </Field>
                 </FieldGroup>
                 <ShadButton type="submit" disabled={pending}>{pending ? <><Spinner data-icon="inline-start" />Submitting...</> : "Submit"}</ShadButton>

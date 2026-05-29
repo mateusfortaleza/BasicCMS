@@ -1,3 +1,4 @@
+"use client"
 import { RiDeleteBinLine, RiDeleteBin2Fill } from "@remixicon/react";
 import {
   AlertDialog,
@@ -29,7 +30,7 @@ export default function DeleteButton({typeOfElement, clickFunction}: {typeOfElem
             </AlertDialogMedia>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will delete the {typeOfElement} permanentely
+              This will delete the {typeOfElement} permanently
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

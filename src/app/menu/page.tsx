@@ -11,12 +11,12 @@ export default async function MenuListingPage() {
   return (
     <>
       <div className="w-full">
-        <Link href="/menu/create">
-          <Button type="button" data-icon="inline-end">
+        <Button type="button" data-icon="inline-end">
+          <Link href="/menu/create">
             Create New
             <RiAddLargeFill color="rgba(255,255,255,1)" />
-          </Button>
-        </Link>
+          </Link>
+        </Button>
         <MenuTable menuItems={sortedMenuItems} />
       </div>
     </>

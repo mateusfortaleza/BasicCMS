@@ -7,6 +7,9 @@ export default async function MenuEditPage(props: {
 }) {
   const params = await props.params;
   const id = Number(params.id);
+  if (!Number.isInteger(id) || id < 1) {
+    notFound();
+  }
   const menuItems = await getMenuItemsById(id);
   const menuItem = menuItems?.[0]
 
