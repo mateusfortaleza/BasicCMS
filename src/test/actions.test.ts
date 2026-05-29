@@ -21,7 +21,7 @@ vi.mock("next/navigation", () => ({
 }));
 
 import { put } from "@vercel/blob";
-import { updateHeroCard, insertHeroCard } from "../dal/HeroCardDAO";
+import { updateHeroCard, insertHeroCard } from "../dal/HeroCardDTO";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { verifyAndUpdateHeroCard, verifyAndCreateHeroCard } from "../lib/actions";

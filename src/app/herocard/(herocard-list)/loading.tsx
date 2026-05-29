@@ -10,26 +10,27 @@ import {
 export default function Loading() {
   return (
     <div className="w-full">
+      <div className="ml-370 h-9 w-32 animate-pulse rounded-md bg-muted" />
       <Table>
-        <colgroup>
-          <col className="w-42.75" />
-          <col className="w-271.25" />
-          <col className="w-37.75" />
-          <col className="w-35.25" />
-          <col className="w-32" />
-        </colgroup>
         <TableHeader>
           <TableRow>
+            <TableHead>
+              <div className="h-4 w-8 animate-pulse rounded bg-muted" />
+            </TableHead>
             <TableHead className="w-25">Title</TableHead>
             <TableHead>Image Path</TableHead>
             <TableHead>Color of the card</TableHead>
-            <TableHead className="text-right">Link to the article</TableHead>
+            <TableHead className="text-left">Link to the article</TableHead>
+            <TableHead className="w-32 text-center" />
             <TableHead className="w-32 text-center" />
           </TableRow>
         </TableHeader>
-        {Array.from({ length: 4 }).map((_, index) => (
-          <TableBody key={`table-skeleton-${index}`}>
-            <TableRow key={index}>
+        <TableBody>
+          {Array.from({ length: 4 }).map((_, index) => (
+            <TableRow key={`table-skeleton-${index}`}>
+              <TableCell>
+                <div className="h-4 w-8 animate-pulse rounded bg-muted" />
+              </TableCell>
               <TableCell>
                 <div className="h-4 w-32 animate-pulse rounded bg-muted" />
               </TableCell>
@@ -40,16 +41,21 @@ export default function Loading() {
                 <div className="h-4 w-20 animate-pulse rounded bg-muted" />
               </TableCell>
               <TableCell>
-                <div className="ml-auto h-4 w-48 animate-pulse rounded bg-muted" />
+                <div className="h-4 w-48 animate-pulse rounded bg-muted" />
               </TableCell>
               <TableCell className="w-32">
                 <div className="flex justify-center">
-                  <div className="h-9 w-9 animate-pulse rounded-full bg-muted" />
+                  <div className="h-9 w-9 animate-pulse rounded-md bg-muted" />
+                </div>
+              </TableCell>
+              <TableCell className="w-32">
+                <div className="flex justify-center">
+                  <div className="h-9 w-9 animate-pulse rounded-md bg-muted" />
                 </div>
               </TableCell>
             </TableRow>
-          </TableBody>
-        ))}
+          ))}
+        </TableBody>
       </Table>
     </div>
   );

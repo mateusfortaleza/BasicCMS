@@ -9,7 +9,6 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Analytics } from "@vercel/analytics/next"
 
 const dmSansHeading = DM_Sans({subsets:['latin'],variable:'--font-heading',preload: false});
 
@@ -50,8 +49,6 @@ export default function RootLayout({
             <SidebarInset>
               <header className="flex h-12 shrink-0 items-center border-b px-4 md:px-6">
                 <SidebarTrigger />
-                    <Analytics />
-
               </header>
               <div className="min-w-0 flex-1 p-4 md:p-6">{children}</div>
             </SidebarInset>

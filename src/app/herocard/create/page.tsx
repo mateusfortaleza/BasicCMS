@@ -1,4 +1,4 @@
-import CreatePage from "@/components/create-page";
+import CreatePage from "@/components/herocard-components/create-herocard";
 
 
 export default async function HeroCardEditPage() {

@@ -11,8 +11,8 @@ vi.mock("@/components/ui/table", () => ({
   TableRow: ({ children }: any) => <tr>{children}</tr>,
 }));
 
-import HeroCardLoading from "../app/herocard/loading";
-import EditPageLoading from "../app/herocard/edit/[id]/loading";
+import HeroCardLoading from "../app/herocard/(herocard-list)/loading";
+import EditPageLoading from "../app/herocard/edit/[id]/(herocard-edit)/loading";
 
 describe("HeroCardLoading (herocard/loading.tsx)", () => {
   it("renders without crashing", () => {

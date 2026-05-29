@@ -1,9 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { RiArrowDownSFill, RiArrowUpSFill, RiPencilLine } from "@remixicon/react";
-import DeleteButton from "@/components/delete-button";
+import HeroCardDeleteButton from "@/components/herocard-components/herocard-delete-button";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -27,12 +27,8 @@ type SortState = "none" | "asc" | "desc";
 export default function HeroCardTable({ heroCards }: { heroCards: HeroCard[] }) {
   const [sortState, setSortState] = useState<SortState>("none");
 
-  const sortedHeroCards = useMemo(
-    () =>
-      [...heroCards].sort((a, b) =>
-        sortState === "desc" ? b.id - a.id : a.id - b.id,
-      ),
-    [heroCards, sortState],
+  const sortedHeroCards = [...heroCards].sort((a, b) =>
+    sortState === "desc" ? b.id - a.id : a.id - b.id,
   );
 
   function toggleIdSort() {
@@ -73,6 +69,7 @@ export default function HeroCardTable({ heroCards }: { heroCards: HeroCard[] }) 
           <TableHead>Color of the card</TableHead>
           <TableHead className="text-left">Link to the article</TableHead>
           <TableHead className="w-32 text-center" />
+          <TableHead className="w-32 text-center" />
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -101,7 +98,7 @@ export default function HeroCardTable({ heroCards }: { heroCards: HeroCard[] }) 
             </TableCell>
             <TableCell>
               <div className="flex justify-center">
-                <DeleteButton HeroCardId={item.id} />
+                <HeroCardDeleteButton HeroCardId={item.id} />
               </div>
             </TableCell>
           </TableRow>
