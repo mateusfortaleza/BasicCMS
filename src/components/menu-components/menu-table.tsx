@@ -13,6 +13,9 @@ import { RiArrowDownSFill, RiArrowUpSFill, RiPencilLine } from "@remixicon/react
 import Image from "next/image"
 import Link from "next/link";
 import { Button } from "../ui/button";
+import EditButton from "../edit-button";
+import DeleteButton from "../delete-button";
+import { deletionMenuItem } from "@/lib/actions";
 
 type SortState = "none" | "asc" | "desc";
 
@@ -75,25 +78,19 @@ export default function MenuTable({menuItems}: {menuItems: any[]}) {
                 height={16}
                 alt={item.icon}
               />
-              {/* {.length > 100
-                ? item.icon.slice(0, 100) + "..."
-                : item.icon} */}
             </TableCell>
              <TableCell className="text-left">{item.menuText}</TableCell>
              <TableCell className="text-left">{item.menuLink}</TableCell>
             <TableCell className="w-32">
               <div className="flex justify-center">
-                <Button asChild size="icon">
-                  <Link
-                    href={`/menu/edit/${item.id}`}
-                    aria-label={`Edit ${item.title_text}`}
-                  >
-                    <RiPencilLine />
-                  </Link>
-                </Button>
+                  <EditButton href={`/menu/edit/${item.id}`} ariaLabel={`Edit ${item.menuText}`} />
               </div>
             </TableCell>
-            <TableCell />
+            <TableCell>
+              <div className="flex justify-center">
+                <DeleteButton typeOfElement="menu item" clickFunction={() => deletionMenuItem(item.id)}/>
+              </div>
+            </ TableCell>
           </TableRow> 
         ))}
       </TableBody>

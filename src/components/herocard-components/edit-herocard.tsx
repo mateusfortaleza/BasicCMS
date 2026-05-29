@@ -13,9 +13,6 @@ import "@uppy/core/css/style.min.css";
 import "@uppy/dashboard/css/style.min.css";
 
 export default function editHeroCardPage({title, heroCard}: {title: string, heroCard: any}) {
-    const [titleInput, setTitleInput] = useState(heroCard.title_text);
-    const [colorInput, setColorInput] = useState(heroCard.color);
-    const [linkInput, setLinkInput] = useState(heroCard.link)
     const editHeroCardWithId = verifyAndUpdateHeroCard.bind(null, heroCard.id);
 
     const [uppy] = useState(() =>
@@ -27,16 +24,6 @@ export default function editHeroCardPage({title, heroCard}: {title: string, hero
             },
         })
     );
-    
-    function onTitleChange(event: ChangeEvent<HTMLInputElement>) {
-        setTitleInput(event.target.value);
-    }
-    function onColorChange(event: ChangeEvent<HTMLInputElement>) {
-        setColorInput(event.target.value)
-    }
-    function onLinkChange(event: ChangeEvent<HTMLInputElement>) {
-        setLinkInput(event.target.value)
-    }
 
     useEffect(() => {
         if (!heroCard.image_path || uppy.getFiles().length > 0) return;
@@ -61,7 +48,7 @@ export default function editHeroCardPage({title, heroCard}: {title: string, hero
                 <FieldGroup>
                     <Field>
                         <FieldLabel htmlFor="title-input">Title:</FieldLabel>
-                        <Input name="title_text" id="title-input" onChange={onTitleChange} value={titleInput} />
+                        <Input name="title_text" id="title-input" defaultValue={heroCard.title_text} />
                     </Field>
                     <Field>
                         <FieldLabel>Image:</FieldLabel>
@@ -76,11 +63,11 @@ export default function editHeroCardPage({title, heroCard}: {title: string, hero
                     </Field>
                     <Field>
                         <FieldLabel>Color:</FieldLabel>
-                        <Input type="color" name="color" id="color-input" onChange={onColorChange} value={colorInput} />
+                        <Input type="color" name="color" id="color-input" defaultValue={heroCard.color} />
                     </Field>
                     <Field>
                         <FieldLabel>Link:</FieldLabel>
-                        <Input type="text" name="link" id="link-input" onChange={onLinkChange} value={linkInput} />
+                        <Input type="text" name="link" id="link-input" defaultValue={heroCard.link} />
                     </Field>
                 </FieldGroup>
                 <ShadButton type="submit">Submit</ShadButton>

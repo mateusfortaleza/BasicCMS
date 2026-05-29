@@ -5,10 +5,10 @@ import { updateHeroCard, insertHeroCard, deleteHeroCard } from "../dal/HeroCardD
 
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
-import { insertMenuItems } from "@/dal/MenuDTO"
-
+import { deleteMenuItem, insertMenuItems, updateMenuItems } from "@/dal/MenuDTO"
 
 // Hero Card Actions
+
 const HeroCardFieldsSchema = z.object({
     title_text: z.string().trim(),
     color: z.string().trim(),
@@ -93,12 +93,19 @@ export async function verifyAndInsertMenuItem(formData: FormData) {
     redirect("/menu");
 }
 
-export async function verifyAndUpdateMenuItem(menuItemId: number, formData: FormData) {
+export async function verifyAndUpdateMenuItem(menuItemId: number, prevState: unknown, formData: FormData) {
     const {icon, menuLink, menuText} = MenuItemsSchema.parse({
         icon: formData.get("icon"),
+        menuText: formData.get("text-input"),
         menuLink: formData.get("link-input"),
-        menuText: formData.get("text-input")
     })
 
-    
+    await updateMenuItems(menuItemId, icon, menuText, menuLink);
+    revalidatePath("/menu");
+    redirect("/menu");
+}
+
+export async function deletionMenuItem(menuItemId: number) {
+    await deleteMenuItem(menuItemId);
+    revalidatePath("/menu");
 }

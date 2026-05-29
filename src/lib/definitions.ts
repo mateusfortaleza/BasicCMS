@@ -5,3 +5,10 @@ export type HeroCardForm = {
     title: string, 
     link: string
 }
+
+export type MenuItems = {
+    id: number,
+    icon: string;
+    menuText: string;
+    menuLink: string;
+}

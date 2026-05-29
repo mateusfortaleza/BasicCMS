@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { RiArrowDownSFill, RiArrowUpSFill, RiPencilLine } from "@remixicon/react";
-import DeleteButton from "@/components/delete-button";
+import HeroCardDeleteButton from "@/components/herocard-components/herocard-delete-button";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -98,7 +98,7 @@ export default function HeroCardTable({ heroCards }: { heroCards: HeroCard[] }) 
             </TableCell>
             <TableCell>
               <div className="flex justify-center">
-                <DeleteButton HeroCardId={item.id} />
+                <HeroCardDeleteButton HeroCardId={item.id} />
               </div>
             </TableCell>
           </TableRow>

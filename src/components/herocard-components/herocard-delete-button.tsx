@@ -1,20 +1,25 @@
-import { RiDeleteBinLine, RiDeleteBin2Fill } from "@remixicon/react";
+"use client";
+import { RiDeleteBin2Fill, RiDeleteBinLine } from "@remixicon/react";
+import { Button } from "../ui/button";
+import { deletionHeroCard } from "@/lib/actions";
 import {
   AlertDialog,
-  AlertDialogTrigger,
+  AlertDialogAction,
+  AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogMedia,
   AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogCancel,
-  AlertDialogAction,
-} from "./ui/alert-dialog";
-import { Button } from "./ui/button";
+  AlertDialogTrigger,
+} from "../ui/alert-dialog";
 
-export default function DeleteButton({typeOfElement, clickFunction}: {typeOfElement: string, clickFunction: any}) {
-    return (
+export default function HeroCardDeleteButton({ HeroCardId }: { HeroCardId: number }) {
+    async function deletion(id: number) {
+        await deletionHeroCard(id);
+    }
+  return (
     <>
       <AlertDialog>
         <AlertDialogTrigger asChild>
@@ -29,15 +34,12 @@ export default function DeleteButton({typeOfElement, clickFunction}: {typeOfElem
             </AlertDialogMedia>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will delete the {typeOfElement} permanentely
+              This will delete the hero card permanentely
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              variant="destructive"
-              onClick={clickFunction}
-            >
+            <AlertDialogAction variant="destructive" onClick={() => deletion(HeroCardId)}>
               Confirm
             </AlertDialogAction>
           </AlertDialogFooter>
