@@ -64,7 +64,7 @@ export async function verifyAndUpdateHeroCard(heroCardId: number, prevState: unk
     redirect("/herocard")
 }
 
-export async function verifyAndCreateHeroCard(formData: FormData) {
+export async function verifyAndCreateHeroCard(prevState: unknown, formData: FormData) {
     const result = CreateHeroCardSchema.safeParse({
         title_text: formData.get("title_text"),
         image_file: formData.get("image_file"),
@@ -104,7 +104,7 @@ const MenuItemsSchema = z.object({
     menuText: z.string().trim().min(1).max(200),
 })
 
-export async function verifyAndInsertMenuItem(formData: FormData) {
+export async function verifyAndInsertMenuItem(prevState: unknown, formData: FormData) {
     const result = MenuItemsSchema.safeParse({
         icon: formData.get("icon"),
         menuLink: formData.get("link-input"),

@@ -50,10 +50,19 @@ export default function editHeroCardPage({title, heroCard}: {title: string, hero
                     <Field>
                         <FieldLabel htmlFor="title-input">Title:</FieldLabel>
                         <Input name="title_text" id="title-input" defaultValue={heroCard.title_text} disabled={isPending} />
+                        {state?.errors?.title_text && (
+                            <p className="text-sm text-destructive">{state.errors.title_text[0]}</p>
+                        )}
                     </Field>
                     <Field>
                         <FieldLabel>Image:</FieldLabel>
                         <Input type="hidden" name="image_path" value={heroCard.image_path} />
+                        {state?.errors?.image_path && (
+                            <p className="text-sm text-destructive">{state.errors.image_path[0]}</p>
+                        )}
+                        {state?.errors?.image_file && (
+                            <p className="text-sm text-destructive">{state.errors.image_file[0]}</p>
+                        )}
                         <Dashboard
                             uppy={uppy}
                             height={300}
@@ -66,10 +75,16 @@ export default function editHeroCardPage({title, heroCard}: {title: string, hero
                     <Field>
                         <FieldLabel>Color:</FieldLabel>
                         <Input type="color" name="color" id="color-input" defaultValue={heroCard.color} disabled={isPending} />
+                        {state?.errors?.color && (
+                            <p className="text-sm text-destructive">{state.errors.color[0]}</p>
+                        )}
                     </Field>
                     <Field>
                         <FieldLabel>Link:</FieldLabel>
                         <Input type="text" name="link" id="link-input" defaultValue={heroCard.link} disabled={isPending} />
+                        {state?.errors?.link && (
+                            <p className="text-sm text-destructive">{state.errors.link[0]}</p>
+                        )}
                     </Field>
                 </FieldGroup>
                 <ShadButton type="submit" disabled={isPending}>Submit</ShadButton>

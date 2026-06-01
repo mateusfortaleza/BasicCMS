@@ -1,6 +1,6 @@
 "use client"
 import { verifyAndCreateHeroCard } from "@/lib/actions";
-import { useState, useTransition } from "react";
+import { startTransition, useActionState, useState } from "react";
 import { Button as ShadButton } from "@/components/ui/button"
 import { FieldSet, Field, FieldLabel, FieldGroup, FieldLegend } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
@@ -19,7 +19,7 @@ const uppyRestrictions = {
 }
 
 export default function CreatePage({title}: {title: string}) {
-    const [pending, startTransition] = useTransition();
+    const [state, formAction, isPending] = useActionState(verifyAndCreateHeroCard, null);
     const [uppy] = useState(() => new Uppy({restrictions: uppyRestrictions}));
 
     function onSubmit(event: React.SubmitEvent<HTMLFormElement>) {
@@ -34,9 +34,8 @@ export default function CreatePage({title}: {title: string}) {
             formData.set("image_file", uppyFile.data)
         }
 
-        uppy.clear();
         startTransition(() => {
-            void verifyAndCreateHeroCard(formData);
+            formAction(formData);
         })
     }
 
@@ -50,7 +49,10 @@ export default function CreatePage({title}: {title: string}) {
                 <FieldGroup>
                     <Field>
                         <FieldLabel htmlFor="title-input">Title:</FieldLabel>
-                        <Input name="title_text" id="title-input" required disabled={pending} />
+                        <Input name="title_text" id="title-input" required disabled={isPending} />
+                        {state?.errors?.title_text && (
+                            <p className="text-sm text-destructive">{state.errors.title_text[0]}</p>
+                        )}
                     </Field>
                     <Field>
                         <FieldLabel>Image:</FieldLabel>
@@ -60,19 +62,28 @@ export default function CreatePage({title}: {title: string}) {
                             hideUploadButton
                             proudlyDisplayPoweredByUppy={false}
                             singleFileFullScreen
-                            disabled={pending}
+                            disabled={isPending}
                         />
+                        {state?.errors?.image_file && (
+                            <p className="text-sm text-destructive">{state.errors.image_file[0]}</p>
+                        )}
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="color-input">Color:</FieldLabel>
-                        <Input type="color" name="color" id="color-input" required defaultValue="#ffffff" disabled={pending}  />
+                        <Input type="color" name="color" id="color-input" required defaultValue="#ffffff" disabled={isPending}  />
+                        {state?.errors?.color && (
+                            <p className="text-sm text-destructive">{state.errors.color[0]}</p>
+                        )}
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="link-input">Link:</FieldLabel>
-                        <Input type="text" name="link" id="link-input" required disabled={pending} />
+                        <Input type="text" name="link" id="link-input" required disabled={isPending} />
+                        {state?.errors?.link && (
+                            <p className="text-sm text-destructive">{state.errors.link[0]}</p>
+                        )}
                     </Field>
                 </FieldGroup>
-                <ShadButton type="submit" disabled={pending}>{pending ? <><Spinner data-icon="inline-start" />Submitting...</> : "Submit"}</ShadButton>
+                <ShadButton type="submit" disabled={isPending}>{isPending ? <><Spinner data-icon="inline-start" />Submitting...</> : "Submit"}</ShadButton>
             </FieldSet>
         </FieldGroup>
         </form>

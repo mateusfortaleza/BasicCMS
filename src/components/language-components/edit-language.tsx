@@ -55,6 +55,11 @@ export default function EditLanguage({
                   required
                   disabled={isPending}
                 />
+                {state?.errors?.languageName && (
+                  <p className="text-sm text-destructive">
+                    {state.errors.languageName[0]}
+                  </p>
+                )}
               </Field>
               <Field>
                 <FieldLabel htmlFor="lang-code-input">
@@ -68,6 +73,11 @@ export default function EditLanguage({
                   maxLength={5}
                   disabled={isPending}
                 />
+                {state?.errors?.langCode && (
+                  <p className="text-sm text-destructive">
+                    {state.errors.langCode[0]}
+                  </p>
+                )}
               </Field>
             </FieldGroup>
 

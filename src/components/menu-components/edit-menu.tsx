@@ -51,6 +51,9 @@ export default function EditMenu({
               <Field>
                 <FieldLabel htmlFor="icon-input">Icon:</FieldLabel>
                 <Input name="icon" id="icon-input" defaultValue={icon} />
+                {state?.errors?.icon && (
+                  <p className="text-sm text-destructive">{state.errors.icon[0]}</p>
+                )}
               </Field>
               <Field>
                 <FieldLabel htmlFor="text-input">Text:</FieldLabel>
@@ -60,6 +63,11 @@ export default function EditMenu({
                   id="text-input"
                   defaultValue={text}
                 />
+                {state?.errors?.menuText && (
+                  <p className="text-sm text-destructive">
+                    {state.errors.menuText[0]}
+                  </p>
+                )}
               </Field>
               <Field>
                 <FieldLabel htmlFor="link-input">Link:</FieldLabel>
@@ -69,6 +77,11 @@ export default function EditMenu({
                   id="link-input"
                   defaultValue={link}
                 />
+                {state?.errors?.menuLink && (
+                  <p className="text-sm text-destructive">
+                    {state.errors.menuLink[0]}
+                  </p>
+                )}
               </Field>
             </FieldGroup>
             <ShadButton type="submit">
