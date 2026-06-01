@@ -12,3 +12,9 @@ export type MenuItems = {
     menuText: string;
     menuLink: string;
 }
+
+export type Language = {
+    id: string;
+    language: string;
+    langCode: string;
+}

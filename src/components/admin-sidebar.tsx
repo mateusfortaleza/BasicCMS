@@ -7,6 +7,7 @@ import {
   RiImageLine,
   RiMenu2Fill,
   RiSettings3Line,
+  RiTranslate2,
 } from "@remixicon/react";
 import Image from "next/image";
 import {
@@ -38,6 +39,11 @@ const navItems = [
     label: "Menu",
     href: "/menu",
     icon: RiMenu2Fill,
+  },
+  {
+    label: "Languages",
+    href: "/language",
+    icon: RiTranslate2,
   },
   {
     label: "Settings",

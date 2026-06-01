@@ -1,0 +1,2 @@
+ALTER TABLE "language" ALTER COLUMN "lang_code" SET DATA TYPE integer;--> statement-breakpoint
+ALTER TABLE "language" ALTER COLUMN "lang_code" ADD GENERATED ALWAYS AS IDENTITY (sequence name "language_lang_code_seq" INCREMENT BY 1 MINVALUE 1 MAXVALUE 2147483647 START WITH 1 CACHE 1);

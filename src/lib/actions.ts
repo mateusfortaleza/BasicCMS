@@ -6,6 +6,11 @@ import { updateHeroCard, insertHeroCard, deleteHeroCard } from "../dal/HeroCardD
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import { deleteMenuItem, insertMenuItems, updateMenuItems } from "@/dal/MenuDTO"
+import {
+    deleteLanguage,
+    insertLanguage,
+    updateLanguage,
+} from "@/dal/LanguageDTO"
 
 // Hero Card Actions
 
@@ -108,4 +113,55 @@ export async function verifyAndUpdateMenuItem(menuItemId: number, prevState: unk
 export async function deletionMenuItem(menuItemId: number) {
     await deleteMenuItem(menuItemId);
     revalidatePath("/menu");
+}
+
+
+// Language Actions
+
+const LanguageSchema = z.object({
+    languageName: z.string().trim().min(1),
+    langCode: z.string().trim().min(1).max(5),
+})
+
+export async function verifyAndInsertLanguage(prevState: unknown, formData: FormData) {
+    const result = LanguageSchema.safeParse({
+        languageName: formData.get("language-input"),
+        langCode: formData.get("lang-code-input"),
+    })
+
+    if (!result.success) {
+        return {
+            errors: z.flattenError(result.error).fieldErrors,
+        }
+    }
+
+    const {languageName, langCode} = result.data;
+
+    await insertLanguage(languageName, langCode);
+    revalidatePath("/language");
+    redirect("/language");
+}
+
+export async function verifyAndUpdateLanguage(languageId: string, prevState: unknown, formData: FormData) {
+    const result = LanguageSchema.safeParse({
+        languageName: formData.get("language-input"),
+        langCode: formData.get("lang-code-input"),
+    })
+
+    if (!result.success) {
+        return {
+            errors: z.flattenError(result.error).fieldErrors,
+        }
+    }
+
+    const {languageName, langCode} = result.data;
+
+    await updateLanguage(languageId, languageName, langCode);
+    revalidatePath("/language");
+    redirect("/language");
+}
+
+export async function deletionLanguage(languageId: string) {
+    await deleteLanguage(languageId);
+    revalidatePath("/language");
 }
