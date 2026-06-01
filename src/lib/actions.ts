@@ -28,7 +28,7 @@ const CreateHeroCardSchema = HeroCardFieldsSchema.extend({
     image_file: z.instanceof(File),
 })
 
-export async function verifyAndUpdateHeroCard(heroCardId: number, formData: FormData) {
+export async function verifyAndUpdateHeroCard(heroCardId: number, prevState: unknown, formData: FormData) {
     const result = EditHeroCardSchema.safeParse({
         title_text: formData.get("title_text"),
         image_path: formData.get("image_path"),

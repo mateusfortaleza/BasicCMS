@@ -1,7 +1,7 @@
 "use client"
 
 import { verifyAndUpdateHeroCard } from "@/lib/actions";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { Button as ShadButton } from "@/components/ui/button"
 import { FieldSet, Field, FieldLabel, FieldGroup, FieldLegend } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
@@ -14,6 +14,7 @@ import "@uppy/dashboard/css/style.min.css";
 
 export default function editHeroCardPage({title, heroCard}: {title: string, heroCard: any}) {
     const editHeroCardWithId = verifyAndUpdateHeroCard.bind(null, heroCard.id);
+    const [state, formAction, isPending] = useActionState(editHeroCardWithId, null);
 
     const [uppy] = useState(() =>
         new Uppy({
@@ -41,14 +42,14 @@ export default function editHeroCardPage({title, heroCard}: {title: string, hero
     return (
         <>      
         <Link href="/herocard"><ShadButton data-icon="inline-start"><RiArrowLeftCircleFill  />Back</ShadButton></Link>
-        <form action={editHeroCardWithId}>
+        <form action={formAction}>
         <FieldGroup className="w-full m-auto flex justify-center items-center">
             <FieldSet className="w-2xl flex justify-center">
                 <FieldLegend>{title}</FieldLegend>
                 <FieldGroup>
                     <Field>
                         <FieldLabel htmlFor="title-input">Title:</FieldLabel>
-                        <Input name="title_text" id="title-input" defaultValue={heroCard.title_text} />
+                        <Input name="title_text" id="title-input" defaultValue={heroCard.title_text} disabled={isPending} />
                     </Field>
                     <Field>
                         <FieldLabel>Image:</FieldLabel>
@@ -59,18 +60,19 @@ export default function editHeroCardPage({title, heroCard}: {title: string, hero
                             hideUploadButton
                             proudlyDisplayPoweredByUppy={false}
                             singleFileFullScreen
+                            disabled={isPending}
                         />
                     </Field>
                     <Field>
                         <FieldLabel>Color:</FieldLabel>
-                        <Input type="color" name="color" id="color-input" defaultValue={heroCard.color} />
+                        <Input type="color" name="color" id="color-input" defaultValue={heroCard.color} disabled={isPending} />
                     </Field>
                     <Field>
                         <FieldLabel>Link:</FieldLabel>
-                        <Input type="text" name="link" id="link-input" defaultValue={heroCard.link} />
+                        <Input type="text" name="link" id="link-input" defaultValue={heroCard.link} disabled={isPending} />
                     </Field>
                 </FieldGroup>
-                <ShadButton type="submit">Submit</ShadButton>
+                <ShadButton type="submit" disabled={isPending}>Submit</ShadButton>
             </FieldSet>
         </FieldGroup>
         </form>
