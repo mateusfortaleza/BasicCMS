@@ -1,4 +1,5 @@
 import "dotenv/config";
+import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import { language } from "./schema";
 
@@ -8,7 +9,8 @@ if (!databaseUrl) {
   throw new Error("DATABASE_URL is not set");
 }
 
-const db = drizzle(databaseUrl);
+const sql = neon(databaseUrl);
+const db = drizzle({ client: sql });
 
 await db
   .insert(language)
