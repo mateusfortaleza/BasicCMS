@@ -1,5 +1,5 @@
 {
-  "id": "7b1fed2f-abb4-42ea-8111-f29fb64ee25d",
+  "id": "f28ca293-9650-4911-8ec4-8716f87df5cc",
   "prevId": "6ad63bf9-776a-4e7e-8836-e451467318f6",
   "version": "7",
   "dialect": "postgresql",
@@ -84,20 +84,9 @@
         },
         "lang_code": {
           "name": "lang_code",
-          "type": "integer",
+          "type": "varchar(2)",
           "primaryKey": false,
-          "notNull": true,
-          "identity": {
-            "type": "always",
-            "name": "language_lang_code_seq",
-            "schema": "public",
-            "increment": "1",
-            "startWith": "1",
-            "minValue": "1",
-            "maxValue": "2147483647",
-            "cache": "1",
-            "cycle": false
-          }
+          "notNull": true
         }
       },
       "indexes": {},

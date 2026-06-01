@@ -21,5 +21,5 @@ export const menu = pgTable("menu", {
 export const language = pgTable("language", {
 	id: uuid().primaryKey().defaultRandom(),
 	language: varchar({length: 100}).notNull(),
-	langCode: integer("lang_code").notNull().generatedAlwaysAsIdentity()
+	langCode: varchar("lang_code", {length: 2}).notNull(),
 })

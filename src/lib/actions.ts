@@ -15,9 +15,9 @@ import {
 // Hero Card Actions
 
 const HeroCardFieldsSchema = z.object({
-    title_text: z.string().trim(),
-    color: z.string().trim(),
-    link: z.string().trim(),
+    title_text: z.string().trim().min(1).max(100),
+    color: z.string().trim().regex(/^#[0-9A-Fa-f]{6}$/),
+    link: z.url().max(255),
 })
 
 const EditHeroCardSchema = HeroCardFieldsSchema.extend({
@@ -29,13 +29,21 @@ const CreateHeroCardSchema = HeroCardFieldsSchema.extend({
 })
 
 export async function verifyAndUpdateHeroCard(heroCardId: number, formData: FormData) {
-    const {image_path, image_file, title_text, color, link} = EditHeroCardSchema.parse({
+    const result = EditHeroCardSchema.safeParse({
         title_text: formData.get("title_text"),
         image_path: formData.get("image_path"),
         image_file: formData.get("image_file"), 
         color: formData.get("color"),
         link: formData.get("link")
     })
+
+    if (!result.success) {
+        return {
+            errors: z.flattenError(result.error).fieldErrors,
+        }
+    }
+
+    const {image_path, image_file, title_text, color, link} = result.data;
 
     let savedImagePath = image_path;
 
@@ -48,6 +56,8 @@ export async function verifyAndUpdateHeroCard(heroCardId: number, formData: Form
         savedImagePath = blob.url;
     }
 
+    
+
     if (!savedImagePath) throw new Error("No image path")
     await updateHeroCard(heroCardId, savedImagePath, title_text, color, link)
     revalidatePath("/herocard");
@@ -55,12 +65,20 @@ export async function verifyAndUpdateHeroCard(heroCardId: number, formData: Form
 }
 
 export async function verifyAndCreateHeroCard(formData: FormData) {
-    const { image_file, title_text, color, link } = CreateHeroCardSchema.parse({
+    const result = CreateHeroCardSchema.safeParse({
         title_text: formData.get("title_text"),
         image_file: formData.get("image_file"),
         color: formData.get("color"),
         link: formData.get("link")
     })
+
+    if (!result.success) {
+        return {
+            errors: z.flattenError(result.error).fieldErrors,
+        }
+    }
+
+    const { image_file, title_text, color, link } = result.data;
 
     const blob = await put(`hero-cards/${crypto.randomUUID()}-${image_file.name}`, image_file, {
         access: "public",
@@ -81,17 +99,25 @@ export async function deletionHeroCard(id: number) {
 // Menu Items Actions
 
 const MenuItemsSchema = z.object({
-    icon: z.string().trim(),
-    menuLink: z.string().trim(),
-    menuText: z.string().trim(),
+    icon: z.string().trim().min(1),
+    menuLink: z.string().trim().min(1),
+    menuText: z.string().trim().min(1).max(200),
 })
 
 export async function verifyAndInsertMenuItem(formData: FormData) {
-    const {icon, menuLink, menuText} = MenuItemsSchema.parse({
+    const result = MenuItemsSchema.safeParse({
         icon: formData.get("icon"),
         menuLink: formData.get("link-input"),
         menuText: formData.get("text-input")
     })
+
+    if (!result.success) {
+        return {
+            errors: z.flattenError(result.error).fieldErrors,
+        }
+    }
+
+    const {icon, menuLink, menuText} = result.data;
 
     await insertMenuItems(icon, menuText, menuLink);
     revalidatePath("/menu");
@@ -99,11 +125,19 @@ export async function verifyAndInsertMenuItem(formData: FormData) {
 }
 
 export async function verifyAndUpdateMenuItem(menuItemId: number, prevState: unknown, formData: FormData) {
-    const {icon, menuLink, menuText} = MenuItemsSchema.parse({
+    const result = MenuItemsSchema.safeParse({
         icon: formData.get("icon"),
         menuText: formData.get("text-input"),
         menuLink: formData.get("link-input"),
     })
+
+    if (!result.success) {
+        return {
+            errors: z.flattenError(result.error).fieldErrors,
+        }
+    }
+
+    const {icon, menuLink, menuText} = result.data;
 
     await updateMenuItems(menuItemId, icon, menuText, menuLink);
     revalidatePath("/menu");
@@ -119,8 +153,8 @@ export async function deletionMenuItem(menuItemId: number) {
 // Language Actions
 
 const LanguageSchema = z.object({
-    languageName: z.string().trim().min(1),
-    langCode: z.string().trim().min(1).max(5),
+    languageName: z.string().trim().min(1).max(100),
+    langCode: z.string().trim().min(1).max(5).toLowerCase().regex(/^[a-z]{2}$/),
 })
 
 export async function verifyAndInsertLanguage(prevState: unknown, formData: FormData) {
