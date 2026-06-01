@@ -1,0 +1,1 @@
+ALTER TABLE "language" RENAME COLUMN "langCode" TO "lang_code";

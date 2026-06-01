@@ -22,6 +22,27 @@
       "when": 1780062508433,
       "tag": "0002_nifty_spectrum",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1780313913730,
+      "tag": "0003_round_pixie",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1780315133293,
+      "tag": "0004_tough_nighthawk",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1780319797550,
+      "tag": "0005_messy_boomerang",
+      "breakpoints": true
     }
   ]
 }

@@ -1,4 +1,5 @@
-import { pgTable, integer, varchar, boolean, text } from "drizzle-orm/pg-core"
+import { pgTable, integer, varchar, boolean, text, uuid } from "drizzle-orm/pg-core"
+import { Ingrid_Darling } from "next/font/google";
 
 export const heroCard = pgTable("hero_card", {
 	id: integer().primaryKey().generatedAlwaysAsIdentity({ name: "hero_card_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 2147483647, cache: 1 }),
@@ -15,4 +16,10 @@ export const menu = pgTable("menu", {
 	menuText: varchar({length: 200}).notNull(),
 	menuLink: text().notNull(),
 	isDeleted: boolean("is_deleted").notNull().default(false),
+})
+
+export const language = pgTable("language", {
+	id: uuid().primaryKey().defaultRandom(),
+	language: varchar({length: 100}).notNull(),
+	langCode: varchar("lang_code", {length: 2}).notNull(),
 })

@@ -16,7 +16,7 @@ import {
 } from "@remixicon/react";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "../ui/button";
+// import { Button } from "../ui/button";
 import EditButton from "../edit-button";
 import DeleteButton from "../delete-button";
 import { deletionMenuItem } from "@/lib/actions";
@@ -53,10 +53,11 @@ export default function MenuTable({ menuItems }: { menuItems: MenuItems[] }) {
       <TableHeader>
         <TableRow>
           <TableHead>
-            <Button
+            <button
               type="button"
               className="inline-flex items-center gap-1 font-medium"
               onClick={toggleIdSort}
+              data-icon="inline-end"
             >
               Id
               {sortState === "desc" && (
@@ -65,7 +66,7 @@ export default function MenuTable({ menuItems }: { menuItems: MenuItems[] }) {
               {sortState === "asc" && (
                 <RiArrowUpSFill aria-hidden="true" size={18} />
               )}
-            </Button>
+            </button>
           </TableHead>
           <TableHead>Icon</TableHead>
           <TableHead>Text</TableHead>

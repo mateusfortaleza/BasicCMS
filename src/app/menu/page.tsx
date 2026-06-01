@@ -12,10 +12,8 @@ export default async function MenuListingPage() {
     <>
       <div className="w-full">
         <Button type="button" data-icon="inline-end">
-          <Link href="/menu/create">
-            Create New
-            <RiAddLargeFill color="rgba(255,255,255,1)" />
-          </Link>
+          <RiAddLargeFill color="rgba(255,255,255,1)" />
+          <Link href="/menu/create">Create New</Link>
         </Button>
         <MenuTable menuItems={sortedMenuItems} />
       </div>
