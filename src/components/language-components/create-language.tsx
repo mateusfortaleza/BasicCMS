@@ -1,19 +1,19 @@
 "use client";
 
-import { verifyAndInsertLanguage } from "@/lib/actions";
+import { verifyAndInsertLanguage } from "../../lib/actions";
 import { RiArrowLeftCircleFill } from "@remixicon/react";
 import Link from "next/link";
 import { useActionState } from "react";
-import { Button as ShadButton } from "@/components/ui/button";
+import { Button as ShadButton } from "../../components/ui/button";
 import {
   Field,
   FieldGroup,
   FieldLabel,
   FieldLegend,
   FieldSet,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { Spinner } from "@/components/ui/spinner";
+} from "../../components/ui/field";
+import { Input } from "../../components/ui/input";
+import { Spinner } from "../../components/ui/spinner";
 
 export default function CreateLanguage({ title }: { title: string }) {
   const [state, formAction, isPending] = useActionState(

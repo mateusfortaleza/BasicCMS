@@ -1,20 +1,20 @@
 "use client";
 
-import { verifyAndUpdateLanguage } from "@/lib/actions";
-import { Language } from "@/lib/definitions";
+import { verifyAndUpdateLanguage } from "../../lib/actions";
+import { Language } from "../../lib/definitions";
 import { RiArrowLeftCircleFill } from "@remixicon/react";
 import Link from "next/link";
 import { useActionState } from "react";
-import { Button as ShadButton } from "@/components/ui/button";
+import { Button as ShadButton } from "../../components/ui/button";
 import {
   Field,
   FieldGroup,
   FieldLabel,
   FieldLegend,
   FieldSet,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { Spinner } from "@/components/ui/spinner";
+} from "../../components/ui/field";
+import { Input } from "../../components/ui/input";
+import { Spinner } from "../../components/ui/spinner";
 
 export default function EditLanguage({
   title,
