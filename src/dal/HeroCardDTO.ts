@@ -1,14 +1,14 @@
 import { getDb } from "./BaseDTO";
 import { heroCard } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 export async function getAllHeroCards() {
-  const resultOfQuery = await getDb()?.select({id: heroCard.id, image_path: heroCard.backgroundImage, title_text: heroCard.title, color: heroCard.overlayColor, link: heroCard.link}).from(heroCard);
+  const resultOfQuery = await getDb()?.select({id: heroCard.id, image_path: heroCard.backgroundImage, title_text: heroCard.title, color: heroCard.overlayColor, link: heroCard.link}).from(heroCard).where(eq(heroCard.isDeleted, false));
   return resultOfQuery;
 }
 
 export async function getHeroCardById(id: number) {
-  const result = await getDb()?.select({id: heroCard.id, image_path: heroCard.backgroundImage, title_text: heroCard.title, color: heroCard.overlayColor, link: heroCard.link}).from(heroCard).where(eq(heroCard.id, id)).limit(1);
+  const result = await getDb()?.select({id: heroCard.id, image_path: heroCard.backgroundImage, title_text: heroCard.title, color: heroCard.overlayColor, link: heroCard.link}).from(heroCard).where(and(eq(heroCard.id, id), eq(heroCard.isDeleted, false))).limit(1);
   return result[0];
 }
 
