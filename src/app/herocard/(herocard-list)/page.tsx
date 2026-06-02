@@ -6,7 +6,9 @@ import HeroCardTable from "@/components/herocard-components/herocard-table";
 
 export default async function editHomePage() {
   const heroCards = await getAllHeroCards();
-  const sortedHeroCards = [...heroCards].sort((a, b) => a.id - b.id);
+  const sortedHeroCards = [...heroCards].sort((a, b) =>
+    a.id < b.id ? -1 : a.id > b.id ? 1 : 0,
+  );
 
   return (
     <>

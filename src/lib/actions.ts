@@ -28,7 +28,7 @@ const CreateHeroCardSchema = HeroCardFieldsSchema.extend({
     image_file: z.instanceof(File),
 })
 
-export async function verifyAndUpdateHeroCard(heroCardId: number, prevState: unknown, formData: FormData) {
+export async function verifyAndUpdateHeroCard(heroCardId: string, prevState: unknown, formData: FormData) {
     const result = EditHeroCardSchema.safeParse({
         title_text: formData.get("title_text"),
         image_path: formData.get("image_path"),
@@ -90,7 +90,7 @@ export async function verifyAndCreateHeroCard(prevState: unknown, formData: Form
     redirect("/herocard")
 }
 
-export async function deletionHeroCard(id: number) {
+export async function deletionHeroCard(id: string) {
     await deleteHeroCard(id);
     revalidatePath("/herocard");
 }

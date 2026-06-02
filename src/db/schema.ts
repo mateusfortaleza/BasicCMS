@@ -30,4 +30,5 @@ export const heroCardFields = pgTable("hero_card_fields", {
 	overlayColor: varchar("overlay_color", { length: 7 }).notNull(),
 	title: varchar("title", { length: 100 }).notNull(),
 	link: varchar("link", { length: 255 }).notNull(),
+	isDeleted: boolean("is_deleted").notNull().default(false)
 })

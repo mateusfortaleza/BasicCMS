@@ -1,5 +1,5 @@
 export type HeroCardForm = {
-    id: number,
+    id: string,
     backgroundImage: string, 
     overlayColor: string, 
     title: string, 

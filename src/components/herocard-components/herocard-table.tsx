@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/table";
 
 type HeroCard = {
-  id: number;
+  id: string;
   image_path: string;
   title_text: string;
   color: string;
@@ -27,9 +27,22 @@ type SortState = "none" | "asc" | "desc";
 export default function HeroCardTable({ heroCards }: { heroCards: HeroCard[] }) {
   const [sortState, setSortState] = useState<SortState>("none");
 
-  const sortedHeroCards = [...heroCards].sort((a, b) =>
-    sortState === "desc" ? b.id - a.id : a.id - b.id,
-  );
+  const sortedHeroCards =
+    sortState === "none"
+      ? heroCards
+      : [...heroCards].sort((a, b) =>
+          sortState === "desc"
+            ? b.id < a.id
+              ? -1
+              : b.id > a.id
+                ? 1
+                : 0
+            : a.id < b.id
+              ? -1
+              : a.id > b.id
+                ? 1
+                : 0,
+        );
 
   function toggleIdSort() {
     setSortState((current) => {

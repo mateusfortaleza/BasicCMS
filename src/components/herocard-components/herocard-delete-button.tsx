@@ -15,8 +15,8 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 
-export default function HeroCardDeleteButton({ HeroCardId }: { HeroCardId: number }) {
-    async function deletion(id: number) {
+export default function HeroCardDeleteButton({ HeroCardId }: { HeroCardId: string }) {
+    async function deletion(id: string) {
         await deletionHeroCard(id);
     }
   return (

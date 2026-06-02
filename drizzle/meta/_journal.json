@@ -57,6 +57,13 @@
       "when": 1780402245058,
       "tag": "0007_flaky_swarm",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1780410572057,
+      "tag": "0008_flashy_quentin_quire",
+      "breakpoints": true
     }
   ]
 }
