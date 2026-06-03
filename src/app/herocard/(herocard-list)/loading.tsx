@@ -14,9 +14,6 @@ export default function Loading() {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>
-              <div className="h-4 w-8 animate-pulse rounded bg-muted" />
-            </TableHead>
             <TableHead className="w-25">Title</TableHead>
             <TableHead>Image Path</TableHead>
             <TableHead>Color of the card</TableHead>
@@ -28,9 +25,6 @@ export default function Loading() {
         <TableBody>
           {Array.from({ length: 4 }).map((_, index) => (
             <TableRow key={`table-skeleton-${index}`}>
-              <TableCell>
-                <div className="h-4 w-8 animate-pulse rounded bg-muted" />
-              </TableCell>
               <TableCell>
                 <div className="h-4 w-32 animate-pulse rounded bg-muted" />
               </TableCell>

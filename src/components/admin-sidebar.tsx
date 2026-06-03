@@ -3,7 +3,6 @@
 import Link from "next/link";
 import {
   RiDashboardLine,
-  RiHomeLine,
   RiImageLine,
   RiMenu2Fill,
   RiSettings3Line,
@@ -20,9 +19,20 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+type SidebarLanguage = {
+  id: string;
+  language: string;
+};
 
 const navItems = [
   {
@@ -45,14 +55,9 @@ const navItems = [
     href: "/language",
     icon: RiTranslate2,
   },
-  {
-    label: "Settings",
-    href: "/settings",
-    icon: RiSettings3Line,
-  },
 ];
 
-export function AdminSidebar() {
+export function AdminSidebar({ languages }: { languages: SidebarLanguage[] }) {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -61,11 +66,11 @@ export function AdminSidebar() {
             <SidebarMenuButton asChild size="lg">
               <Link href="/">
                 <Image
-                  src="/logo.png"
+                  src="/cms-logo.png"
                   width={170}
                   height={80}
                   alt="BasicCMS Logo"
-                  className="h-15 ml-8 w-auto group-data-[collapsible=icon]:hidden"
+                  className="h-25 ml-2 mt-2 w-45 group-data-[collapsible=icon]:hidden"
                   loading="eager"
                 />
               </Link>
@@ -94,21 +99,43 @@ export function AdminSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        <SidebarSeparator />
+        <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+          <SidebarGroupContent>
+            <label
+              htmlFor="sidebar-language"
+              className="mb-2 block px-3 text-xs font-medium text-sidebar-foreground/70"
+            >
+              Language
+            </label>
+            <Select defaultValue={languages[0]?.id}>
+              <SelectTrigger id="sidebar-language" className="w-full">
+                <SelectValue placeholder="Select language" />
+              </SelectTrigger>
+              <SelectContent position="popper">
+                {languages.map((language) => (
+                  <SelectItem key={language.id} value={language.id}>
+                    {language.language}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
 
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
-              <Link href="/">
-                <RiHomeLine />
-                <span>View Site</span>
+              <Link href="/settings">
+                <RiSettings3Line />
+                <span>Settings</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
-      <SidebarRail />
     </Sidebar>
   );
 }

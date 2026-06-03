@@ -32,14 +32,14 @@ export default function HeroCardTable({ heroCards }: { heroCards: HeroCard[] }) 
       ? heroCards
       : [...heroCards].sort((a, b) =>
           sortState === "desc"
-            ? b.id < a.id
+            ? b.title_text < a.title_text
               ? -1
-              : b.id > a.id
+              : b.title_text > a.title_text
                 ? 1
                 : 0
-            : a.id < b.id
+            : a.title_text < b.title_text
               ? -1
-              : a.id > b.id
+              : a.title_text > b.title_text
                 ? 1
                 : 0,
         );
@@ -68,7 +68,7 @@ export default function HeroCardTable({ heroCards }: { heroCards: HeroCard[] }) 
               className="inline-flex items-center gap-1 font-medium"
               onClick={toggleIdSort}
             >
-              Id
+              Title
               {sortState === "desc" && (
                 <RiArrowDownSFill aria-hidden="true" size={18} />
               )}
@@ -77,7 +77,6 @@ export default function HeroCardTable({ heroCards }: { heroCards: HeroCard[] }) 
               )}
             </button>
           </TableHead>
-          <TableHead className="w-25">Title</TableHead>
           <TableHead>Image Path</TableHead>
           <TableHead>Color of the card</TableHead>
           <TableHead className="text-left">Link to the article</TableHead>
@@ -88,7 +87,6 @@ export default function HeroCardTable({ heroCards }: { heroCards: HeroCard[] }) 
       <TableBody>
         {sortedHeroCards.map((item) => (
           <TableRow key={`table-${item.id}`}>
-            <TableCell>{item.id}</TableCell>
             <TableCell className="font-medium">{item.title_text}</TableCell>
             <TableCell>
               {item.image_path.length > 100

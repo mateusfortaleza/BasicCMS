@@ -12,12 +12,12 @@ export default async function editHomePage() {
 
   return (
     <>
+        <Button className="ml-370" type="button" data-icon="inline-end">
+          <Link href="/herocard/create">
+            <RiAddLargeFill color="rgba(255,255,255,1)" />Create New
+          </Link>
+        </Button>
       <div className="w-full">
-        <Link href="/herocard/create">
-          <Button className="ml-370" type="button" data-icon="inline-end">
-            Create New<RiAddLargeFill color="rgba(255,255,255,1)" />
-          </Button>
-        </Link>
         <HeroCardTable heroCards={sortedHeroCards} />
       </div>
     </>

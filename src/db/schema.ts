@@ -2,12 +2,11 @@ import { pgTable, integer, varchar, boolean, text, uuid } from "drizzle-orm/pg-c
 
 export const heroCard = pgTable("hero_card", {
 	id: integer().primaryKey().generatedAlwaysAsIdentity({ name: "hero_card_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 2147483647, cache: 1 }),
-	backgroundImage: text("background_image").notNull(),
-	overlayColor: varchar("overlay_color", { length: 7 }).notNull(),
-	title: varchar("title", { length: 100 }).notNull(),
-	link: varchar("link", { length: 255 }).notNull(),
-	isDeleted: boolean("is_deleted").notNull().default(false),
-	id_lang: varchar({length: 2}).notNull().default("en").references(() => language.langCode)
+	// backgroundImage: text("background_image").notNull(),
+	// overlayColor: varchar("overlay_color", { length: 7 }).notNull(),
+	// title: varchar("title", { length: 100 }).notNull(),
+	// link: varchar("link", { length: 255 }).notNull(),
+	// isDeleted: boolean("is_deleted").notNull().default(false),
 });
 
 export const menu = pgTable("menu", {
@@ -26,9 +25,11 @@ export const language = pgTable("language", {
 
 export const heroCardFields = pgTable("hero_card_fields", {
 	id: uuid().primaryKey().defaultRandom(),
+	heroCardId: integer("hero_card_id"),
 	backgroundImage: text("background_image").notNull(),
 	overlayColor: varchar("overlay_color", { length: 7 }).notNull(),
 	title: varchar("title", { length: 100 }).notNull(),
 	link: varchar("link", { length: 255 }).notNull(),
-	isDeleted: boolean("is_deleted").notNull().default(false)
+	isDeleted: boolean("is_deleted").notNull().default(false),
+	language_id: varchar({length: 2}).notNull().default("en").references(() => language.langCode)
 })
