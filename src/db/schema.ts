@@ -1,35 +1,39 @@
-import { pgTable, integer, varchar, boolean, text, uuid } from "drizzle-orm/pg-core"
+import { pgTable, integer, text, varchar, boolean, unique, uuid, foreignKey } from "drizzle-orm/pg-core"
+
+export const menu = pgTable("menu", {
+	id: integer().primaryKey().generatedAlwaysAsIdentity({ name: "menu_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 2147483647, cache: 1 }),
+	icon: text().notNull(),
+	menuText: varchar({ length: 200 }).notNull(),
+	menuLink: text().notNull(),
+	isDeleted: boolean("is_deleted").default(false).notNull(),
+});
+
+export const language = pgTable("language", {
+	id: uuid().defaultRandom().primaryKey().notNull(),
+	language: varchar({ length: 100 }).notNull(),
+	langCode: varchar("lang_code", { length: 2 }).notNull(),
+}, (table) => [
+	unique("language_language_unique").on(table.language),
+	unique("language_lang_code_unique").on(table.langCode),
+]);
+
+export const heroCardFields = pgTable("hero_card_fields", {
+	id: uuid().defaultRandom().primaryKey().notNull(),
+	backgroundImage: text("background_image").notNull(),
+	overlayColor: varchar("overlay_color", { length: 7 }).notNull(),
+	title: varchar({ length: 100 }).notNull(),
+	link: varchar({ length: 255 }).notNull(),
+	isDeleted: boolean("is_deleted").default(false).notNull(),
+	heroCardId: integer("hero_card_id").references(() => heroCard.id),
+	languageId: varchar("language_id", { length: 2 }).default('en').notNull(),
+}, (table) => [
+	foreignKey({
+			columns: [table.languageId],
+			foreignColumns: [language.langCode],
+			name: "hero_card_fields_language_id_language_lang_code_fk"
+		}),
+]);
 
 export const heroCard = pgTable("hero_card", {
 	id: integer().primaryKey().generatedAlwaysAsIdentity({ name: "hero_card_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 2147483647, cache: 1 }),
-	// backgroundImage: text("background_image").notNull(),
-	// overlayColor: varchar("overlay_color", { length: 7 }).notNull(),
-	// title: varchar("title", { length: 100 }).notNull(),
-	// link: varchar("link", { length: 255 }).notNull(),
-	// isDeleted: boolean("is_deleted").notNull().default(false),
 });
-
-export const menu = pgTable("menu", {
-	id: integer().primaryKey().generatedAlwaysAsIdentity(),
-	icon: text().notNull(),
-	menuText: varchar({length: 200}).notNull(),
-	menuLink: text().notNull(),
-	isDeleted: boolean("is_deleted").notNull().default(false),
-})
-
-export const language = pgTable("language", {
-	id: uuid().primaryKey().defaultRandom(),
-	language: varchar({length: 100}).notNull().unique(),
-	langCode: varchar("lang_code", {length: 2}).notNull().unique(),
-})
-
-export const heroCardFields = pgTable("hero_card_fields", {
-	id: uuid().primaryKey().defaultRandom(),
-	heroCardId: integer("hero_card_id"),
-	backgroundImage: text("background_image").notNull(),
-	overlayColor: varchar("overlay_color", { length: 7 }).notNull(),
-	title: varchar("title", { length: 100 }).notNull(),
-	link: varchar("link", { length: 255 }).notNull(),
-	isDeleted: boolean("is_deleted").notNull().default(false),
-	language_id: varchar({length: 2}).notNull().default("en").references(() => language.langCode)
-})

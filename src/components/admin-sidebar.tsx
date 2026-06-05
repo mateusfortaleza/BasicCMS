@@ -113,6 +113,9 @@ export function AdminSidebar({ languages }: { languages: SidebarLanguage[] }) {
                 <SelectValue placeholder="Select language" />
               </SelectTrigger>
               <SelectContent position="popper">
+                <SelectItem value="nothing-specified">
+                  No language specified
+                </SelectItem>
                 {languages.map((language) => (
                   <SelectItem key={language.id} value={language.id}>
                     {language.language}

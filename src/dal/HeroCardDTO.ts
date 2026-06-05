@@ -3,12 +3,12 @@ import { heroCardFields } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 
 export async function getAllHeroCards() {
-  const resultOfQuery = await getDb()?.select({id: heroCardFields.id, image_path: heroCardFields.backgroundImage, title_text: heroCardFields.title, color: heroCardFields.overlayColor, link: heroCardFields.link}).from(heroCardFields).where(eq(heroCardFields.isDeleted, false));
+  const resultOfQuery = await getDb()?.select({id: heroCardFields.id, image_path: heroCardFields.backgroundImage, title_text: heroCardFields.title, color: heroCardFields.overlayColor, link: heroCardFields.link, lang_code: heroCardFields.language_id}).from(heroCardFields).where(eq(heroCardFields.isDeleted, false));
   return resultOfQuery;
 }
 
 export async function getHeroCardById(id: string) {
-  const result = await getDb()?.select({id: heroCardFields.id, image_path: heroCardFields.backgroundImage, title_text: heroCardFields.title, color: heroCardFields.overlayColor, link: heroCardFields.link}).from(heroCardFields).where(and(eq(heroCardFields.id, id), eq(heroCardFields.isDeleted, false))).limit(1);
+  const result = await getDb()?.select({id: heroCardFields.id, image_path: heroCardFields.backgroundImage, title_text: heroCardFields.title, color: heroCardFields.overlayColor, link: heroCardFields.link, lang_code: heroCardFields.language_id}).from(heroCardFields).where(and(eq(heroCardFields.id, id), eq(heroCardFields.isDeleted, false))).limit(1);
   return result[0];
 }
 

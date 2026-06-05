@@ -9,3 +9,4 @@
 - Always check if method, property or otherwise exists by going to original documentation
 - Avoid unnecessary code changes. Example: if property.x is already used and affects nothing, there is no need to delete and recreate it
 - Always use Shadcn/ui components when creating or modifying elements
+- When working with dependencies, always use pnpm

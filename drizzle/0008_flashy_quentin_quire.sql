@@ -1,1 +1,0 @@
-ALTER TABLE "hero_card_fields" ADD COLUMN "is_deleted" boolean DEFAULT false NOT NULL;
