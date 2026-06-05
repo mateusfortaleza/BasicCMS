@@ -90,7 +90,7 @@ export async function verifyAndCreateHeroCard(prevState: unknown, formData: Form
     redirect("/herocard")
 }
 
-export async function deletionHeroCard(id: string) {
+export async function deletionHeroCard(id: number) {
     await deleteHeroCard(id);
     revalidatePath("/herocard");
 }

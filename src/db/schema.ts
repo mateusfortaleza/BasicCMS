@@ -36,4 +36,5 @@ export const heroCardFields = pgTable("hero_card_fields", {
 
 export const heroCard = pgTable("hero_card", {
 	id: integer().primaryKey().generatedAlwaysAsIdentity({ name: "hero_card_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 2147483647, cache: 1 }),
+	heroCardName: varchar("hero_card_name", {length: 80}).notNull()
 });
