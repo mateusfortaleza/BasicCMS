@@ -21,14 +21,14 @@ vi.mock("next/navigation", () => ({
 }));
 
 import { put } from "@vercel/blob";
-import { updateHeroCard, insertHeroCard } from "../dal/HeroCardDTO";
+import { updateHeroCardFields, insertHeroCardFields } from "../dal/HeroCardDTO";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { verifyAndUpdateHeroCard, verifyAndCreateHeroCard } from "../lib/actions";
 
 const mockPut = vi.mocked(put);
-const mockUpdateHeroCard = vi.mocked(updateHeroCard);
-const mockInsertHeroCard = vi.mocked(insertHeroCard);
+const mockUpdateHeroCard = vi.mocked(updateHeroCardFields);
+const mockInsertHeroCard = vi.mocked(insertHeroCardFields);
 const mockRevalidatePath = vi.mocked(revalidatePath);
 const mockRedirect = vi.mocked(redirect);
 

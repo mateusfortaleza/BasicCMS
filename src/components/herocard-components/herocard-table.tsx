@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { startTransition, useState } from "react";
 import Link from "next/link";
 import { RiArrowDownSFill, RiArrowUpSFill, RiPencilLine } from "@remixicon/react";
-import HeroCardDeleteButton from "@/components/herocard-components/herocard-delete-button";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -13,14 +12,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-type HeroCardFields = {
-  id: string;
-  image_path: string;
-  title_text: string;
-  color: string;
-  link: string;
-};
+import DeleteButton from "../delete-button";
+import { deletionHeroCard } from "../../lib/actions";
 
 type HeroCard = {
   id: number;
@@ -102,11 +95,11 @@ export default function HeroCardTable({ heroCards }: { heroCards: HeroCard[] }) 
                 </Button>
               </div>
             </TableCell>
-            {/* <TableCell>
+            <TableCell>
               <div className="flex justify-center">
-                <HeroCardDeleteButton HeroCardId={item.id} />
+                <DeleteButton typeOfElement="Hero Card" clickFunction={() => deletionHeroCard(item.id)}/>
               </div>
-            </TableCell> */}
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>

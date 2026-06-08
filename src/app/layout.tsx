@@ -42,7 +42,7 @@ export default async function RootLayout({
     <>
     <html
       lang="en"
-      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable, dmSansHeading.variable)}
+      className={cn("dark", "h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable, dmSansHeading.variable)}
     >
       <body className="min-h-full">
         <TooltipProvider>

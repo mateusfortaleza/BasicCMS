@@ -23,7 +23,7 @@ export const heroCardFields = pgTable("hero_card_fields", {
 	overlayColor: varchar("overlay_color", { length: 7 }).notNull(),
 	title: varchar({ length: 100 }).notNull(),
 	link: varchar({ length: 255 }).notNull(),
-	isDeleted: boolean("is_deleted").default(false).notNull(),
+	// isDeleted: boolean("is_deleted").default(false).notNull(),
 	heroCardId: integer("hero_card_id").references(() => heroCard.id),
 	languageId: varchar("language_id", { length: 2 }).default('en').notNull(),
 }, (table) => [
@@ -36,5 +36,6 @@ export const heroCardFields = pgTable("hero_card_fields", {
 
 export const heroCard = pgTable("hero_card", {
 	id: integer().primaryKey().generatedAlwaysAsIdentity({ name: "hero_card_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 2147483647, cache: 1 }),
-	heroCardName: varchar("hero_card_name", {length: 80}).notNull()
+	heroCardName: varchar("hero_card_name", {length: 80}).notNull().unique(),
+	isHeroCardDeleted: boolean("is_hero_card_deleted").default(false).notNull()
 });

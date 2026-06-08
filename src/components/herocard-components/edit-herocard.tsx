@@ -48,6 +48,13 @@ export default function editHeroCardPage({title, heroCard}: {title: string, hero
                 <FieldLegend>{title}</FieldLegend>
                 <FieldGroup>
                     <Field>
+                        <FieldLabel htmlFor="title-input">Name:</FieldLabel>
+                        <Input name="heroCard_name" id="heroCard-name" defaultValue={heroCard.heroCardName} disabled={isPending} />
+                        {state?.errors?.title_text && (
+                            <p className="text-sm text-destructive">{state.errors.title_text[0]}</p>
+                        )}
+                    </Field>
+                    <Field>
                         <FieldLabel htmlFor="title-input">Title:</FieldLabel>
                         <Input name="title_text" id="title-input" defaultValue={heroCard.title_text} disabled={isPending} />
                         {state?.errors?.title_text && (
