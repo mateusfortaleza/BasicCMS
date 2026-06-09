@@ -17,6 +17,7 @@ import Uppy from "@uppy/core";
 import Dashboard from "@uppy/react/dashboard";
 import "@uppy/core/css/style.min.css";
 import "@uppy/dashboard/css/style.min.css";
+import { useLanguage } from "@/components/language-provider";
 
 const uppyRestrictions = {
   maxNumberOfFiles: 1,
@@ -25,6 +26,7 @@ const uppyRestrictions = {
 };
 
 export default function CreatePage({ title }: { title: string }) {
+  const { selectedLanguage } = useLanguage();
   const [state, formAction, isPending] = useActionState(
     verifyAndCreateHeroCard,
     null,
@@ -50,6 +52,7 @@ export default function CreatePage({ title }: { title: string }) {
         </ShadButton>
       </Link>
       <form action={submitWithUppy}>
+        <input type="hidden" name="language_id" value={selectedLanguage} />
         <FieldGroup className="w-full m-auto flex justify-center items-center">
           <FieldSet className="w-2xl flex justify-center">
             <FieldLegend>{title}</FieldLegend>

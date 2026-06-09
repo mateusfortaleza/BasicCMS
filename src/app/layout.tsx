@@ -10,6 +10,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { LanguageProvider } from "@/components/language-provider";
 
 const dmSansHeading = DM_Sans({subsets:['latin'],variable:'--font-heading',preload: false});
 
@@ -46,15 +47,17 @@ export default async function RootLayout({
     >
       <body className="min-h-full">
         <TooltipProvider>
-          <SidebarProvider>
-            <AdminSidebar languages={languages} />
-            <SidebarInset>
-              <header className="flex h-12 shrink-0 items-center border-b px-4 md:px-6">
-                <SidebarTrigger />
-              </header>
-              <div className="min-w-0 flex-1 p-4 md:p-6">{children}</div>
-            </SidebarInset>
-          </SidebarProvider>
+          <LanguageProvider>
+            <SidebarProvider>
+              <AdminSidebar languages={languages} />
+              <SidebarInset>
+                <header className="flex h-12 shrink-0 items-center border-b px-4 md:px-6">
+                  <SidebarTrigger />
+                </header>
+                <div className="min-w-0 flex-1 p-4 md:p-6">{children}</div>
+              </SidebarInset>
+            </SidebarProvider>
+          </LanguageProvider>
         </TooltipProvider>
       </body>
     </html>

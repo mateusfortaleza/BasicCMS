@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect } from "react";
 import {
   RiDashboardLine,
   RiImageLine,
@@ -28,10 +29,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useLanguage } from "@/components/language-provider";
 
 type SidebarLanguage = {
   id: string;
   language: string;
+  langCode: string;
 };
 
 const navItems = [
@@ -58,6 +61,14 @@ const navItems = [
 ];
 
 export function AdminSidebar({ languages }: { languages: SidebarLanguage[] }) {
+  const { selectedLanguage, setSelectedLanguage } = useLanguage();
+
+  useEffect(() => {
+    if (!selectedLanguage && languages[0]) {
+      setSelectedLanguage(languages[0].langCode);
+    }
+  }, [languages, selectedLanguage, setSelectedLanguage]);
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -108,16 +119,16 @@ export function AdminSidebar({ languages }: { languages: SidebarLanguage[] }) {
             >
               Language
             </label>
-            <Select defaultValue={languages[0]?.id}>
+            <Select
+              value={selectedLanguage || languages[0]?.langCode}
+              onValueChange={setSelectedLanguage}
+            >
               <SelectTrigger id="sidebar-language" className="w-full">
                 <SelectValue placeholder="Select language" />
               </SelectTrigger>
               <SelectContent position="popper">
-                <SelectItem value="nothing-specified">
-                  No language specified
-                </SelectItem>
                 {languages.map((language) => (
-                  <SelectItem key={language.id} value={language.id}>
+                  <SelectItem key={language.id} value={language.langCode}>
                     {language.language}
                   </SelectItem>
                 ))}

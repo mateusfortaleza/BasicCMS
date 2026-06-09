@@ -22,6 +22,7 @@ export async function insertHeroCardFields(
   color: string,
   link: string,
   heroCardId: number,
+  languageId: string,
 ) {
   return await getDb()
     .insert(heroCardFields)
@@ -31,6 +32,7 @@ export async function insertHeroCardFields(
       overlayColor: color,
       title: title_text,
       link: link,
+      languageId,
     });
 }
 
@@ -63,6 +65,8 @@ export async function getHeroCardById(id: string) {
   const result = await getDb()
     .select({
       id: heroCardFields.id,
+      heroCardId: heroCard.id,
+      heroCardName: heroCard.heroCardName,
       image_path: heroCardFields.backgroundImage,
       title_text: heroCardFields.title,
       color: heroCardFields.overlayColor,
@@ -70,14 +74,24 @@ export async function getHeroCardById(id: string) {
       lang_code: heroCardFields.languageId,
     })
     .from(heroCardFields)
-    .where(and(eq(heroCardFields.heroCardId, Number(id))))
+    .innerJoin(heroCard, eq(heroCardFields.heroCardId, heroCard.id))
+    .where(
+      and(
+        eq(heroCardFields.heroCardId, Number(id)),
+        eq(heroCard.isHeroCardDeleted, false)
+      )
+    )
     .limit(1);
   return result[0];
 }
 
 // Hero Card Tables
-export async function getAllHeroCardField() {
+export async function getAllHeroCards() {
   return await getDb().select().from(heroCard).where(eq(heroCard.isHeroCardDeleted, false));
+}
+
+export async function updateHeroCardName(id: number, heroCardName: string) {
+  return await getDb().update(heroCard).set({ heroCardName }).where(eq(heroCard.id, id))
 }
 
 export async function insertHeroCard(heroCardName: string) {

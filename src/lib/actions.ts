@@ -1,7 +1,7 @@
 'use server'
 import { put } from "@vercel/blob"
 import { z } from "zod"
-import { updateHeroCardFields, insertHeroCardFields, insertHeroCard, deleteHeroCard } from "../dal/HeroCardDTO"
+import { updateHeroCardFields, insertHeroCardFields, insertHeroCard, deleteHeroCard, updateHeroCardName } from "../dal/HeroCardDTO"
 
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
@@ -20,18 +20,20 @@ const HeroCardFieldsSchema = z.object({
 })
 
 const EditHeroCardSchema = HeroCardFieldsSchema.extend({
+    heroCard_name: z.string().trim().min(1).max(80),
     image_path: z.string(),
     image_file: z.instanceof(File).nullable(),
 })
 const CreateHeroCardSchema = HeroCardFieldsSchema.extend({
     heroCard_name: z.string().trim().min(1).max(80),
     image_file: z.instanceof(File),
+    language_id: z.string().trim().regex(/^[a-z]{2}$/),
 })
 
 // Hero Card Actions
-export async function verifyAndUpdateHeroCard(heroCardId: string, prevState: unknown, formData: FormData) {
+export async function verifyAndUpdateHeroCard(heroCardFieldsId: string, heroCardId: number, prevState: unknown, formData: FormData) {
     const result = EditHeroCardSchema.safeParse({
-        
+        heroCard_name: formData.get("heroCard_name"),
         title_text: formData.get("title_text"),
         image_path: formData.get("image_path"),
         image_file: formData.get("image_file"), 
@@ -45,7 +47,7 @@ export async function verifyAndUpdateHeroCard(heroCardId: string, prevState: unk
         }
     }
 
-    const {image_path, image_file, title_text, color, link} = result.data;
+    const {heroCard_name, image_path, image_file, title_text, color, link} = result.data;
 
     let savedImagePath = image_path;
 
@@ -59,8 +61,8 @@ export async function verifyAndUpdateHeroCard(heroCardId: string, prevState: unk
     }
 
     if (!savedImagePath) throw new Error("No image path")
-    await updateHeroCardFields(heroCardId, savedImagePath, title_text, color, link);
-
+    await updateHeroCardFields(heroCardFieldsId, savedImagePath, title_text, color, link);
+    await updateHeroCardName(heroCardId, heroCard_name)
     revalidatePath("/herocard");
     redirect("/herocard");
 }
@@ -72,6 +74,7 @@ export async function verifyAndCreateHeroCard(prevState: unknown, formData: Form
         color: formData.get("color"),
         link: formData.get("link"),
         heroCard_name: formData.get("heroCard_name"),
+        language_id: formData.get("language_id"),
     })
 
     if (!result.success) {
@@ -79,7 +82,14 @@ export async function verifyAndCreateHeroCard(prevState: unknown, formData: Form
             errors: z.flattenError(result.error).fieldErrors,
         }
     }
-    const { image_file, title_text, color, link, heroCard_name } = result.data;
+    const {
+        image_file,
+        title_text,
+        color,
+        link,
+        heroCard_name,
+        language_id,
+    } = result.data;
 
     const blob = await put(`hero-cards/${crypto.randomUUID()}-${image_file.name}`, image_file, {
         access: "public",
@@ -87,7 +97,14 @@ export async function verifyAndCreateHeroCard(prevState: unknown, formData: Form
     })
 
     const [createdHeroCard] = await insertHeroCard(heroCard_name);
-    await insertHeroCardFields(blob.url, title_text, color, link, createdHeroCard.id);
+    await insertHeroCardFields(
+        blob.url,
+        title_text,
+        color,
+        link,
+        createdHeroCard.id,
+        language_id,
+    );
     revalidatePath("/herocard");
     redirect("/herocard")
 }

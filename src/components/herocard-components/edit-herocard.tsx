@@ -13,7 +13,7 @@ import "@uppy/core/css/style.min.css";
 import "@uppy/dashboard/css/style.min.css";
 
 export default function editHeroCardPage({title, heroCard}: {title: string, heroCard: any}) {
-    const editHeroCardWithId = verifyAndUpdateHeroCard.bind(null, heroCard.id);
+    const editHeroCardWithId = verifyAndUpdateHeroCard.bind(null, heroCard.id, heroCard.heroCardId);
     const [state, formAction, isPending] = useActionState(editHeroCardWithId, null);
 
     const [uppy] = useState(() =>
@@ -50,8 +50,8 @@ export default function editHeroCardPage({title, heroCard}: {title: string, hero
                     <Field>
                         <FieldLabel htmlFor="title-input">Name:</FieldLabel>
                         <Input name="heroCard_name" id="heroCard-name" defaultValue={heroCard.heroCardName} disabled={isPending} />
-                        {state?.errors?.title_text && (
-                            <p className="text-sm text-destructive">{state.errors.title_text[0]}</p>
+                        {state?.errors?.heroCard_name && (
+                            <p className="text-sm text-destructive">{state.errors.heroCard_name[0]}</p>
                         )}
                     </Field>
                     <Field>
