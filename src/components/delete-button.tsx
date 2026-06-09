@@ -13,6 +13,7 @@ import {
   AlertDialogAction,
 } from "./ui/alert-dialog";
 import { Button } from "./ui/button";
+import { startTransition } from "react";
 
 export default function DeleteButton({typeOfElement, clickFunction}: {typeOfElement: string, clickFunction: any}) {
     return (

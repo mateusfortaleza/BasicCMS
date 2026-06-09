@@ -5,7 +5,7 @@ export default async function HeroCardEditPage(props: {
   params: Promise<{ id: string }>;
 }) {
   const params = await props.params;
-  const id = Number(params.id);
+  const id = params.id;
   const heroCard = await getHeroCardById(id);
 
   return (

@@ -1,3 +1,4 @@
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -10,13 +11,13 @@ import {
 export default function Loading() {
   return (
     <div className="w-full">
-      <div className="h-9 w-32 animate-pulse rounded-md bg-muted" />
+      <Skeleton className="h-9 w-32 rounded-md" />
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead>Language</TableHead>
             <TableHead>
-              <div className="h-4 w-10 animate-pulse rounded bg-muted" />
+              <Skeleton className="h-4 w-10 rounded" />
             </TableHead>
             <TableHead />
             <TableHead />
@@ -26,19 +27,19 @@ export default function Loading() {
           {Array.from({ length: 4 }).map((_, index) => (
             <TableRow key={`language-table-skeleton-${index}`}>
               <TableCell>
-                <div className="h-4 w-32 animate-pulse rounded bg-muted" />
+                <Skeleton className="h-4 w-32 rounded" />
               </TableCell>
               <TableCell>
-                <div className="h-4 w-16 animate-pulse rounded bg-muted" />
+                <Skeleton className="h-4 w-16 rounded" />
               </TableCell>
               <TableCell className="w-32">
                 <div className="flex justify-center">
-                  <div className="h-9 w-9 animate-pulse rounded-md bg-muted" />
+                  <Skeleton className="h-9 w-9 rounded-md" />
                 </div>
               </TableCell>
               <TableCell className="w-32">
                 <div className="flex justify-center">
-                  <div className="h-9 w-9 animate-pulse rounded-md bg-muted" />
+                  <Skeleton className="h-9 w-9 rounded-md" />
                 </div>
               </TableCell>
             </TableRow>

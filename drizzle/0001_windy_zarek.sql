@@ -1,0 +1,1 @@
+ALTER TABLE "hero_card_fields" ADD CONSTRAINT "hero_card_fields_hero_card_id_hero_card_id_fk" FOREIGN KEY ("hero_card_id") REFERENCES "public"."hero_card"("id") ON DELETE no action ON UPDATE no action;

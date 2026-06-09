@@ -21,14 +21,14 @@ vi.mock("next/navigation", () => ({
 }));
 
 import { put } from "@vercel/blob";
-import { updateHeroCard, insertHeroCard } from "../dal/HeroCardDTO";
+import { updateHeroCardFields, insertHeroCardFields } from "../dal/HeroCardDTO";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { verifyAndUpdateHeroCard, verifyAndCreateHeroCard } from "../lib/actions";
 
 const mockPut = vi.mocked(put);
-const mockUpdateHeroCard = vi.mocked(updateHeroCard);
-const mockInsertHeroCard = vi.mocked(insertHeroCard);
+const mockUpdateHeroCard = vi.mocked(updateHeroCardFields);
+const mockInsertHeroCard = vi.mocked(insertHeroCardFields);
 const mockRevalidatePath = vi.mocked(revalidatePath);
 const mockRedirect = vi.mocked(redirect);
 
@@ -62,11 +62,11 @@ describe("verifyAndUpdateHeroCard", () => {
       link: "https://example.com",
     });
 
-    await expect(verifyAndUpdateHeroCard(1, fd)).rejects.toThrow("NEXT_REDIRECT:/herocard");
+    await expect(verifyAndUpdateHeroCard("hero-card-1", fd)).rejects.toThrow("NEXT_REDIRECT:/herocard");
 
     expect(mockPut).not.toHaveBeenCalled();
     expect(mockUpdateHeroCard).toHaveBeenCalledWith(
-      1,
+      "hero-card-1",
       "https://existing.example.com/image.jpg",
       "My Hero",
       "#ff0000",
@@ -86,7 +86,7 @@ describe("verifyAndUpdateHeroCard", () => {
       link: "https://updated.com",
     });
 
-    await expect(verifyAndUpdateHeroCard(42, fd)).rejects.toThrow("NEXT_REDIRECT:/herocard");
+    await expect(verifyAndUpdateHeroCard("hero-card-42", fd)).rejects.toThrow("NEXT_REDIRECT:/herocard");
 
     expect(mockPut).toHaveBeenCalledOnce();
     const putCall = mockPut.mock.calls[0];
@@ -95,7 +95,7 @@ describe("verifyAndUpdateHeroCard", () => {
     expect(putCall[2]).toMatchObject({ access: "public", addRandomSuffix: true });
 
     expect(mockUpdateHeroCard).toHaveBeenCalledWith(
-      42,
+      "hero-card-42",
       "https://blob.example.com/uploaded.jpg",
       "Updated Hero",
       "#00ff00",
@@ -113,10 +113,10 @@ describe("verifyAndUpdateHeroCard", () => {
       link: "  https://example.com/link  ",
     });
 
-    await expect(verifyAndUpdateHeroCard(5, fd)).rejects.toThrow("NEXT_REDIRECT:/herocard");
+    await expect(verifyAndUpdateHeroCard("hero-card-5", fd)).rejects.toThrow("NEXT_REDIRECT:/herocard");
 
     expect(mockUpdateHeroCard).toHaveBeenCalledWith(
-      5,
+      "hero-card-5",
       "https://example.com/img.jpg",
       "Padded Title",
       "#123456",
@@ -127,7 +127,7 @@ describe("verifyAndUpdateHeroCard", () => {
   it("throws validation error when required fields are missing", async () => {
     const fd = new FormData();
     // No fields set
-    await expect(verifyAndUpdateHeroCard(1, fd)).rejects.toThrow();
+    await expect(verifyAndUpdateHeroCard("hero-card-1", fd)).rejects.toThrow();
     expect(mockUpdateHeroCard).not.toHaveBeenCalled();
     expect(mockRedirect).not.toHaveBeenCalled();
   });
@@ -141,7 +141,7 @@ describe("verifyAndUpdateHeroCard", () => {
       link: "https://example.com",
     });
 
-    await expect(verifyAndUpdateHeroCard(1, fd)).rejects.toThrow();
+    await expect(verifyAndUpdateHeroCard("hero-card-1", fd)).rejects.toThrow();
     expect(mockPut).not.toHaveBeenCalled();
     expect(mockUpdateHeroCard).not.toHaveBeenCalled();
   });
@@ -156,7 +156,7 @@ describe("verifyAndUpdateHeroCard", () => {
       link: "https://example.com",
     });
 
-    await expect(verifyAndUpdateHeroCard(1, fd)).rejects.toThrow("NEXT_REDIRECT:/herocard");
+    await expect(verifyAndUpdateHeroCard("hero-card-1", fd)).rejects.toThrow("NEXT_REDIRECT:/herocard");
 
     // revalidatePath should be called before redirect
     const revalidateOrder = mockRevalidatePath.mock.invocationCallOrder[0];
@@ -175,8 +175,8 @@ describe("verifyAndUpdateHeroCard", () => {
       title_text: "Hero 2", image_path: "p", image_file: file2, color: "#fff", link: "https://b.com"
     });
 
-    await expect(verifyAndUpdateHeroCard(1, fd1)).rejects.toThrow("NEXT_REDIRECT");
-    await expect(verifyAndUpdateHeroCard(2, fd2)).rejects.toThrow("NEXT_REDIRECT");
+    await expect(verifyAndUpdateHeroCard("hero-card-1", fd1)).rejects.toThrow("NEXT_REDIRECT");
+    await expect(verifyAndUpdateHeroCard("hero-card-2", fd2)).rejects.toThrow("NEXT_REDIRECT");
 
     const path1 = mockPut.mock.calls[0][0] as string;
     const path2 = mockPut.mock.calls[1][0] as string;

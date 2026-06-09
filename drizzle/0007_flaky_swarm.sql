@@ -1,1 +1,0 @@
-ALTER TABLE "hero_card" ADD CONSTRAINT "hero_card_id_lang_language_lang_code_fk" FOREIGN KEY ("id_lang") REFERENCES "public"."language"("lang_code") ON DELETE no action ON UPDATE no action;

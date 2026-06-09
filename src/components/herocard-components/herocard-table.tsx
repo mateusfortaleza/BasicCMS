@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { startTransition, useState } from "react";
 import Link from "next/link";
 import { RiArrowDownSFill, RiArrowUpSFill, RiPencilLine } from "@remixicon/react";
-import HeroCardDeleteButton from "@/components/herocard-components/herocard-delete-button";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -13,23 +12,35 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import DeleteButton from "../delete-button";
+import { deletionHeroCard } from "../../lib/actions";
 
 type HeroCard = {
   id: number;
-  image_path: string;
-  title_text: string;
-  color: string;
-  link: string;
-};
+  heroCardName: string;
+}
 
 type SortState = "none" | "asc" | "desc";
 
 export default function HeroCardTable({ heroCards }: { heroCards: HeroCard[] }) {
   const [sortState, setSortState] = useState<SortState>("none");
 
-  const sortedHeroCards = [...heroCards].sort((a, b) =>
-    sortState === "desc" ? b.id - a.id : a.id - b.id,
-  );
+  const sortedHeroCards =
+    sortState === "none"
+      ? heroCards
+      : [...heroCards].sort((a, b) =>
+          sortState === "desc"
+            ? b.heroCardName < a.heroCardName
+              ? -1
+              : b.heroCardName > a.heroCardName
+                ? 1
+                : 0
+            : a.heroCardName < b.heroCardName
+              ? -1
+              : a.heroCardName > b.heroCardName
+                ? 1
+                : 0,
+        );
 
   function toggleIdSort() {
     setSortState((current) => {
@@ -55,7 +66,7 @@ export default function HeroCardTable({ heroCards }: { heroCards: HeroCard[] }) 
               className="inline-flex items-center gap-1 font-medium"
               onClick={toggleIdSort}
             >
-              Id
+              Name
               {sortState === "desc" && (
                 <RiArrowDownSFill aria-hidden="true" size={18} />
               )}
@@ -64,32 +75,20 @@ export default function HeroCardTable({ heroCards }: { heroCards: HeroCard[] }) 
               )}
             </button>
           </TableHead>
-          <TableHead className="w-25">Title</TableHead>
-          <TableHead>Image Path</TableHead>
-          <TableHead>Color of the card</TableHead>
-          <TableHead className="text-left">Link to the article</TableHead>
-          <TableHead className="w-32 text-center" />
-          <TableHead className="w-32 text-center" />
         </TableRow>
       </TableHeader>
       <TableBody>
         {sortedHeroCards.map((item) => (
           <TableRow key={`table-${item.id}`}>
-            <TableCell>{item.id}</TableCell>
-            <TableCell className="font-medium">{item.title_text}</TableCell>
             <TableCell>
-              {item.image_path.length > 100
-                ? item.image_path.slice(0, 100) + "..."
-                : item.image_path}
+              {item.heroCardName}
             </TableCell>
-            <TableCell>{item.color}</TableCell>
-            <TableCell className="text-left">{item.link}</TableCell>
             <TableCell className="w-32">
               <div className="flex justify-center">
                 <Button asChild size="icon">
                   <Link
                     href={`/herocard/edit/${item.id}`}
-                    aria-label={`Edit ${item.title_text}`}
+                    aria-label={`Edit ${item.heroCardName}`}
                   >
                     <RiPencilLine />
                   </Link>
@@ -98,7 +97,7 @@ export default function HeroCardTable({ heroCards }: { heroCards: HeroCard[] }) 
             </TableCell>
             <TableCell>
               <div className="flex justify-center">
-                <HeroCardDeleteButton HeroCardId={item.id} />
+                <DeleteButton typeOfElement="Hero Card" clickFunction={() => deletionHeroCard(item.id)}/>
               </div>
             </TableCell>
           </TableRow>

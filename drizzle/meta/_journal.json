@@ -5,57 +5,22 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1779368489340,
-      "tag": "0000_robust_nightmare",
+      "when": 1780663756985,
+      "tag": "0000_gorgeous_bucky",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1779891252540,
-      "tag": "0001_bumpy_moira_mactaggert",
+      "when": 1780664339284,
+      "tag": "0001_windy_zarek",
       "breakpoints": true
     },
     {
       "idx": 2,
       "version": "7",
-      "when": 1780062508433,
-      "tag": "0002_nifty_spectrum",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1780313913730,
-      "tag": "0003_round_pixie",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1780315133293,
-      "tag": "0004_tough_nighthawk",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1780319797550,
-      "tag": "0005_messy_boomerang",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "7",
-      "when": 1780402181689,
-      "tag": "0006_colorful_chat",
-      "breakpoints": true
-    },
-    {
-      "idx": 7,
-      "version": "7",
-      "when": 1780402245058,
-      "tag": "0007_flaky_swarm",
+      "when": 1780917996569,
+      "tag": "0002_late_nomad",
       "breakpoints": true
     }
   ]
