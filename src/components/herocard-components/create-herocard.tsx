@@ -57,7 +57,8 @@ export default function CreatePage({ title }: { title: string }) {
           <FieldSet className="w-2xl flex justify-center">
             <FieldLegend>{title}</FieldLegend>
             <FieldGroup>
-              <Field>Name:</Field>
+              <Field>
+              <FieldLabel htmlFor="heroCardName-input" >Name:</FieldLabel>
               <Input
                 name="heroCard_name"
                 id="heroCardName-input"
@@ -69,6 +70,7 @@ export default function CreatePage({ title }: { title: string }) {
                   {state.errors.title_text[0]}
                 </p>
               )}
+              </Field>
               <Field>
                 <FieldLabel htmlFor="title-input">Title:</FieldLabel>
                 <Input

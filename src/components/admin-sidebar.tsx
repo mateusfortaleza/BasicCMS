@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import {
   RiDashboardLine,
@@ -62,6 +63,8 @@ const navItems = [
 
 export function AdminSidebar({ languages }: { languages: SidebarLanguage[] }) {
   const { selectedLanguage, setSelectedLanguage } = useLanguage();
+  const pathname = usePathname();
+  const isHeroCardEditPage = pathname.startsWith("/herocard/edit/");
 
   useEffect(() => {
     if (!selectedLanguage && languages[0]) {
@@ -122,6 +125,7 @@ export function AdminSidebar({ languages }: { languages: SidebarLanguage[] }) {
             <Select
               value={selectedLanguage || languages[0]?.langCode}
               onValueChange={setSelectedLanguage}
+              disabled={isHeroCardEditPage}
             >
               <SelectTrigger id="sidebar-language" className="w-full">
                 <SelectValue placeholder="Select language" />

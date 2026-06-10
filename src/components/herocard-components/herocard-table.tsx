@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/table";
 import DeleteButton from "../delete-button";
 import { deletionHeroCard } from "../../lib/actions";
+import { useLanguage } from "@/components/language-provider";
 
 type HeroCard = {
   id: number;
@@ -24,6 +25,7 @@ type SortState = "none" | "asc" | "desc";
 
 export default function HeroCardTable({ heroCards }: { heroCards: HeroCard[] }) {
   const [sortState, setSortState] = useState<SortState>("none");
+  const { selectedLanguage } = useLanguage();
 
   const sortedHeroCards =
     sortState === "none"
@@ -87,7 +89,7 @@ export default function HeroCardTable({ heroCards }: { heroCards: HeroCard[] }) 
               <div className="flex justify-center">
                 <Button asChild size="icon">
                   <Link
-                    href={`/herocard/edit/${item.id}`}
+                    href={`/herocard/edit/${item.id}?lang_code=${selectedLanguage}`}
                     aria-label={`Edit ${item.heroCardName}`}
                   >
                     <RiPencilLine />

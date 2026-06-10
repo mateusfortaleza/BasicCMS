@@ -16,12 +16,12 @@ export async function getMenuItemsById(id: number) {
     return await getDbOrThrow().select().from(menu).where(eq(menu.id, id))
 }
 
-export async function insertMenuItems(icon: string, menuText: string, menuLink: string) {
-    return await getDbOrThrow().insert(menu).values({icon: icon, menuText: menuText, menuLink: menuLink});
+export async function insertMenuItems(svg_url: string, menuText: string, menuLink: string) {
+    return await getDbOrThrow().insert(menu).values({svg_url, menuText, menuLink});
 }
 
-export async function updateMenuItems(id: number, icon: string, menuText: string, menuLink: string) {
-    return await getDbOrThrow().update(menu).set({icon: icon, menuText: menuText, menuLink: menuLink}).where(eq(menu.id, id))
+export async function updateMenuItems(id: number, svg_url: string, menuText: string, menuLink: string) {
+    return await getDbOrThrow().update(menu).set({svg_url, menuText, menuLink}).where(eq(menu.id, id))
 }
 
 export async function deleteMenuItem(id: number) {

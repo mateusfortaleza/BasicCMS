@@ -8,7 +8,7 @@ export type HeroCardForm = {
 
 export type MenuItems = {
     id: number,
-    icon: string;
+    svg_url: string;
     menuText: string;
     menuLink: string;
 }

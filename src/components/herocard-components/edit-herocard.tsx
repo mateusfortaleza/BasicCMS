@@ -26,6 +26,16 @@ export default function editHeroCardPage({title, heroCard}: {title: string, hero
         })
     );
 
+    async function submitWithUppy(formData: FormData) {
+        const uppyFile = uppy.getFiles()[0];
+
+        if (uppyFile?.data instanceof File) {
+            formData.set("image_file", uppyFile.data);
+        }
+
+        return formAction(formData);
+    }
+
     useEffect(() => {
         if (!heroCard.image_path || uppy.getFiles().length > 0) return;
         const fileName = heroCard.image_path.split("/").pop();
@@ -42,7 +52,7 @@ export default function editHeroCardPage({title, heroCard}: {title: string, hero
     return (
         <>      
         <Link href="/herocard"><ShadButton data-icon="inline-start"><RiArrowLeftCircleFill  />Back</ShadButton></Link>
-        <form action={formAction}>
+        <form action={submitWithUppy}>
         <FieldGroup className="w-full m-auto flex justify-center items-center">
             <FieldSet className="w-2xl flex justify-center">
                 <FieldLegend>{title}</FieldLegend>

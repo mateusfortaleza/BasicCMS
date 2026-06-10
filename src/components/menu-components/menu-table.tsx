@@ -80,7 +80,13 @@ export default function MenuTable({ menuItems }: { menuItems: MenuItems[] }) {
           <TableRow key={`table-${item.id}`}>
             <TableCell>{item.id}</TableCell>
             <TableCell>
-              <Image src={item.icon} width={16} height={16} alt={item.icon} />
+              <Image
+                src={item.svg_url}
+                width={16}
+                height={16}
+                alt={`${item.menuText} icon`}
+                unoptimized
+              />
             </TableCell>
             <TableCell className="text-left">{item.menuText}</TableCell>
             <TableCell className="text-left">{item.menuLink}</TableCell>

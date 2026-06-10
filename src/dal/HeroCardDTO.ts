@@ -61,7 +61,7 @@ export async function updateHeroCardFields(
 //     .where(eq(heroCardFields.id, id));
 // }
 
-export async function getHeroCardById(id: string) {
+export async function getHeroCardById(id: string, lang_code: string) {
   const result = await getDb()
     .select({
       id: heroCardFields.id,
@@ -78,11 +78,57 @@ export async function getHeroCardById(id: string) {
     .where(
       and(
         eq(heroCardFields.heroCardId, Number(id)),
+        eq(heroCard.isHeroCardDeleted, false),
+        eq(heroCardFields.languageId, lang_code)
+      )
+    )
+    .limit(1);
+
+  if (result[0]) return result[0];
+
+  const fallback = await getDb()
+    .select({
+      heroCardId: heroCard.id,
+      heroCardName: heroCard.heroCardName,
+      image_path: heroCardFields.backgroundImage,
+      title_text: heroCardFields.title,
+      color: heroCardFields.overlayColor,
+      link: heroCardFields.link,
+    })
+    .from(heroCardFields)
+    .innerJoin(heroCard, eq(heroCardFields.heroCardId, heroCard.id))
+    .where(
+      and(
+        eq(heroCardFields.heroCardId, Number(id)),
         eq(heroCard.isHeroCardDeleted, false)
       )
     )
     .limit(1);
-  return result[0];
+
+  if (!fallback[0]) return undefined;
+
+  const [createdFields] = await getDb()
+    .insert(heroCardFields)
+    .values({
+      heroCardId: fallback[0].heroCardId,
+      backgroundImage: "",
+      title: "",
+      overlayColor: "",
+      link: "",
+      languageId: lang_code,
+    })
+    .returning({ id: heroCardFields.id });
+
+  return {
+    id: createdFields.id,
+    heroCardId: fallback[0].heroCardId,
+    heroCardName: fallback[0].heroCardName,
+    image_path: "",
+    title_text: "",
+    color: "",
+    link: "",
+    lang_code,
+  };
 }
 
 // Hero Card Tables

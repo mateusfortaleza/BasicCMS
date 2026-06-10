@@ -16,7 +16,7 @@ import {
 const HeroCardFieldsSchema = z.object({
     title_text: z.string().trim().min(1).max(100),
     color: z.string().trim().regex(/^#[0-9A-Fa-f]{6}$/),
-    link: z.url().max(255),
+    link: z.string().max(500),
 })
 
 const EditHeroCardSchema = HeroCardFieldsSchema.extend({
@@ -118,14 +118,28 @@ export async function deletionHeroCard(id: number) {
 
 // Menu Items Actions
 const MenuItemsSchema = z.object({
-    icon: z.string().trim().min(1),
     menuLink: z.string().trim().min(1),
     menuText: z.string().trim().min(1).max(200),
 })
 
+const SvgFileSchema = z.instanceof(File).refine(
+    (file) =>
+        file.type === "image/svg+xml" &&
+        file.name.toLowerCase().endsWith(".svg"),
+    "Only SVG files are allowed",
+)
+
+const CreateMenuItemSchema = MenuItemsSchema.extend({
+    svg_url: SvgFileSchema,
+})
+
+const EditMenuItemSchema = MenuItemsSchema.extend({
+    svg_url: z.union([z.url(), SvgFileSchema]),
+})
+
 export async function verifyAndInsertMenuItem(prevState: unknown, formData: FormData) {
-    const result = MenuItemsSchema.safeParse({
-        icon: formData.get("icon"),
+    const result = CreateMenuItemSchema.safeParse({
+        svg_url: formData.get("svg_url"),
         menuLink: formData.get("link-input"),
         menuText: formData.get("text-input")
     })
@@ -136,16 +150,22 @@ export async function verifyAndInsertMenuItem(prevState: unknown, formData: Form
         }
     }
 
-    const {icon, menuLink, menuText} = result.data;
+    const {svg_url: svgFile, menuLink, menuText} = result.data;
 
-    await insertMenuItems(icon, menuText, menuLink);
+    const blob = await put(`menu-icons/${crypto.randomUUID()}-${svgFile.name}`, svgFile, {
+        access: "public",
+        addRandomSuffix: true,
+        contentType: "image/svg+xml",
+    })
+
+    await insertMenuItems(blob.url, menuText, menuLink);
     revalidatePath("/menu");
     redirect("/menu");
 }
 
 export async function verifyAndUpdateMenuItem(menuItemId: number, prevState: unknown, formData: FormData) {
-    const result = MenuItemsSchema.safeParse({
-        icon: formData.get("icon"),
+    const result = EditMenuItemSchema.safeParse({
+        svg_url: formData.get("svg_url"),
         menuText: formData.get("text-input"),
         menuLink: formData.get("link-input"),
     })
@@ -156,9 +176,21 @@ export async function verifyAndUpdateMenuItem(menuItemId: number, prevState: unk
         }
     }
 
-    const {icon, menuLink, menuText} = result.data;
+    const {svg_url, menuLink, menuText} = result.data;
 
-    await updateMenuItems(menuItemId, icon, menuText, menuLink);
+    let savedSvgUrl = svg_url;
+
+    if (svg_url instanceof File) {
+        const blob = await put(`menu-icons/${crypto.randomUUID()}-${svg_url.name}`, svg_url, {
+            access: "public",
+            addRandomSuffix: true,
+            contentType: "image/svg+xml",
+        })
+
+        savedSvgUrl = blob.url;
+    }
+
+    await updateMenuItems(menuItemId, savedSvgUrl, menuText, menuLink);
     revalidatePath("/menu");
     redirect("/menu");
 }

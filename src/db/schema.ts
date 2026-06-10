@@ -2,7 +2,7 @@ import { pgTable, integer, text, varchar, boolean, unique, uuid, foreignKey } fr
 
 export const menu = pgTable("menu", {
 	id: integer().primaryKey().generatedAlwaysAsIdentity({ name: "menu_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 2147483647, cache: 1 }),
-	icon: text().notNull(),
+	svg_url: text().notNull(),
 	menuText: varchar({ length: 200 }).notNull(),
 	menuLink: text().notNull(),
 	isDeleted: boolean("is_deleted").default(false).notNull(),
