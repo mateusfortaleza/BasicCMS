@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/components/language-provider";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const dmSansHeading = DM_Sans({subsets:['latin'],variable:'--font-heading',preload: false});
 
@@ -59,6 +60,7 @@ export default async function RootLayout({
             </SidebarProvider>
           </LanguageProvider>
         </TooltipProvider>
+        <SpeedInsights />
       </body>
     </html>
     </>
