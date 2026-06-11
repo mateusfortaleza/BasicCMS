@@ -18,3 +18,15 @@ export type Language = {
     language: string;
     langCode: string;
 }
+
+export type ContentType = {
+    id: number;
+    contentTypeName: string;
+}
+
+export type ContentTypeField = {
+    id: number;
+    contentTypeId: number;
+    fieldName: string;
+    fieldType: "string" | "number" | "datetime";
+}

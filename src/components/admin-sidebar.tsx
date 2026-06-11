@@ -9,6 +9,7 @@ import {
   RiMenu2Fill,
   RiSettings3Line,
   RiTranslate2,
+  RiLayout3Line,
 } from "@remixicon/react";
 import Image from "next/image";
 import {
@@ -59,6 +60,11 @@ const navItems = [
     href: "/language",
     icon: RiTranslate2,
   },
+  {
+    label: "Content Type",
+    href: "/content-type",
+    icon: RiLayout3Line
+  }
 ];
 
 export function AdminSidebar({ languages }: { languages: SidebarLanguage[] }) {

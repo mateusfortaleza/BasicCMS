@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/components/language-provider";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const dmSansHeading = DM_Sans({subsets:['latin'],variable:'--font-heading',preload: false});
 
@@ -41,6 +42,7 @@ export default async function RootLayout({
   const languages = await getAllLanguages();
   return (
     <>
+    <SpeedInsights />
     <html
       lang="en"
       className={cn("dark", "h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable, dmSansHeading.variable)}

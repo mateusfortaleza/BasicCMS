@@ -11,6 +11,13 @@ import {
     insertLanguage,
     updateLanguage,
 } from "@/dal/LanguageDTO"
+import {
+    deleteContentType,
+    insertContentType,
+    insertContentTypeFields,
+    updateContentType,
+    updateContentTypeField,
+} from "@/dal/ContentTypeDTO"
 
 
 const HeroCardFieldsSchema = z.object({
@@ -178,17 +185,11 @@ export async function verifyAndUpdateMenuItem(menuItemId: number, prevState: unk
 
     const {svg_url, menuLink, menuText} = result.data;
 
-    let savedSvgUrl = svg_url;
-
-    if (svg_url instanceof File) {
-        const blob = await put(`menu-icons/${crypto.randomUUID()}-${svg_url.name}`, svg_url, {
+    const savedSvgUrl = svg_url instanceof File ? (await put(`menu-icons/${crypto.randomUUID()}-${svg_url.name}`, svg_url, {
             access: "public",
             addRandomSuffix: true,
             contentType: "image/svg+xml",
-        })
-
-        savedSvgUrl = blob.url;
-    }
+        })).url : svg_url;
 
     await updateMenuItems(menuItemId, savedSvgUrl, menuText, menuLink);
     revalidatePath("/menu");
@@ -249,4 +250,117 @@ export async function verifyAndUpdateLanguage(languageId: string, prevState: unk
 export async function deletionLanguage(languageId: string) {
     await deleteLanguage(languageId);
     revalidatePath("/language");
+}
+
+
+
+// Content Type Actions
+const ContentTypeSchema = z.object({
+    contentTypeName: z.string().trim().min(1).max(200),
+})
+
+const CreateContentTypeSchema = ContentTypeSchema.extend({
+    fieldNames: z.array(z.string().trim().min(1).max(1000)).min(1),
+    fieldTypes: z.array(z.enum(["string", "number", "datetime"])).min(1),
+}).refine(
+    ({ fieldNames, fieldTypes }) => fieldNames.length === fieldTypes.length,
+    { message: "Every field must have a name and type", path: ["fieldNames"] },
+)
+
+const EditContentTypeSchema = CreateContentTypeSchema.extend({
+    fieldIds: z.array(
+        z.union([
+            z.literal(""),
+            z.coerce.number().int().positive(),
+        ]),
+    ),
+}).refine(
+    ({ fieldIds, fieldNames }) => fieldIds.length === fieldNames.length,
+    { message: "Every field must have an ID", path: ["fieldIds"] },
+)
+
+export async function verifyAndInsertContentType(prevState: unknown, formData: FormData) {
+    const result = CreateContentTypeSchema.safeParse({
+        contentTypeName: formData.get("content-type-name-input"),
+        fieldNames: formData.getAll("field-name-input"),
+        fieldTypes: formData.getAll("field-type-input"),
+    })
+
+    if (!result.success) {
+        return {
+            errors: z.flattenError(result.error).fieldErrors,
+        }
+    }
+
+    const [createdContentType] = await insertContentType(result.data.contentTypeName)
+    await insertContentTypeFields(
+        createdContentType.id,
+        result.data.fieldNames.map((fieldName, index) => ({
+            fieldName,
+            fieldType: result.data.fieldTypes[index],
+        })),
+    )
+    revalidatePath("/content-type")
+    redirect("/content-type")
+}
+
+export async function verifyAndUpdateContentType(contentTypeId: number, prevState: unknown, formData: FormData) {
+    const result = EditContentTypeSchema.safeParse({
+        contentTypeName: formData.get("content-type-name-input"),
+        fieldIds: formData.getAll("field-id-input"),
+        fieldNames: formData.getAll("field-name-input"),
+        fieldTypes: formData.getAll("field-type-input"),
+    })
+
+    if (!result.success) {
+        return {
+            errors: z.flattenError(result.error).fieldErrors,
+        }
+    }
+
+    await updateContentType(contentTypeId, result.data.contentTypeName)
+
+    const existingFields = result.data.fieldNames.flatMap((fieldName, index) => {
+        const id = result.data.fieldIds[index]
+
+        return typeof id === "number"
+            ? [{
+                id,
+                fieldName,
+                fieldType: result.data.fieldTypes[index],
+            }]
+            : []
+    })
+
+    const newFields = result.data.fieldNames.flatMap((fieldName, index) =>
+        result.data.fieldIds[index] === ""
+            ? [{
+                fieldName,
+                fieldType: result.data.fieldTypes[index],
+            }]
+            : [],
+    )
+
+    await Promise.all(
+        existingFields.map((field) =>
+            updateContentTypeField(
+                field.id,
+                contentTypeId,
+                field.fieldName,
+                field.fieldType,
+            ),
+        ),
+    )
+
+    if (newFields.length > 0) {
+        await insertContentTypeFields(contentTypeId, newFields)
+    }
+
+    revalidatePath("/content-type")
+    redirect("/content-type")
+}
+
+export async function deletionContentType(contentTypeId: number) {
+    await deleteContentType(contentTypeId)
+    revalidatePath("/content-type")
 }

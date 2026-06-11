@@ -39,3 +39,15 @@ export const heroCard = pgTable("hero_card", {
 	heroCardName: varchar("hero_card_name", {length: 80}).notNull().unique(),
 	isHeroCardDeleted: boolean("is_hero_card_deleted").default(false).notNull()
 });
+
+export const contentType = pgTable("content_type", {
+	id: integer().primaryKey().generatedAlwaysAsIdentity(),
+	contentTypeName: varchar("content_type_name", {length: 200}).notNull(),
+})
+
+export const contentTypeFields = pgTable("content_type_fields", {
+	id: integer().primaryKey().generatedAlwaysAsIdentity(),
+	contentTypeId: integer("content_type_id").notNull().references(() => contentType.id, { onDelete: "cascade" }),
+	fieldName: varchar("field_name", {length: 1000}).notNull(),
+	fieldType: varchar("field_type", {length: 1000}).$type<"string" | "number" | "datetime">().notNull(),
+})
