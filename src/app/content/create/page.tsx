@@ -9,9 +9,9 @@ export default async function ContentCreatePage(props: {
   searchParams: Promise<{ contentTypeId?: string }>;
 }) {
   const searchParams = await props.searchParams;
-  const contentTypeId = Number(searchParams.contentTypeId);
+  const contentTypeId = searchParams.contentTypeId;
 
-  if (!Number.isInteger(contentTypeId) || contentTypeId < 1) {
+  if (!contentTypeId) {
     notFound();
   }
 

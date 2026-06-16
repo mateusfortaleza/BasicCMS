@@ -23,7 +23,7 @@ export default async function ContentTypeEditPage(props: {
   }
 
   const contentTypeFields =
-    await getContentTypeFieldsByContentTypeId(contentTypeItem.id);
+    await getContentTypeFieldsByContentTypeId(contentTypeItem.contentTypeId);
 
   return (
     <EditContentType

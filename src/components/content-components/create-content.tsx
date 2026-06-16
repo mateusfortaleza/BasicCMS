@@ -38,17 +38,16 @@ export default function CreateContent({
     null,
   );
   const [uppy] = useState(() => new Uppy({ restrictions: uppyRestrictions }));
-  const menuImageIndex = contentTypeFields.findIndex(
-    (field) =>
-      contentType.contentTypeName === "Menu" && field.fieldType === "image",
+  const imageFieldIndex = contentTypeFields.findIndex(
+    (field) => field.fieldType === "image",
   );
 
   async function submitWithUppy(formData: FormData) {
     const uppyFile = uppy.getFiles()[0];
 
-    if (menuImageIndex >= 0 && uppyFile?.data instanceof File) {
+    if (imageFieldIndex >= 0 && uppyFile?.data instanceof File) {
       const values = formData.getAll("content-field-value-input");
-      values[menuImageIndex] = uppyFile.data;
+      values[imageFieldIndex] = uppyFile.data;
 
       formData.delete("content-field-value-input");
       values.forEach((value) => {
@@ -69,7 +68,11 @@ export default function CreateContent({
       </Link>
 
       <form action={submitWithUppy}>
-        <input type="hidden" name="content-type-input" value={contentType.id} />
+        <input
+          type="hidden"
+          name="content-type-input"
+          value={contentType.contentTypeId}
+        />
         <FieldGroup className="w-200 m-auto flex justify-center items-center">
           
           <FieldSet className="w-2xl h-100 flex justify-center">
@@ -98,8 +101,7 @@ export default function CreateContent({
                       <FieldLabel htmlFor={`content-field-${field.id}`}>
                         {field.fieldName}:
                       </FieldLabel>
-                      {contentType.contentTypeName === "Menu" &&
-                      field.fieldType === "image" ? (
+                      {field.fieldType === "image" ? (
                         <>
                           <input
                             type="hidden"
@@ -122,12 +124,7 @@ export default function CreateContent({
                           type={
                             field.fieldType === "datetime"
                               ? "datetime-local"
-                              : field.fieldType === "image"
-                                ? "file"
                               : field.fieldType
-                          }
-                          accept={
-                            field.fieldType === "image" ? "image/*" : undefined
                           }
                           required
                           disabled={isPending}

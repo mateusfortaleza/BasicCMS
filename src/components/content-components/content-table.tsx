@@ -22,7 +22,7 @@ import {
 type ContentListItem = {
   id: number;
   name: string;
-  contentTypeId: number;
+  contentTypeId: string;
   contentTypeName: string;
 };
 

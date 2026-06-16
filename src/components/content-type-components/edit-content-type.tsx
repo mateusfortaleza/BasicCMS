@@ -62,7 +62,7 @@ export default function EditContentType({
       {
         key: crypto.randomUUID(),
         id: 0,
-        contentTypeId: contentTypeItem.id,
+        contentTypeId: contentTypeItem.contentTypeId,
         fieldName: "",
         fieldType: "string" as const,
       },

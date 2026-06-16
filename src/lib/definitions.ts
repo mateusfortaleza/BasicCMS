@@ -27,14 +27,14 @@ export type ContentType = {
 
 export type ContentTypeField = {
     id: number;
-    contentTypeId: number;
+    contentTypeId: string;
     fieldName: string;
     fieldType: "string" | "number" | "datetime" | "image";
 }
 
 export type Content = {
     id: number;
-    contentTypeId: number;
+    contentTypeId: string;
     name: string;
 }
 

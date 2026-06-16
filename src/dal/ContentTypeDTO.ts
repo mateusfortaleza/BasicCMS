@@ -8,15 +8,19 @@ export async function getAllContentTypes() {
   return await getDb().select().from(contentType);
 }
 
-export async function getContentTypeById(id: number) {
+export async function getContentTypeById(contentTypeId: string | number) {
   return await getDb()
     .select()
     .from(contentType)
-    .where(eq(contentType.id, id));
+    .where(
+      typeof contentTypeId === "number"
+        ? eq(contentType.id, contentTypeId)
+        : eq(contentType.contentTypeId, contentTypeId),
+    );
 }
 
 export async function getContentTypeFieldsByContentTypeId(
-  contentTypeId: number,
+  contentTypeId: string,
 ) {
   return await getDb()
     .select()
@@ -37,11 +41,11 @@ export async function insertContentType(
   return await getDb()
     .insert(contentType)
     .values({ contentTypeId, contentTypeName })
-    .returning({ id: contentType.id });
+    .returning({ id: contentType.contentTypeId });
 }
 
 export async function insertContentTypeFields(
-  contentTypeId: number,
+  contentTypeId: string,
   fields: { fieldName: string; fieldType: ContentTypeFieldType }[],
 ) {
   return await getDb()
@@ -62,7 +66,7 @@ export async function updateContentType(
 
 export async function updateContentTypeField(
   id: number,
-  contentTypeId: number,
+  contentTypeId: string,
   fieldName: string,
   fieldType: ContentTypeFieldType,
 ) {

@@ -64,7 +64,7 @@ export default function SelectContentTypeDialog({
           </SelectTrigger>
           <SelectContent position="popper">
             {contentTypes.map((item) => (
-              <SelectItem key={item.id} value={item.id.toString()}>
+              <SelectItem key={item.id} value={item.contentTypeId}>
                 {item.contentTypeName}
               </SelectItem>
             ))}

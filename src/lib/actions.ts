@@ -358,11 +358,13 @@ export async function verifyAndUpdateContentType(contentTypeId: number, prevStat
             : [],
     )
 
+    const contentTypeRecordId = result.data.contentTypeId
+
     await Promise.all(
         existingFields.map((field) =>
             updateContentTypeField(
                 field.id,
-                contentTypeId,
+                contentTypeRecordId,
                 field.fieldName,
                 field.fieldType,
             ),
@@ -370,7 +372,7 @@ export async function verifyAndUpdateContentType(contentTypeId: number, prevStat
     )
 
     if (newFields.length > 0) {
-        await insertContentTypeFields(contentTypeId, newFields)
+        await insertContentTypeFields(contentTypeRecordId, newFields)
     }
 
     revalidatePath("/content-type")
@@ -387,7 +389,7 @@ export async function deletionContentType(contentTypeId: number) {
 // Content Actions
 const ContentSchema = z.object({
     name: z.string().trim().min(1).max(200),
-    contentTypeId: z.coerce.number().int().positive(),
+    contentTypeId: z.string().trim().min(1).max(200),
     contentTypeFieldIds: z.array(z.coerce.number().int().positive()).min(1),
     values: z.array(
         z.union([

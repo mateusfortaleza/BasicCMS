@@ -48,14 +48,14 @@ export const contentType = pgTable("content_type", {
 
 export const contentTypeFields = pgTable("content_type_fields", {
 	id: integer().primaryKey().generatedAlwaysAsIdentity(),
-	contentTypeId: integer("content_type_id").notNull().references(() => contentType.id, { onDelete: "cascade" }),
+	contentTypeId: varchar("content_type_id", { length: 200 }).notNull().references(() => contentType.contentTypeId, { onDelete: "cascade" }),
 	fieldName: varchar("field_name", {length: 200}).notNull(),
 	fieldType: varchar("field_type", {length: 200}).$type<"string" | "number" | "datetime" | "image">().notNull(),
 })
 
 export const content = pgTable("content", {
 	id: integer().primaryKey().generatedAlwaysAsIdentity(),
-	contentTypeId: integer("content_type_id").notNull().references(() => contentType.id, { onDelete: "cascade" }),
+	contentTypeId: varchar("content_type_id", { length: 200 }).notNull().references(() => contentType.contentTypeId, { onDelete: "cascade" }),
 	name: varchar({ length: 200 }).notNull(),
 })
 

@@ -11,7 +11,7 @@ export async function getAllContent() {
       contentTypeName: contentType.contentTypeName,
     })
     .from(content)
-    .innerJoin(contentType, eq(content.contentTypeId, contentType.id));
+    .innerJoin(contentType, eq(content.contentTypeId, contentType.contentTypeId));
 }
 
 export async function getContentById(id: number) {
@@ -28,7 +28,7 @@ export async function getContentFieldsByContentId(contentId: number) {
     .where(eq(contentFields.contentId, contentId));
 }
 
-export async function insertContent(name: string, contentTypeId: number) {
+export async function insertContent(name: string, contentTypeId: string) {
   return await getDb()
     .insert(content)
     .values({ name, contentTypeId })
@@ -47,7 +47,7 @@ export async function insertContentFields(
 export async function updateContent(
   id: number,
   name: string,
-  contentTypeId: number,
+  contentTypeId: string,
 ) {
   return await getDb()
     .update(content)
