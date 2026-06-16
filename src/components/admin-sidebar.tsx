@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import {
+  RiArticleLine,
   RiDashboardLine,
   RiImageLine,
   RiMenu2Fill,
@@ -64,6 +65,11 @@ const navItems = [
     label: "Content Type",
     href: "/content-type",
     icon: RiLayout3Line
+  },
+  {
+    label: "Content",
+    href: "/content",
+    icon: RiArticleLine,
   }
 ];
 

@@ -69,6 +69,7 @@ export default function ContentTypeTable({
               )}
             </button>
           </TableHead>
+          <TableHead>Type Identifier</TableHead>
         </TableRow>
       </TableHeader>
 
@@ -76,6 +77,7 @@ export default function ContentTypeTable({
         {sortedContentTypes.map((item) => (
           <TableRow key={`table-${item.id}`}>
             <TableCell>{item.contentTypeName}</TableCell>
+            <TableCell>{item.contentTypeId}</TableCell>
             <TableCell className="w-32">
               <div className="flex justify-center">
                 <Button asChild size="icon">

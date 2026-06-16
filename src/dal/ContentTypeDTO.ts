@@ -2,7 +2,7 @@ import { contentType, contentTypeFields } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import { getDb } from "./BaseDTO";
 
-type ContentTypeFieldType = "string" | "number" | "datetime";
+type ContentTypeFieldType = "string" | "number" | "datetime" | "image";
 
 export async function getAllContentTypes() {
   return await getDb().select().from(contentType);
@@ -24,10 +24,19 @@ export async function getContentTypeFieldsByContentTypeId(
     .where(eq(contentTypeFields.contentTypeId, contentTypeId));
 }
 
-export async function insertContentType(contentTypeName: string) {
+export async function getAllContentTypeFields() {
+  return await getDb()
+    .select()
+    .from(contentTypeFields);
+}
+
+export async function insertContentType(
+  contentTypeId: string,
+  contentTypeName: string,
+) {
   return await getDb()
     .insert(contentType)
-    .values({ contentTypeName })
+    .values({ contentTypeId, contentTypeName })
     .returning({ id: contentType.id });
 }
 
@@ -42,11 +51,12 @@ export async function insertContentTypeFields(
 
 export async function updateContentType(
   id: number,
+  contentTypeId: string,
   contentTypeName: string,
 ) {
   return await getDb()
     .update(contentType)
-    .set({ contentTypeName })
+    .set({ contentTypeId, contentTypeName })
     .where(eq(contentType.id, id));
 }
 

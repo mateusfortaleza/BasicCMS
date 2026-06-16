@@ -21,6 +21,7 @@ export type Language = {
 
 export type ContentType = {
     id: number;
+    contentTypeId: string;
     contentTypeName: string;
 }
 
@@ -28,5 +29,18 @@ export type ContentTypeField = {
     id: number;
     contentTypeId: number;
     fieldName: string;
-    fieldType: "string" | "number" | "datetime";
+    fieldType: "string" | "number" | "datetime" | "image";
+}
+
+export type Content = {
+    id: number;
+    contentTypeId: number;
+    name: string;
+}
+
+export type ContentField = {
+    id: number;
+    contentId: number;
+    contentTypeFieldId: number;
+    value: string;
 }

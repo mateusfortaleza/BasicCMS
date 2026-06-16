@@ -18,6 +18,13 @@ import {
     updateContentType,
     updateContentTypeField,
 } from "@/dal/ContentTypeDTO"
+import {
+    deleteContent,
+    deleteContentFieldsByContentId,
+    insertContent,
+    insertContentFields,
+    updateContent,
+} from "@/dal/ContentDTO"
 
 
 const HeroCardFieldsSchema = z.object({
@@ -256,12 +263,13 @@ export async function deletionLanguage(languageId: string) {
 
 // Content Type Actions
 const ContentTypeSchema = z.object({
+    contentTypeId: z.string().trim().min(1).max(200),
     contentTypeName: z.string().trim().min(1).max(200),
 })
 
 const CreateContentTypeSchema = ContentTypeSchema.extend({
     fieldNames: z.array(z.string().trim().min(1).max(1000)).min(1),
-    fieldTypes: z.array(z.enum(["string", "number", "datetime"])).min(1),
+    fieldTypes: z.array(z.enum(["string", "number", "datetime", "image"])).min(1),
 }).refine(
     ({ fieldNames, fieldTypes }) => fieldNames.length === fieldTypes.length,
     { message: "Every field must have a name and type", path: ["fieldNames"] },
@@ -281,6 +289,7 @@ const EditContentTypeSchema = CreateContentTypeSchema.extend({
 
 export async function verifyAndInsertContentType(prevState: unknown, formData: FormData) {
     const result = CreateContentTypeSchema.safeParse({
+        contentTypeId: formData.get("content-type-id-input"),
         contentTypeName: formData.get("content-type-name-input"),
         fieldNames: formData.getAll("field-name-input"),
         fieldTypes: formData.getAll("field-type-input"),
@@ -292,7 +301,10 @@ export async function verifyAndInsertContentType(prevState: unknown, formData: F
         }
     }
 
-    const [createdContentType] = await insertContentType(result.data.contentTypeName)
+    const [createdContentType] = await insertContentType(
+        result.data.contentTypeId,
+        result.data.contentTypeName,
+    )
     await insertContentTypeFields(
         createdContentType.id,
         result.data.fieldNames.map((fieldName, index) => ({
@@ -306,6 +318,7 @@ export async function verifyAndInsertContentType(prevState: unknown, formData: F
 
 export async function verifyAndUpdateContentType(contentTypeId: number, prevState: unknown, formData: FormData) {
     const result = EditContentTypeSchema.safeParse({
+        contentTypeId: formData.get("content-type-id-input"),
         contentTypeName: formData.get("content-type-name-input"),
         fieldIds: formData.getAll("field-id-input"),
         fieldNames: formData.getAll("field-name-input"),
@@ -318,7 +331,11 @@ export async function verifyAndUpdateContentType(contentTypeId: number, prevStat
         }
     }
 
-    await updateContentType(contentTypeId, result.data.contentTypeName)
+    await updateContentType(
+        contentTypeId,
+        result.data.contentTypeId,
+        result.data.contentTypeName,
+    )
 
     const existingFields = result.data.fieldNames.flatMap((fieldName, index) => {
         const id = result.data.fieldIds[index]
@@ -363,4 +380,113 @@ export async function verifyAndUpdateContentType(contentTypeId: number, prevStat
 export async function deletionContentType(contentTypeId: number) {
     await deleteContentType(contentTypeId)
     revalidatePath("/content-type")
+}
+
+
+
+// Content Actions
+const ContentSchema = z.object({
+    name: z.string().trim().min(1).max(200),
+    contentTypeId: z.coerce.number().int().positive(),
+    contentTypeFieldIds: z.array(z.coerce.number().int().positive()).min(1),
+    values: z.array(
+        z.union([
+            z.string().trim().max(200),
+            z.instanceof(File),
+        ]),
+    ).min(1),
+}).refine(
+    ({ contentTypeFieldIds, values }) =>
+        contentTypeFieldIds.length === values.length,
+    {
+        message: "Every field must have a value",
+        path: ["values"],
+    },
+)
+
+async function uploadContentValues(values: (string | File)[]) {
+    return Promise.all(
+        values.map(async (value) => {
+            if (typeof value === "string") return value
+
+            const blob = await put(
+                `content/${crypto.randomUUID()}-${value.name}`,
+                value,
+                {
+                    access: "public",
+                    addRandomSuffix: true,
+                },
+            )
+
+            return blob.url
+        }),
+    )
+}
+
+export async function verifyAndInsertContent(prevState: unknown, formData: FormData) {
+    const result = ContentSchema.safeParse({
+        name: formData.get("content-name-input"),
+        contentTypeId: formData.get("content-type-input"),
+        contentTypeFieldIds: formData.getAll("content-type-field-id-input"),
+        values: formData.getAll("content-field-value-input"),
+    })
+
+    if (!result.success) {
+        return {
+            errors: z.flattenError(result.error).fieldErrors,
+        }
+    }
+
+    const savedValues = await uploadContentValues(result.data.values)
+
+    const [createdContent] = await insertContent(
+        result.data.name,
+        result.data.contentTypeId,
+    )
+
+    await insertContentFields(
+        createdContent.id,
+        result.data.contentTypeFieldIds.map((contentTypeFieldId, index) => ({
+            contentTypeFieldId,
+            value: savedValues[index],
+        })),
+    )
+
+    revalidatePath("/content")
+    redirect("/content")
+}
+
+export async function verifyAndUpdateContent(contentId: number, prevState: unknown, formData: FormData) {
+    const result = ContentSchema.safeParse({
+        name: formData.get("content-name-input"),
+        contentTypeId: formData.get("content-type-input"),
+        contentTypeFieldIds: formData.getAll("content-type-field-id-input"),
+        values: formData.getAll("content-field-value-input"),
+    })
+
+    if (!result.success) {
+        return {
+            errors: z.flattenError(result.error).fieldErrors,
+        }
+    }
+
+    const savedValues = await uploadContentValues(result.data.values)
+
+    await updateContent(contentId, result.data.name, result.data.contentTypeId)
+    await deleteContentFieldsByContentId(contentId)
+    await insertContentFields(
+        contentId,
+        result.data.contentTypeFieldIds.map((contentTypeFieldId, index) => ({
+            contentTypeFieldId,
+            value: savedValues[index],
+        })),
+    )
+
+    revalidatePath("/content")
+    redirect("/content")
+}
+
+export async function deletionContent(contentId: number) {
+    await deleteContent(contentId)
+    revalidatePath("/content")
 }
