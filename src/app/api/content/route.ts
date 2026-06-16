@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
 
     if (!expectedToken) {
         return NextResponse.json(
-            {message: "Server configuration error."},
+            {message: "Access restricted. Go back now"},
             {status: 500}
         )
     }
