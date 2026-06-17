@@ -1,4 +1,4 @@
-import { content, contentFields, contentType } from "@/db/schema";
+import { content, contentFields, contentType, contentTypeFields } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { getDb } from "./BaseDTO";
 
@@ -12,6 +12,51 @@ export async function getAllContent() {
     })
     .from(content)
     .innerJoin(contentType, eq(content.contentTypeId, contentType.contentTypeId));
+}
+
+export async function getAllContentWithFields() {
+  const rows = await getDb()
+    .select({
+      id: content.id,
+      name: content.name,
+      contentTypeId: content.contentTypeId,
+      contentTypeName: contentType.contentTypeName,
+      fieldName: contentTypeFields.fieldName,
+      fieldValue: contentFields.value,
+    })
+    .from(content)
+    .innerJoin(contentType, eq(content.contentTypeId, contentType.contentTypeId))
+    .innerJoin(contentFields, eq(contentFields.contentId, content.id))
+    .innerJoin(
+      contentTypeFields,
+      eq(contentFields.contentTypeFieldId, contentTypeFields.id),
+    );
+
+  const contentById = new Map<
+    number,
+    {
+      id: number;
+      name: string;
+      contentTypeId: string;
+      contentTypeName: string;
+      fields: Record<string, string>;
+    }
+  >();
+
+  for (const row of rows) {
+    const item = contentById.get(row.id) ?? {
+      id: row.id,
+      name: row.name,
+      contentTypeId: row.contentTypeId,
+      contentTypeName: row.contentTypeName,
+      fields: {},
+    };
+
+    item.fields[row.fieldName] = row.fieldValue;
+    contentById.set(row.id, item);
+  }
+
+  return Array.from(contentById.values());
 }
 
 export async function getContentById(id: number) {

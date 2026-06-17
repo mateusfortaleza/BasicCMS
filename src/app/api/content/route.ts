@@ -1,4 +1,4 @@
-import { getAllContent } from "@/dal/ContentDTO";
+import { getAllContentWithFields } from "@/dal/ContentDTO";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -18,6 +18,6 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({message: "Unauthorized"}, {status: 401})
     }
 
-    const content = await getAllContent()
+    const content = await getAllContentWithFields()
     return NextResponse.json({ content })
 }
