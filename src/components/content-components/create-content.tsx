@@ -21,8 +21,16 @@ import "@uppy/core/css/style.min.css";
 import "@uppy/dashboard/css/style.min.css";
 
 const uppyRestrictions = {
+  minNumberOfFiles: 1,
   maxNumberOfFiles: 1,
-  allowedFileTypes: ["image/png", "image/jpeg", "image/webp", "image/gif"],
+  allowedFileTypes: [
+    "image/png",
+    "image/jpeg",
+    "image/webp",
+    "image/gif",
+    "image/svg+xml",
+    ".svg",
+  ],
   maxFileSize: 10_000_000,
 };
 
@@ -37,17 +45,27 @@ export default function CreateContent({
     verifyAndInsertContent,
     null,
   );
+  const [imageError, setImageError] = useState("");
   const [uppy] = useState(() => new Uppy({ restrictions: uppyRestrictions }));
+  
   const imageFieldIndex = contentTypeFields.findIndex(
     (field) => field.fieldType === "image",
   );
 
   async function submitWithUppy(formData: FormData) {
     const uppyFile = uppy.getFiles()[0];
+    const imageFile = uppyFile?.data instanceof File ? uppyFile.data : null;
 
-    if (imageFieldIndex >= 0 && uppyFile?.data instanceof File) {
+    if (imageFieldIndex >= 0) {
+      if (!imageFile) {
+        setImageError("Image is required.");
+        return;
+      }
+
+      setImageError("");
+
       const values = formData.getAll("content-field-value-input");
-      values[imageFieldIndex] = uppyFile.data;
+      values[imageFieldIndex] = imageFile;
 
       formData.delete("content-field-value-input");
       values.forEach((value) => {
@@ -73,12 +91,11 @@ export default function CreateContent({
           name="content-type-input"
           value={contentType.contentTypeId}
         />
-        <FieldGroup className="w-200 m-auto flex justify-center items-center">
-          
-          <FieldSet className="w-2xl h-100 flex justify-center">
+        <FieldGroup className="w-full m-auto flex justify-center items-center">
+          <FieldSet className="w-2xl flex justify-center">
             <FieldLegend>Create Content</FieldLegend>
 
-            <FieldGroup >
+            <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="content-name-input">Name:</FieldLabel>
                 <Input
@@ -90,7 +107,7 @@ export default function CreateContent({
               </Field>
 
               <div className="flex w-full flex-col gap-6">
-                <h3 className="font-medium">Fields</h3>
+                <FieldLegend className="font-medium">Fields</FieldLegend>
                   {contentTypeFields.map((field) => (
                     <Field key={field.id}>
                       <input
@@ -116,6 +133,11 @@ export default function CreateContent({
                             singleFileFullScreen
                             disabled={isPending}
                           />
+                          {imageError && (
+                            <p className="text-sm text-destructive">
+                              {imageError}
+                            </p>
+                          )}
                         </>
                       ) : (
                         <Input

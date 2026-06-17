@@ -14,7 +14,7 @@ export async function getAllContent() {
     .innerJoin(contentType, eq(content.contentTypeId, contentType.contentTypeId));
 }
 
-export async function getAllContentWithFields() {
+async function getAllContentWithFieldsByType(contentTypeId: string) {
   const rows = await getDb()
     .select({
       id: content.id,
@@ -30,7 +30,8 @@ export async function getAllContentWithFields() {
     .innerJoin(
       contentTypeFields,
       eq(contentFields.contentTypeFieldId, contentTypeFields.id),
-    );
+    )
+    .where(eq(content.contentTypeId, contentTypeId));
 
   const contentById = new Map<
     number,
@@ -57,6 +58,14 @@ export async function getAllContentWithFields() {
   }
 
   return Array.from(contentById.values());
+}
+
+export async function getAllHeroCardsWithFields() {
+  return getAllContentWithFieldsByType("hero_card");
+}
+
+export async function getAllMenuWithFields() {
+  return getAllContentWithFieldsByType("menu");
 }
 
 export async function getContentById(id: number) {

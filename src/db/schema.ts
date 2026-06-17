@@ -56,7 +56,7 @@ export const contentTypeFields = pgTable("content_type_fields", {
 export const content = pgTable("content", {
 	id: integer().primaryKey().generatedAlwaysAsIdentity(),
 	contentTypeId: varchar("content_type_id", { length: 200 }).notNull().references(() => contentType.contentTypeId, { onDelete: "cascade" }),
-	name: varchar({ length: 200 }).notNull(),
+	name: varchar({ length: 200 }).notNull().unique(),
 })
 
 export const contentFields = pgTable("content_fields", {

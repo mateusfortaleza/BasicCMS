@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import Link from "next/link";
 import { RiArrowLeftCircleFill } from "@remixicon/react";
 import { verifyAndUpdateContent } from "@/lib/actions";
@@ -19,6 +19,24 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
+import Uppy from "@uppy/core";
+import Dashboard from "@uppy/react/dashboard";
+import "@uppy/core/css/style.min.css";
+import "@uppy/dashboard/css/style.min.css";
+
+const uppyRestrictions = {
+  minNumberOfFiles: 1,
+  maxNumberOfFiles: 1,
+  allowedFileTypes: [
+    "image/png",
+    "image/jpeg",
+    "image/webp",
+    "image/gif",
+    "image/svg+xml",
+    ".svg",
+  ],
+  maxFileSize: 10_000_000,
+};
 
 export default function EditContent({
   contentItem,
@@ -35,9 +53,14 @@ export default function EditContent({
     editContentWithId,
     null,
   );
+  const [imageError, setImageError] = useState("");
+  const [uppy] = useState(() => new Uppy({ restrictions: uppyRestrictions }));
 
   const selectedFields = contentTypeFields.filter(
     (field) => field.contentTypeId === contentItem.contentTypeId,
+  );
+  const imageFieldIndex = selectedFields.findIndex(
+    (field) => field.fieldType === "image",
   );
 
   const savedValues = new Map(
@@ -46,6 +69,53 @@ export default function EditContent({
       field.value,
     ]),
   );
+  const savedImageValue =
+    imageFieldIndex >= 0
+      ? savedValues.get(selectedFields[imageFieldIndex].id)
+      : undefined;
+
+  useEffect(() => {
+    if (!savedImageValue || uppy.getFiles().length > 0) return;
+
+    const fileName = savedImageValue.split("/").pop() ?? "image";
+    const fileType = fileName.endsWith(".svg") ? "image/svg+xml" : "image/jpeg";
+
+    uppy.addFile({
+      name: fileName,
+      type: fileType,
+      data: new Blob([], { type: fileType }),
+      preview: savedImageValue,
+      meta: { name: fileName },
+    });
+  }, [savedImageValue, uppy]);
+
+  async function submitWithUppy(formData: FormData) {
+    const uppyFile = uppy.getFiles()[0];
+    const imageFile = uppyFile?.data instanceof File ? uppyFile.data : null;
+
+    if (imageFieldIndex >= 0) {
+      const values = formData.getAll("content-field-value-input");
+      const currentImageValue = values[imageFieldIndex];
+
+      if (!imageFile && !currentImageValue) {
+        setImageError("Image is required.");
+        return;
+      }
+
+      setImageError("");
+
+      if (imageFile) {
+        values[imageFieldIndex] = imageFile;
+      }
+
+      formData.delete("content-field-value-input");
+      values.forEach((value) => {
+        formData.append("content-field-value-input", value);
+      });
+    }
+
+    return formAction(formData);
+  }
 
   return (
     <>
@@ -56,7 +126,7 @@ export default function EditContent({
         </ShadButton>
       </Link>
 
-      <form action={formAction}>
+      <form action={submitWithUppy}>
         <input
           type="hidden"
           name="content-type-input"
@@ -97,26 +167,42 @@ export default function EditContent({
                         {field.fieldName}:
                       </FieldLabel>
 
-                      <Input
-                        key={field.id}
-                        id={`content-field-${field.id}`}
-                        name="content-field-value-input"
-                        type={
-                          field.fieldType === "datetime"
-                            ? "datetime-local"
-                            : field.fieldType === "image"
-                              ? "file"
-                            : field.fieldType
-                        }
-                        accept={field.fieldType === "image" ? "image/*" : undefined}
-                        defaultValue={
-                          field.fieldType === "image"
-                            ? undefined
-                            : savedValues.get(field.id) ?? ""
-                        }
-                        required
-                        disabled={isPending}
-                      />
+                      {field.fieldType === "image" ? (
+                        <>
+                          <input
+                            type="hidden"
+                            name="content-field-value-input"
+                            value={savedValues.get(field.id) ?? ""}
+                          />
+                          <Dashboard
+                            uppy={uppy}
+                            height={300}
+                            hideUploadButton
+                            proudlyDisplayPoweredByUppy={false}
+                            singleFileFullScreen
+                            disabled={isPending}
+                          />
+                          {imageError && (
+                            <p className="text-sm text-destructive">
+                              {imageError}
+                            </p>
+                          )}
+                        </>
+                      ) : (
+                        <Input
+                          key={field.id}
+                          id={`content-field-${field.id}`}
+                          name="content-field-value-input"
+                          type={
+                            field.fieldType === "datetime"
+                              ? "datetime-local"
+                              : field.fieldType
+                          }
+                          defaultValue={savedValues.get(field.id) ?? ""}
+                          required
+                          disabled={isPending}
+                        />
+                      )}
                     </Field>
                   ))}
                 </FieldGroup>
