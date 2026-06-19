@@ -2,7 +2,7 @@ import { contentType, contentTypeFields } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import { getDb } from "./BaseDTO";
 
-type ContentTypeFieldType = "string" | "number" | "datetime" | "image";
+type ContentTypeFieldType = "string" | "number" | "datetime" | "image" | "rich-text";
 
 export async function getAllContentTypes() {
   return await getDb().select().from(contentType);

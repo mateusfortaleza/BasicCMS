@@ -143,6 +143,7 @@ export default function CreateContentType({ title }: { title: string }) {
                             <SelectItem value="number">Number</SelectItem>
                             <SelectItem value="datetime">Datetime</SelectItem>
                             <SelectItem value="image">Image</SelectItem>
+                            <SelectItem value="rich-text">Rich Text Field</SelectItem>
                           </SelectContent>
                         </Select>
                       </Field>

@@ -29,7 +29,7 @@ export type ContentTypeField = {
     id: number;
     contentTypeId: string;
     fieldName: string;
-    fieldType: "string" | "number" | "datetime" | "image";
+    fieldType: "string" | "number" | "datetime" | "image" | "rich-text";
 }
 
 export type Content = {

@@ -269,7 +269,7 @@ const ContentTypeSchema = z.object({
 
 const CreateContentTypeSchema = ContentTypeSchema.extend({
     fieldNames: z.array(z.string().trim().min(1).max(1000)).min(1),
-    fieldTypes: z.array(z.enum(["string", "number", "datetime", "image"])).min(1),
+    fieldTypes: z.array(z.enum(["string", "number", "datetime", "image", "rich-text"])).min(1),
 }).refine(
     ({ fieldNames, fieldTypes }) => fieldNames.length === fieldTypes.length,
     { message: "Every field must have a name and type", path: ["fieldNames"] },
@@ -393,7 +393,7 @@ const ContentSchema = z.object({
     contentTypeFieldIds: z.array(z.coerce.number().int().positive()).min(1),
     values: z.array(
         z.union([
-            z.string().trim().max(200),
+            z.string().trim(),
             z.instanceof(File),
         ]),
     ).min(1),
